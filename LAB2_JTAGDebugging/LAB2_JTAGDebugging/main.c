@@ -20,6 +20,7 @@ int main(void)
 	while (1)
 	{
 		PORTB = ~i;
+		
 		i++;
 		_delay_ms(500);
 		if ((PINA & 0b10000000)==0)
