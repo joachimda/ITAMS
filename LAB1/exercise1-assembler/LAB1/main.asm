@@ -1,0 +1,41 @@
+;
+; LAB1.asm
+;
+; Created: 26-01-2017 09:28:46
+; Author : Joachim
+;
+
+;***************INIT***************
+.include "M32DEF.INC"
+	LDI R16,HIGH(RAMEND) ;STACK POINTER INIT
+	OUT SPH,R16
+	LDI R16,LOW(RAMEND)
+	OUT SPL,R16
+	SER R16
+	OUT DDRB,R16
+
+
+;***************MAIN***************
+	CLR R16
+LOOP:
+    CALL DISP_AND_DELAY
+	INC R16
+	RJMP LOOP
+
+;********DISPLAY AND DELAY*********
+DISP_AND_DELAY:
+	MOV R17,R16
+	COM R17
+	OUT PORTB,R17
+	CLR R17
+	CLR R18
+	LDI R19,10
+AGAIN:
+	DEC R17
+	BRNE AGAIN
+	DEC R18
+	BRNE AGAIN
+	DEC R19
+	BRNE AGAIN
+	RET
+;***************END***************
