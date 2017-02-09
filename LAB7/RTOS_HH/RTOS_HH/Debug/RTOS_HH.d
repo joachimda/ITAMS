@@ -16,7 +16,8 @@ RTOS_HH.d RTOS_HH.o: .././RTOS_HH.c \
  ../Source/include/portable.h \
  ../Source/portable/GCC/ATMega323/portmacro.h \
  ../Source/include/mpu_wrappers.h ../Source/include/task.h \
- ../Source/include/list.h ../Drivers/led.h
+ ../Source/include/list.h ../Drivers/led.h ../Source/include/semphr.h \
+ ../Source/include/queue.h ../Drivers/switch.h
 
 c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\io.h:
 
@@ -59,3 +60,9 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\
 ../Source/include/list.h:
 
 ../Drivers/led.h:
+
+../Source/include/semphr.h:
+
+../Source/include/queue.h:
+
+../Drivers/switch.h:
