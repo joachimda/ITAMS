@@ -1,0 +1,375 @@
+
+GsmDemo.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         0000021c  00000000  00000000  00000074  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         00000048  00800060  0000021c  00000290  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .comment      00000030  00000000  00000000  000002d8  2**0
+                  CONTENTS, READONLY
+  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000308  2**2
+                  CONTENTS, READONLY
+  4 .debug_aranges 000000b0  00000000  00000000  00000344  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_info   00000b52  00000000  00000000  000003f4  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_abbrev 0000086f  00000000  00000000  00000f46  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_line   00000568  00000000  00000000  000017b5  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_frame  00000158  00000000  00000000  00001d20  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_str    00000438  00000000  00000000  00001e78  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_loc    0000038a  00000000  00000000  000022b0  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_ranges 00000080  00000000  00000000  0000263a  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 2a 00 	jmp	0x54	; 0x54 <__ctors_end>
+   4:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+   8:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+   c:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  10:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  14:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  18:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  1c:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  20:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  24:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  28:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  2c:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  30:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  34:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  38:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  3c:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  40:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  44:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  48:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  4c:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  50:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+
+00000054 <__ctors_end>:
+  54:	11 24       	eor	r1, r1
+  56:	1f be       	out	0x3f, r1	; 63
+  58:	cf e5       	ldi	r28, 0x5F	; 95
+  5a:	d8 e0       	ldi	r29, 0x08	; 8
+  5c:	de bf       	out	0x3e, r29	; 62
+  5e:	cd bf       	out	0x3d, r28	; 61
+
+00000060 <__do_copy_data>:
+  60:	10 e0       	ldi	r17, 0x00	; 0
+  62:	a0 e6       	ldi	r26, 0x60	; 96
+  64:	b0 e0       	ldi	r27, 0x00	; 0
+  66:	ec e1       	ldi	r30, 0x1C	; 28
+  68:	f2 e0       	ldi	r31, 0x02	; 2
+  6a:	02 c0       	rjmp	.+4      	; 0x70 <__do_copy_data+0x10>
+  6c:	05 90       	lpm	r0, Z+
+  6e:	0d 92       	st	X+, r0
+  70:	a8 3a       	cpi	r26, 0xA8	; 168
+  72:	b1 07       	cpc	r27, r17
+  74:	d9 f7       	brne	.-10     	; 0x6c <__do_copy_data+0xc>
+  76:	0e 94 5d 00 	call	0xba	; 0xba <main>
+  7a:	0c 94 0c 01 	jmp	0x218	; 0x218 <_exit>
+
+0000007e <__bad_interrupt>:
+  7e:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+00000082 <initLEDport>:
+#define MAX_LED_NR 7
+
+void initLEDport()
+{
+	// All PORTC pins are outputs
+	DDRC = 0b11111111;
+  82:	8f ef       	ldi	r24, 0xFF	; 255
+  84:	84 bb       	out	0x14, r24	; 20
+	// Turn off all LEDs
+	PORTC = 0xFF;
+  86:	85 bb       	out	0x15, r24	; 21
+  88:	08 95       	ret
+
+0000008a <SendMessage>:
+	_delay_ms(5000);
+	}
+}
+
+void SendMessage(char* message, char* phoneNumber)
+{
+  8a:	0f 93       	push	r16
+  8c:	1f 93       	push	r17
+  8e:	cf 93       	push	r28
+  90:	df 93       	push	r29
+  92:	ec 01       	movw	r28, r24
+  94:	8b 01       	movw	r16, r22
+	SendString("AT+CMGS=");
+  96:	8e e9       	ldi	r24, 0x9E	; 158
+  98:	90 e0       	ldi	r25, 0x00	; 0
+  9a:	0e 94 db 00 	call	0x1b6	; 0x1b6 <SendString>
+	SendString(phoneNumber);
+  9e:	c8 01       	movw	r24, r16
+  a0:	0e 94 db 00 	call	0x1b6	; 0x1b6 <SendString>
+	SendString(message);
+  a4:	ce 01       	movw	r24, r28
+  a6:	0e 94 db 00 	call	0x1b6	; 0x1b6 <SendString>
+	SendChar(CTRL_Z);
+  aa:	8a e1       	ldi	r24, 0x1A	; 26
+  ac:	0e 94 d7 00 	call	0x1ae	; 0x1ae <SendChar>
+  b0:	df 91       	pop	r29
+  b2:	cf 91       	pop	r28
+  b4:	1f 91       	pop	r17
+  b6:	0f 91       	pop	r16
+  b8:	08 95       	ret
+
+000000ba <main>:
+#define CTRL_Z 26
+
+void SendMessage(char* message, char* phoneNumber);
+
+int main(void)
+{
+  ba:	cf 93       	push	r28
+  bc:	df 93       	push	r29
+  be:	cd b7       	in	r28, 0x3d	; 61
+  c0:	de b7       	in	r29, 0x3e	; 62
+  c2:	ed 97       	sbiw	r28, 0x3d	; 61
+  c4:	0f b6       	in	r0, 0x3f	; 63
+  c6:	f8 94       	cli
+  c8:	de bf       	out	0x3e, r29	; 62
+  ca:	0f be       	out	0x3f, r0	; 63
+  cc:	cd bf       	out	0x3d, r28	; 61
+	InitializeUART(9600, 8);
+  ce:	48 e0       	ldi	r20, 0x08	; 8
+  d0:	60 e8       	ldi	r22, 0x80	; 128
+  d2:	75 e2       	ldi	r23, 0x25	; 37
+  d4:	80 e0       	ldi	r24, 0x00	; 0
+  d6:	90 e0       	ldi	r25, 0x00	; 0
+  d8:	0e 94 9a 00 	call	0x134	; 0x134 <InitializeUART>
+	initLEDport(); // PORTC
+  dc:	0e 94 41 00 	call	0x82	; 0x82 <initLEDport>
+	
+	char msg[50] = "HElloeee0";
+  e0:	8a e0       	ldi	r24, 0x0A	; 10
+  e2:	e0 e6       	ldi	r30, 0x60	; 96
+  e4:	f0 e0       	ldi	r31, 0x00	; 0
+  e6:	de 01       	movw	r26, r28
+  e8:	11 96       	adiw	r26, 0x01	; 1
+  ea:	01 90       	ld	r0, Z+
+  ec:	0d 92       	st	X+, r0
+  ee:	8a 95       	dec	r24
+  f0:	e1 f7       	brne	.-8      	; 0xea <main+0x30>
+  f2:	fe 01       	movw	r30, r28
+  f4:	3b 96       	adiw	r30, 0x0b	; 11
+  f6:	88 e2       	ldi	r24, 0x28	; 40
+  f8:	df 01       	movw	r26, r30
+  fa:	1d 92       	st	X+, r1
+  fc:	8a 95       	dec	r24
+  fe:	e9 f7       	brne	.-6      	; 0xfa <main+0x40>
+	char num[11] = "+4561423402";
+ 100:	8b e0       	ldi	r24, 0x0B	; 11
+ 102:	e2 e9       	ldi	r30, 0x92	; 146
+ 104:	f0 e0       	ldi	r31, 0x00	; 0
+ 106:	de 01       	movw	r26, r28
+ 108:	d3 96       	adiw	r26, 0x33	; 51
+ 10a:	01 90       	ld	r0, Z+
+ 10c:	0d 92       	st	X+, r0
+ 10e:	8a 95       	dec	r24
+ 110:	e1 f7       	brne	.-8      	; 0x10a <main+0x50>
+	
+	while (1)
+	{
+	SendMessage(msg, num);
+ 112:	be 01       	movw	r22, r28
+ 114:	6d 5c       	subi	r22, 0xCD	; 205
+ 116:	7f 4f       	sbci	r23, 0xFF	; 255
+ 118:	ce 01       	movw	r24, r28
+ 11a:	01 96       	adiw	r24, 0x01	; 1
+ 11c:	0e 94 45 00 	call	0x8a	; 0x8a <SendMessage>
+	#else
+		//round up by default
+		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+	#endif
+
+	__builtin_avr_delay_cycles(__ticks_dc);
+ 120:	bf ef       	ldi	r27, 0xFF	; 255
+ 122:	2f e3       	ldi	r18, 0x3F	; 63
+ 124:	88 e3       	ldi	r24, 0x38	; 56
+ 126:	b1 50       	subi	r27, 0x01	; 1
+ 128:	20 40       	sbci	r18, 0x00	; 0
+ 12a:	80 40       	sbci	r24, 0x00	; 0
+ 12c:	e1 f7       	brne	.-8      	; 0x126 <main+0x6c>
+ 12e:	00 c0       	rjmp	.+0      	; 0x130 <main+0x76>
+ 130:	00 00       	nop
+ 132:	ef cf       	rjmp	.-34     	; 0x112 <main+0x58>
+
+00000134 <InitializeUART>:
+	// Wait for new character received
+	while ( (UCSRA & (1<<7)) == 0 )
+	{}
+	// Then return it
+	return UDR;
+}
+ 134:	0f 93       	push	r16
+ 136:	1f 93       	push	r17
+ 138:	8b 01       	movw	r16, r22
+ 13a:	9c 01       	movw	r18, r24
+ 13c:	0e 56       	subi	r16, 0x6E	; 110
+ 13e:	11 09       	sbc	r17, r1
+ 140:	21 09       	sbc	r18, r1
+ 142:	31 09       	sbc	r19, r1
+ 144:	03 39       	cpi	r16, 0x93	; 147
+ 146:	11 4c       	sbci	r17, 0xC1	; 193
+ 148:	21 40       	sbci	r18, 0x01	; 1
+ 14a:	31 05       	cpc	r19, r1
+ 14c:	68 f5       	brcc	.+90     	; 0x1a8 <InitializeUART+0x74>
+ 14e:	2b ef       	ldi	r18, 0xFB	; 251
+ 150:	24 0f       	add	r18, r20
+ 152:	24 30       	cpi	r18, 0x04	; 4
+ 154:	48 f5       	brcc	.+82     	; 0x1a8 <InitializeUART+0x74>
+ 156:	20 e2       	ldi	r18, 0x20	; 32
+ 158:	2b b9       	out	0x0b, r18	; 11
+ 15a:	28 e1       	ldi	r18, 0x18	; 24
+ 15c:	2a b9       	out	0x0a, r18	; 10
+ 15e:	50 e0       	ldi	r21, 0x00	; 0
+ 160:	45 50       	subi	r20, 0x05	; 5
+ 162:	51 09       	sbc	r21, r1
+ 164:	44 0f       	add	r20, r20
+ 166:	55 1f       	adc	r21, r21
+ 168:	40 68       	ori	r20, 0x80	; 128
+ 16a:	40 bd       	out	0x20, r20	; 32
+ 16c:	dc 01       	movw	r26, r24
+ 16e:	cb 01       	movw	r24, r22
+ 170:	88 0f       	add	r24, r24
+ 172:	99 1f       	adc	r25, r25
+ 174:	aa 1f       	adc	r26, r26
+ 176:	bb 1f       	adc	r27, r27
+ 178:	88 0f       	add	r24, r24
+ 17a:	99 1f       	adc	r25, r25
+ 17c:	aa 1f       	adc	r26, r26
+ 17e:	bb 1f       	adc	r27, r27
+ 180:	9c 01       	movw	r18, r24
+ 182:	ad 01       	movw	r20, r26
+ 184:	22 0f       	add	r18, r18
+ 186:	33 1f       	adc	r19, r19
+ 188:	44 1f       	adc	r20, r20
+ 18a:	55 1f       	adc	r21, r21
+ 18c:	22 0f       	add	r18, r18
+ 18e:	33 1f       	adc	r19, r19
+ 190:	44 1f       	adc	r20, r20
+ 192:	55 1f       	adc	r21, r21
+ 194:	60 e0       	ldi	r22, 0x00	; 0
+ 196:	70 e4       	ldi	r23, 0x40	; 64
+ 198:	88 e3       	ldi	r24, 0x38	; 56
+ 19a:	90 e0       	ldi	r25, 0x00	; 0
+ 19c:	0e 94 ea 00 	call	0x1d4	; 0x1d4 <__udivmodsi4>
+ 1a0:	21 50       	subi	r18, 0x01	; 1
+ 1a2:	31 09       	sbc	r19, r1
+ 1a4:	30 bd       	out	0x20, r19	; 32
+ 1a6:	29 b9       	out	0x09, r18	; 9
+ 1a8:	1f 91       	pop	r17
+ 1aa:	0f 91       	pop	r16
+ 1ac:	08 95       	ret
+
+000001ae <SendChar>:
+	Tegn : Character for sending. 
+*************************************************************************/
+void SendChar(char Tegn)
+{
+  // Wait for transmitter register empty (ready for new character)
+  while ( (UCSRA & (1<<5)) == 0 )
+ 1ae:	5d 9b       	sbis	0x0b, 5	; 11
+ 1b0:	fe cf       	rjmp	.-4      	; 0x1ae <SendChar>
+  {}
+  // Then send the character
+  UDR = Tegn;
+ 1b2:	8c b9       	out	0x0c, r24	; 12
+ 1b4:	08 95       	ret
+
+000001b6 <SendString>:
+Sends 0-terminated string.
+Parameter:
+   Streng: Pointer to the string. 
+*************************************************************************/
+void SendString(char* s)
+{
+ 1b6:	cf 93       	push	r28
+ 1b8:	df 93       	push	r29
+ 1ba:	ec 01       	movw	r28, r24
+  // Repeat until zero-termination
+  while (*s != 0)
+ 1bc:	88 81       	ld	r24, Y
+ 1be:	88 23       	and	r24, r24
+ 1c0:	31 f0       	breq	.+12     	; 0x1ce <SendString+0x18>
+ 1c2:	21 96       	adiw	r28, 0x01	; 1
+  {
+    // Send the character pointed to by "s"
+    SendChar(*s);
+ 1c4:	0e 94 d7 00 	call	0x1ae	; 0x1ae <SendChar>
+   Streng: Pointer to the string. 
+*************************************************************************/
+void SendString(char* s)
+{
+  // Repeat until zero-termination
+  while (*s != 0)
+ 1c8:	89 91       	ld	r24, Y+
+ 1ca:	81 11       	cpse	r24, r1
+ 1cc:	fb cf       	rjmp	.-10     	; 0x1c4 <SendString+0xe>
+    // Send the character pointed to by "s"
+    SendChar(*s);
+    // Advance the pointer one step
+    s++;
+  }
+}
+ 1ce:	df 91       	pop	r29
+ 1d0:	cf 91       	pop	r28
+ 1d2:	08 95       	ret
+
+000001d4 <__udivmodsi4>:
+ 1d4:	a1 e2       	ldi	r26, 0x21	; 33
+ 1d6:	1a 2e       	mov	r1, r26
+ 1d8:	aa 1b       	sub	r26, r26
+ 1da:	bb 1b       	sub	r27, r27
+ 1dc:	fd 01       	movw	r30, r26
+ 1de:	0d c0       	rjmp	.+26     	; 0x1fa <__udivmodsi4_ep>
+
+000001e0 <__udivmodsi4_loop>:
+ 1e0:	aa 1f       	adc	r26, r26
+ 1e2:	bb 1f       	adc	r27, r27
+ 1e4:	ee 1f       	adc	r30, r30
+ 1e6:	ff 1f       	adc	r31, r31
+ 1e8:	a2 17       	cp	r26, r18
+ 1ea:	b3 07       	cpc	r27, r19
+ 1ec:	e4 07       	cpc	r30, r20
+ 1ee:	f5 07       	cpc	r31, r21
+ 1f0:	20 f0       	brcs	.+8      	; 0x1fa <__udivmodsi4_ep>
+ 1f2:	a2 1b       	sub	r26, r18
+ 1f4:	b3 0b       	sbc	r27, r19
+ 1f6:	e4 0b       	sbc	r30, r20
+ 1f8:	f5 0b       	sbc	r31, r21
+
+000001fa <__udivmodsi4_ep>:
+ 1fa:	66 1f       	adc	r22, r22
+ 1fc:	77 1f       	adc	r23, r23
+ 1fe:	88 1f       	adc	r24, r24
+ 200:	99 1f       	adc	r25, r25
+ 202:	1a 94       	dec	r1
+ 204:	69 f7       	brne	.-38     	; 0x1e0 <__udivmodsi4_loop>
+ 206:	60 95       	com	r22
+ 208:	70 95       	com	r23
+ 20a:	80 95       	com	r24
+ 20c:	90 95       	com	r25
+ 20e:	9b 01       	movw	r18, r22
+ 210:	ac 01       	movw	r20, r24
+ 212:	bd 01       	movw	r22, r26
+ 214:	cf 01       	movw	r24, r30
+ 216:	08 95       	ret
+
+00000218 <_exit>:
+ 218:	f8 94       	cli
+
+0000021a <__stop_program>:
+ 21a:	ff cf       	rjmp	.-2      	; 0x21a <__stop_program>
