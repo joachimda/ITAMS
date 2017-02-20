@@ -5,12 +5,14 @@
  *  Author: Joachim
  */ 
 
-//#define CTRL_Z 26
-//
-//#include "MC35Commands.h"
-//
-//char* SendMessage(const char[] message, const char[] phoneNumber)
-//{
-	//char[] compiledMessage = "AT+CMGS=" + phoneNumber + CTRL_Z;
-	//
-//}
+#define CTRL_Z 26
+
+#include "MC35Commands.h"
+
+void sendMessage(char* message, char* phoneNumber)
+{
+	sendString("AT+CMGS=");
+	sendString(phoneNumber);
+	sendString(message);
+	SendChar(CTRL_Z);
+}

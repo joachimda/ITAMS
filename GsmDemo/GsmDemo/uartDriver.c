@@ -10,7 +10,7 @@
 #include <stdlib.h>
 #define  XTAL 3686400
 
-void InitializeUART(unsigned long baudRate, unsigned char dataBit)
+void initializeUART(unsigned long baudRate, unsigned char dataBit)
 {
 	unsigned int tempUBRR;
 	 if ((baudRate >= 110) && (baudRate <= 115200) && (dataBit >=5) && (dataBit <= 8))
@@ -80,7 +80,7 @@ Sends 0-terminated string.
 Parameter:
    Streng: Pointer to the string. 
 *************************************************************************/
-void SendString(char* s)
+void sendString(char* s)
 {
   // Repeat until zero-termination
   while (*s != 0)
@@ -105,6 +105,6 @@ char array[7];
   // Convert the integer till an ASCII string (array), radix = 10 
   itoa(num, array, 10);
   // - then send the string
-  SendString(array);
+  sendString(array);
 }
 

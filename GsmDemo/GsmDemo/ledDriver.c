@@ -2,8 +2,19 @@
 
 #define MAX_LED_NR 7
 
-void initLEDport()
+
+void initLEDport(char key)
 {
+	switch (key)
+	{
+		case 'A':
+		/* Your code here */
+		break;
+		case 
+		default:
+		/* Your code here */
+		break;
+	}
 	// All PORTC pins are outputs
 	DDRC = 0b11111111;
 	// Turn off all LEDs

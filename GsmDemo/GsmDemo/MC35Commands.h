@@ -5,11 +5,9 @@
  *  Author: Joachim
  */ 
 
-//#include <string.h>
-//
-//#ifndef MC35COMMANDS_H_
-//#define MC35COMMANDS_H_
-//
-//char[] SendMessage(const char[] message, const char[] phoneNumber);
-//
-//#endif /* MC35COMMANDS_H_ */
+#ifndef MC35COMMANDS_H_
+#define MC35COMMANDS_H_
+
+void sendMessage(char* message, char* phoneNumber);
+
+#endif /* MC35COMMANDS_H_ */

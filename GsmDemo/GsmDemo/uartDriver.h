@@ -5,13 +5,12 @@
 *  Author: Joachim
 */
 
-
 #ifndef UARTDRIVER_H_
 #define UARTDRIVER_H_
-void InitializeUART(unsigned long BaudRate, unsigned char DataBit);
+void initializeUART(unsigned long BaudRate, unsigned char DataBit);
 unsigned char CharReady();
 char ReadChar();
-void SendChar(char Tegn);
-void SendString(char* Streng);
-void SendInteger(int Tal);
+void SendChar(char chr);
+void sendString(char* str);
+void SendInteger(int num);
 #endif /* UARTDRIVER_H_ */

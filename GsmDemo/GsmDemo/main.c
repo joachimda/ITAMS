@@ -1,6 +1,5 @@
 /*
 * GsmDemo.c
-*
 * Created: 20-02-2017 12:59:12
 * Author : Joachim
 */
@@ -11,29 +10,18 @@
 #include "uartDriver.h"
 #include "ledDriver.h"
 
-#define CTRL_Z 26
-
-void SendMessage(char* message, char* phoneNumber);
-
 int main(void)
 {
-	InitializeUART(9600, 8);
-	initLEDport(); // PORTC
+	initializeUART(9600, 8);
+	initLEDport();
 	
-	char msg[50] = "HElloeee0";
-	char num[11] = "+4561423402";
+	char msg[50] = "This is a message ";
+	char num[11] = "11111111";
 	
 	while (1)
 	{
-	SendMessage(msg, num);
-	_delay_ms(5000);
+		sendMessage(msg, num);
+		_delay_ms(5000);
 	}
 }
 
-void SendMessage(char* message, char* phoneNumber)
-{
-	SendString("AT+CMGS=");
-	SendString(phoneNumber);
-	SendString(message);
-	SendChar(CTRL_Z);
-}
