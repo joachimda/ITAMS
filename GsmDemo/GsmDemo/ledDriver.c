@@ -8,17 +8,27 @@ void initLEDport(char key)
 	switch (key)
 	{
 		case 'A':
-		/* Your code here */
+		DDRA = 0b11111111;
+		PORTA = 0xFF;
 		break;
-		case 
+		case 'B':
+		DDRB = 0b11111111;
+		PORTB = 0xFF;
+		break;
+		case 'C':
+		DDRC = 0b11111111;
+		PORTC = 0xFF;
+		break;
+		case 'D':
+		break;
+		DDRD = 0b11111111;
+		PORTD = 0xFF;
+		break;
 		default:
-		/* Your code here */
+		DDRC = 0b11111111;
+		PORTC = 0xFF;
 		break;
 	}
-	// All PORTC pins are outputs
-	DDRC = 0b11111111;
-	// Turn off all LEDs
-	PORTC = 0xFF;
 }
 
 void writeAllLEDs(unsigned char pattern)

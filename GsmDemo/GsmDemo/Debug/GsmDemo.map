@@ -34,9 +34,6 @@ Discarded input sections
  .text          0x00000000        0x0 MC35Commands.o
  .data          0x00000000        0x0 MC35Commands.o
  .bss           0x00000000        0x0 MC35Commands.o
- .debug_line    0x00000000        0x0 MC35Commands.o
- .debug_str     0x00000000       0xfd MC35Commands.o
- .comment       0x00000000       0x31 MC35Commands.o
  .text          0x00000000        0x0 uartDriver.o
  .data          0x00000000        0x0 uartDriver.o
  .bss           0x00000000        0x0 uartDriver.o
@@ -234,7 +231,7 @@ END GROUP
 .rela.plt
  *(.rela.plt)
 
-.text           0x00000000      0x21c
+.text           0x00000000      0x250
  *(.vectors)
  .vectors       0x00000000       0x54 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.1.130/gcc/dev/atmega32/avr5/crtatmega32.o
                 0x00000000                __vector_default
@@ -315,30 +312,30 @@ END GROUP
                 0x00000082                . = ALIGN (0x2)
  *(.text.*)
  .text.initLEDport
-                0x00000082        0x8 ledDriver.o
+                0x00000082       0x36 ledDriver.o
                 0x00000082                initLEDport
- .text.SendMessage
-                0x0000008a       0x30 main.o
-                0x0000008a                SendMessage
- .text.main     0x000000ba       0x7a main.o
-                0x000000ba                main
- .text.InitializeUART
-                0x00000134       0x7a uartDriver.o
-                0x00000134                InitializeUART
+ .text.main     0x000000b8       0x7e main.o
+                0x000000b8                main
+ .text.sendMessage
+                0x00000136       0x32 MC35Commands.o
+                0x00000136                sendMessage
+ .text.initializeUART
+                0x00000168       0x7a uartDriver.o
+                0x00000168                initializeUART
  .text.SendChar
-                0x000001ae        0x8 uartDriver.o
-                0x000001ae                SendChar
- .text.SendString
-                0x000001b6       0x1e uartDriver.o
-                0x000001b6                SendString
+                0x000001e2        0x8 uartDriver.o
+                0x000001e2                SendChar
+ .text.sendString
+                0x000001ea       0x1e uartDriver.o
+                0x000001ea                sendString
  .text.libgcc.div
-                0x000001d4       0x44 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr5\libgcc.a(_udivmodsi4.o)
-                0x000001d4                __udivmodsi4
-                0x00000218                . = ALIGN (0x2)
+                0x00000208       0x44 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr5\libgcc.a(_udivmodsi4.o)
+                0x00000208                __udivmodsi4
+                0x0000024c                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x00000218        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr5\libgcc.a(_exit.o)
-                0x00000218                _exit
-                0x00000218                exit
+ .fini9         0x0000024c        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr5\libgcc.a(_exit.o)
+                0x0000024c                _exit
+                0x0000024c                exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -357,39 +354,38 @@ END GROUP
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x00000218        0x4 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr5\libgcc.a(_exit.o)
+ .fini0         0x0000024c        0x4 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr5\libgcc.a(_exit.o)
  *(.fini0)
-                0x0000021c                _etext = .
+                0x00000250                _etext = .
 
-.data           0x00800060       0x48 load address 0x0000021c
+.data           0x00800060       0x46 load address 0x00000250
                 0x00800060                PROVIDE (__data_start, .)
  *(.data)
  *(.data*)
  *(.rodata)
- .rodata        0x00800060       0x3e main.o
+ .rodata        0x00800060       0x3d main.o
  *(.rodata*)
  .rodata.str1.1
-                0x0080009e        0x9 main.o
+                0x0080009d        0x9 MC35Commands.o
  *(.gnu.linkonce.d*)
-                0x008000a8                . = ALIGN (0x2)
- *fill*         0x008000a7        0x1 
-                0x008000a8                _edata = .
-                0x008000a8                PROVIDE (__data_end, .)
+                0x008000a6                . = ALIGN (0x2)
+                0x008000a6                _edata = .
+                0x008000a6                PROVIDE (__data_end, .)
 
-.bss            0x008000a8        0x0
+.bss            0x008000a6        0x0
                 [!provide]                PROVIDE (__bss_start, .)
  *(.bss)
  *(.bss*)
  *(COMMON)
                 [!provide]                PROVIDE (__bss_end, .)
-                0x0000021c                __data_load_start = LOADADDR (.data)
-                0x00000264                __data_load_end = (__data_load_start + SIZEOF (.data))
+                0x00000250                __data_load_start = LOADADDR (.data)
+                0x00000296                __data_load_end = (__data_load_start + SIZEOF (.data))
 
-.noinit         0x008000a8        0x0
+.noinit         0x008000a6        0x0
                 [!provide]                PROVIDE (__noinit_start, .)
  *(.noinit*)
                 [!provide]                PROVIDE (__noinit_end, .)
-                0x008000a8                _end = .
+                0x008000a6                _end = .
                 [!provide]                PROVIDE (__heap_start, .)
 
 .eeprom         0x00810000        0x0
@@ -434,6 +430,7 @@ END GROUP
  .comment       0x00000000       0x30 ledDriver.o
                                  0x31 (size before relaxing)
  .comment       0x00000030       0x31 main.o
+ .comment       0x00000030       0x31 MC35Commands.o
  .comment       0x00000030       0x31 uartDriver.o
 
 .note.gnu.avr.deviceinfo
@@ -456,60 +453,69 @@ END GROUP
 .debug_sfnames
  *(.debug_sfnames)
 
-.debug_aranges  0x00000000       0xb0
+.debug_aranges  0x00000000       0xc8
  *(.debug_aranges)
  .debug_aranges
                 0x00000000       0x40 ledDriver.o
  .debug_aranges
-                0x00000040       0x28 main.o
+                0x00000040       0x20 main.o
  .debug_aranges
-                0x00000068       0x48 uartDriver.o
+                0x00000060       0x20 MC35Commands.o
+ .debug_aranges
+                0x00000080       0x48 uartDriver.o
 
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000      0xb52
+.debug_info     0x00000000      0xbff
  *(.debug_info .gnu.linkonce.wi.*)
  .debug_info    0x00000000      0x4e6 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.1.130/gcc/dev/atmega32/avr5/crtatmega32.o
- .debug_info    0x000004e6      0x14b ledDriver.o
- .debug_info    0x00000631      0x287 main.o
- .debug_info    0x000008b8      0x29a uartDriver.o
+ .debug_info    0x000004e6      0x167 ledDriver.o
+ .debug_info    0x0000064d      0x1f7 main.o
+ .debug_info    0x00000844      0x121 MC35Commands.o
+ .debug_info    0x00000965      0x29a uartDriver.o
 
-.debug_abbrev   0x00000000      0x86f
+.debug_abbrev   0x00000000      0x8ff
  *(.debug_abbrev)
  .debug_abbrev  0x00000000      0x4a3 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.1.130/gcc/dev/atmega32/avr5/crtatmega32.o
- .debug_abbrev  0x000004a3       0xac ledDriver.o
- .debug_abbrev  0x0000054f      0x176 main.o
- .debug_abbrev  0x000006c5      0x1aa uartDriver.o
+ .debug_abbrev  0x000004a3       0xa5 ledDriver.o
+ .debug_abbrev  0x00000548      0x162 main.o
+ .debug_abbrev  0x000006aa       0xab MC35Commands.o
+ .debug_abbrev  0x00000755      0x1aa uartDriver.o
 
-.debug_line     0x00000000      0x568
+.debug_line     0x00000000      0x5d6
  *(.debug_line .debug_line.* .debug_line_end)
  .debug_line    0x00000000      0x115 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.1.130/gcc/dev/atmega32/avr5/crtatmega32.o
- .debug_line    0x00000115      0x138 ledDriver.o
- .debug_line    0x0000024d      0x17d main.o
- .debug_line    0x000003ca      0x19e uartDriver.o
+ .debug_line    0x00000115      0x175 ledDriver.o
+ .debug_line    0x0000028a      0x14f main.o
+ .debug_line    0x000003d9       0x5f MC35Commands.o
+ .debug_line    0x00000438      0x19e uartDriver.o
 
-.debug_frame    0x00000000      0x158
+.debug_frame    0x00000000      0x16c
  *(.debug_frame)
  .debug_frame   0x00000000       0x64 ledDriver.o
- .debug_frame   0x00000064       0x58 main.o
- .debug_frame   0x000000bc       0x9c uartDriver.o
+ .debug_frame   0x00000064       0x34 main.o
+ .debug_frame   0x00000098       0x38 MC35Commands.o
+ .debug_frame   0x000000d0       0x9c uartDriver.o
 
-.debug_str      0x00000000      0x438
+.debug_str      0x00000000      0x44c
  *(.debug_str)
  .debug_str     0x00000000      0x196 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.1.130/gcc/dev/atmega32/avr5/crtatmega32.o
  .debug_str     0x00000196      0x181 ledDriver.o
-                                0x1b5 (size before relaxing)
- .debug_str     0x00000317       0xa8 main.o
-                                0x209 (size before relaxing)
- .debug_str     0x000003bf       0x79 uartDriver.o
+                                0x1ba (size before relaxing)
+ .debug_str     0x00000317       0x80 main.o
+                                0x1e1 (size before relaxing)
+ .debug_str     0x00000397       0x3c MC35Commands.o
+                                0x136 (size before relaxing)
+ .debug_str     0x000003d3       0x79 uartDriver.o
                                 0x207 (size before relaxing)
 
-.debug_loc      0x00000000      0x38a
+.debug_loc      0x00000000      0x3f6
  *(.debug_loc)
- .debug_loc     0x00000000       0xd7 ledDriver.o
- .debug_loc     0x000000d7       0xfd main.o
- .debug_loc     0x000001d4      0x1b6 uartDriver.o
+ .debug_loc     0x00000000      0x143 ledDriver.o
+ .debug_loc     0x00000143       0x48 main.o
+ .debug_loc     0x0000018b       0xb5 MC35Commands.o
+ .debug_loc     0x00000240      0x1b6 uartDriver.o
 
 .debug_macinfo
  *(.debug_macinfo)
@@ -529,11 +535,12 @@ END GROUP
 .debug_pubtypes
  *(.debug_pubtypes)
 
-.debug_ranges   0x00000000       0x80
+.debug_ranges   0x00000000       0x88
  *(.debug_ranges)
  .debug_ranges  0x00000000       0x30 ledDriver.o
- .debug_ranges  0x00000030       0x18 main.o
- .debug_ranges  0x00000048       0x38 uartDriver.o
+ .debug_ranges  0x00000030       0x10 main.o
+ .debug_ranges  0x00000040       0x10 MC35Commands.o
+ .debug_ranges  0x00000050       0x38 uartDriver.o
 
 .debug_macro
  *(.debug_macro)
