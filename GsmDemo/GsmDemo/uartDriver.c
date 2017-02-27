@@ -70,17 +70,19 @@ Parameter :
 *************************************************************************/
 void sendChar(char Tegn)
 {
+	_delay_ms(50);
   // Wait for transmitter register empty (ready for new character)
   while ( (UCSRA & (1<<5)) == 0 )
   {}
   // Then send the character
   UDR = Tegn;
+
 }
 
 /*************************************************************************
 Sends 0-terminated string.
-Parameter:
-   string: Pointer to the string. 
+Parameters:
+string: Pointer to the string. 
 *************************************************************************/
 void sendString(char* s)
 {
@@ -99,8 +101,8 @@ void sendString(char* s)
 Converts the integer "num" to an ASCII string - and then sends this string
 using the USART.
 Makes use of the C standard library <stdlib.h>.
-Parameter:
-      num: The integer to be converted and send. 
+Parameters:
+num: The integer to be converted and send. 
 *************************************************************************/
 void SendInteger(int num)
 {

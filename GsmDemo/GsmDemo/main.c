@@ -17,10 +17,9 @@ int main(void)
 	initLEDport();
 	
 	char msg[50] = "This is a message ";
-	char num[12] = "61423402";
+	char num[12] = "24464105";
 	sendSms(msg, num);
 		
 	while (1)	{}
-		
 }
 

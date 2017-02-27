@@ -15,7 +15,7 @@ void setTextMode()
 
 void sendSms(char* message, char* phoneNumber)
 {
-	//setTextMode();
+	setTextMode();
 	sendString("AT+CMGS=");
 	sendString(phoneNumber);
 	sendString("\r\n");
