@@ -8,6 +8,8 @@
 #include <avr/io.h>
 #include "uartDriver.h"
 #include <stdlib.h>
+#define  F_CPU 3686400
+#include <util/delay.h>
 #define  XTAL 3686400
 
 void initializeUART(unsigned long baudRate, unsigned char dataBit)
@@ -41,7 +43,7 @@ void initializeUART(unsigned long baudRate, unsigned char dataBit)
   Returns 0 (FALSE), if the UART has NOT received a new character.
   Returns value <> 0 (TRUE), if the UART HAS received a new character.
 *************************************************************************/
-unsigned char CharReady()
+unsigned char charReady()
 {
    return UCSRA & (1<<7);
 }
@@ -51,7 +53,7 @@ unsigned char CharReady()
 Awaits new character received.
 Then this character is returned.
 *************************************************************************/
-char ReadChar()
+char readChar()
 {
 	// Wait for new character received
 	while ( (UCSRA & (1<<7)) == 0 )
@@ -66,7 +68,7 @@ Then it send the character.
 Parameter :
 	Tegn : Character for sending. 
 *************************************************************************/
-void SendChar(char Tegn)
+void sendChar(char Tegn)
 {
   // Wait for transmitter register empty (ready for new character)
   while ( (UCSRA & (1<<5)) == 0 )
@@ -78,7 +80,7 @@ void SendChar(char Tegn)
 /*************************************************************************
 Sends 0-terminated string.
 Parameter:
-   Streng: Pointer to the string. 
+   string: Pointer to the string. 
 *************************************************************************/
 void sendString(char* s)
 {
@@ -86,9 +88,10 @@ void sendString(char* s)
   while (*s != 0)
   {
     // Send the character pointed to by "s"
-    SendChar(*s);
+    sendChar(*s);
     // Advance the pointer one step
     s++;
+	_delay_ms(50);
   }
 }
 

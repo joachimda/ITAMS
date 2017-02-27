@@ -8,6 +8,8 @@
 #ifndef MC35COMMANDS_H_
 #define MC35COMMANDS_H_
 
-void sendMessage(char* message, char* phoneNumber);
+void sendSms(char* message, char* phoneNumber);
+char * getMessages();
+void setTextMode();
 
 #endif /* MC35COMMANDS_H_ */

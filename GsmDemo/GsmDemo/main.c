@@ -9,6 +9,7 @@
 #include <util/delay.h>
 #include "uartDriver.h"
 #include "ledDriver.h"
+#include "MC35Commands.h"
 
 int main(void)
 {
@@ -16,12 +17,10 @@ int main(void)
 	initLEDport();
 	
 	char msg[50] = "This is a message ";
-	char num[11] = "11111111";
-	
-	while (1)
-	{
-		sendMessage(msg, num);
-		_delay_ms(5000);
-	}
+	char num[12] = "61423402";
+	sendSms(msg, num);
+		
+	while (1)	{}
+		
 }
 

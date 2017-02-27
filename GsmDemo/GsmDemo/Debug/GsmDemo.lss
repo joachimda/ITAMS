@@ -3,29 +3,29 @@ GsmDemo.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .text         00000250  00000000  00000000  00000074  2**1
+  0 .text         00000254  00000000  00000000  00000074  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  1 .data         00000046  00800060  00000250  000002c4  2**0
+  1 .data         00000060  00800060  00000254  000002c8  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  2 .comment      00000030  00000000  00000000  0000030a  2**0
+  2 .comment      00000030  00000000  00000000  00000328  2**0
                   CONTENTS, READONLY
-  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  0000033c  2**2
+  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000358  2**2
                   CONTENTS, READONLY
-  4 .debug_aranges 000000c8  00000000  00000000  00000378  2**0
+  4 .debug_aranges 000000d8  00000000  00000000  00000394  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_info   00000bff  00000000  00000000  00000440  2**0
+  5 .debug_info   00000d4f  00000000  00000000  0000046c  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_abbrev 000008ff  00000000  00000000  0000103f  2**0
+  6 .debug_abbrev 0000091a  00000000  00000000  000011bb  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_line   000005d6  00000000  00000000  0000193e  2**0
+  7 .debug_line   000005db  00000000  00000000  00001ad5  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_frame  0000016c  00000000  00000000  00001f14  2**2
+  8 .debug_frame  0000018c  00000000  00000000  000020b0  2**2
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_str    0000044c  00000000  00000000  00002080  2**0
+  9 .debug_str    00000469  00000000  00000000  0000223c  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_loc    000003f6  00000000  00000000  000024cc  2**0
+ 10 .debug_loc    0000043d  00000000  00000000  000026a5  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_ranges 00000088  00000000  00000000  000028c2  2**0
+ 11 .debug_ranges 00000098  00000000  00000000  00002ae2  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -65,16 +65,16 @@ Disassembly of section .text:
   60:	10 e0       	ldi	r17, 0x00	; 0
   62:	a0 e6       	ldi	r26, 0x60	; 96
   64:	b0 e0       	ldi	r27, 0x00	; 0
-  66:	e0 e5       	ldi	r30, 0x50	; 80
+  66:	e4 e5       	ldi	r30, 0x54	; 84
   68:	f2 e0       	ldi	r31, 0x02	; 2
   6a:	02 c0       	rjmp	.+4      	; 0x70 <__do_copy_data+0x10>
   6c:	05 90       	lpm	r0, Z+
   6e:	0d 92       	st	X+, r0
-  70:	a6 3a       	cpi	r26, 0xA6	; 166
+  70:	a0 3c       	cpi	r26, 0xC0	; 192
   72:	b1 07       	cpc	r27, r17
   74:	d9 f7       	brne	.-10     	; 0x6c <__do_copy_data+0xc>
   76:	0e 94 5c 00 	call	0xb8	; 0xb8 <main>
-  7a:	0c 94 26 01 	jmp	0x24c	; 0x24c <_exit>
+  7a:	0c 94 28 01 	jmp	0x250	; 0x250 <_exit>
 
 0000007e <__bad_interrupt>:
   7e:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
@@ -135,9 +135,9 @@ void initLEDport(char key)
   b6:	08 95       	ret
 
 000000b8 <main>:
-#include <util/delay.h>
 #include "uartDriver.h"
 #include "ledDriver.h"
+#include "MC35Commands.h"
 
 int main(void)
 {
@@ -145,7 +145,7 @@ int main(void)
   ba:	df 93       	push	r29
   bc:	cd b7       	in	r28, 0x3d	; 61
   be:	de b7       	in	r29, 0x3e	; 62
-  c0:	ed 97       	sbiw	r28, 0x3d	; 61
+  c0:	ee 97       	sbiw	r28, 0x3e	; 62
   c2:	0f b6       	in	r0, 0x3f	; 63
   c4:	f8 94       	cli
   c6:	de bf       	out	0x3e, r29	; 62
@@ -157,7 +157,7 @@ int main(void)
   d0:	75 e2       	ldi	r23, 0x25	; 37
   d2:	80 e0       	ldi	r24, 0x00	; 0
   d4:	90 e0       	ldi	r25, 0x00	; 0
-  d6:	0e 94 b4 00 	call	0x168	; 0x168 <initializeUART>
+  d6:	0e 94 b0 00 	call	0x160	; 0x160 <initializeUART>
 	initLEDport();
   da:	0e 94 41 00 	call	0x82	; 0x82 <initLEDport>
 	
@@ -178,7 +178,7 @@ int main(void)
   f8:	1d 92       	st	X+, r1
   fa:	8a 95       	dec	r24
   fc:	e9 f7       	brne	.-6      	; 0xf8 <main+0x40>
-	char num[11] = "11111111";
+	char num[12] = "61423402";
   fe:	89 e0       	ldi	r24, 0x09	; 9
  100:	e2 e9       	ldi	r30, 0x92	; 146
  102:	f0 e0       	ldi	r31, 0x00	; 0
@@ -188,231 +188,235 @@ int main(void)
  10a:	0d 92       	st	X+, r0
  10c:	8a 95       	dec	r24
  10e:	e1 f7       	brne	.-8      	; 0x108 <main+0x50>
- 110:	1d ae       	std	Y+61, r1	; 0x3d
- 112:	1c ae       	std	Y+60, r1	; 0x3c
-	
-	while (1)
-	{
-		sendMessage(msg, num);
- 114:	be 01       	movw	r22, r28
- 116:	6d 5c       	subi	r22, 0xCD	; 205
- 118:	7f 4f       	sbci	r23, 0xFF	; 255
- 11a:	ce 01       	movw	r24, r28
- 11c:	01 96       	adiw	r24, 0x01	; 1
- 11e:	0e 94 9b 00 	call	0x136	; 0x136 <sendMessage>
-	#else
-		//round up by default
-		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
-	#endif
+ 110:	1c ae       	std	Y+60, r1	; 0x3c
+ 112:	1d ae       	std	Y+61, r1	; 0x3d
+ 114:	1e ae       	std	Y+62, r1	; 0x3e
+	sendSms(msg, num);
+ 116:	be 01       	movw	r22, r28
+ 118:	6d 5c       	subi	r22, 0xCD	; 205
+ 11a:	7f 4f       	sbci	r23, 0xFF	; 255
+ 11c:	ce 01       	movw	r24, r28
+ 11e:	01 96       	adiw	r24, 0x01	; 1
+ 120:	0e 94 93 00 	call	0x126	; 0x126 <sendSms>
+		
+	while (1)	{}
+ 124:	ff cf       	rjmp	.-2      	; 0x124 <main+0x6c>
 
-	__builtin_avr_delay_cycles(__ticks_dc);
- 122:	bf ef       	ldi	r27, 0xFF	; 255
- 124:	2f e3       	ldi	r18, 0x3F	; 63
- 126:	88 e3       	ldi	r24, 0x38	; 56
- 128:	b1 50       	subi	r27, 0x01	; 1
- 12a:	20 40       	sbci	r18, 0x00	; 0
- 12c:	80 40       	sbci	r24, 0x00	; 0
- 12e:	e1 f7       	brne	.-8      	; 0x128 <main+0x70>
- 130:	00 c0       	rjmp	.+0      	; 0x132 <main+0x7a>
- 132:	00 00       	nop
- 134:	ef cf       	rjmp	.-34     	; 0x114 <main+0x5c>
+00000126 <sendSms>:
+	sendString("AT+CMGF=1");
+	sendString("\r\n");
+}
 
-00000136 <sendMessage>:
-#define CTRL_Z 26 
-#include "MC35Commands.h"
-
-void sendMessage(char* message, char* phoneNumber)
+void sendSms(char* message, char* phoneNumber)
 {
+ 126:	0f 93       	push	r16
+ 128:	1f 93       	push	r17
+ 12a:	cf 93       	push	r28
+ 12c:	df 93       	push	r29
+ 12e:	ec 01       	movw	r28, r24
+ 130:	8b 01       	movw	r16, r22
+	//setTextMode();
 	sendString("AT+CMGS=");
- 136:	0f 93       	push	r16
- 138:	1f 93       	push	r17
- 13a:	cf 93       	push	r28
- 13c:	df 93       	push	r29
- 13e:	ec 01       	movw	r28, r24
- 140:	8b 01       	movw	r16, r22
+ 132:	8b ea       	ldi	r24, 0xAB	; 171
+ 134:	90 e0       	ldi	r25, 0x00	; 0
+ 136:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <sendString>
 	sendString(phoneNumber);
- 142:	8d e9       	ldi	r24, 0x9D	; 157
- 144:	90 e0       	ldi	r25, 0x00	; 0
- 146:	0e 94 f5 00 	call	0x1ea	; 0x1ea <sendString>
+ 13a:	c8 01       	movw	r24, r16
+ 13c:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <sendString>
+	sendString("\r\n");
+ 140:	88 ea       	ldi	r24, 0xA8	; 168
+ 142:	90 e0       	ldi	r25, 0x00	; 0
+ 144:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <sendString>
 	sendString(message);
- 14a:	c8 01       	movw	r24, r16
- 14c:	0e 94 f5 00 	call	0x1ea	; 0x1ea <sendString>
-	SendChar(CTRL_Z);
- 150:	ce 01       	movw	r24, r28
- 152:	0e 94 f5 00 	call	0x1ea	; 0x1ea <sendString>
- 156:	8a e1       	ldi	r24, 0x1A	; 26
- 158:	90 e0       	ldi	r25, 0x00	; 0
- 15a:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <SendChar>
- 15e:	df 91       	pop	r29
- 160:	cf 91       	pop	r28
- 162:	1f 91       	pop	r17
- 164:	0f 91       	pop	r16
- 166:	08 95       	ret
+ 148:	ce 01       	movw	r24, r28
+ 14a:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <sendString>
+	sendChar(CTRL_Z);
+ 14e:	8a e1       	ldi	r24, 0x1A	; 26
+ 150:	90 e0       	ldi	r25, 0x00	; 0
+ 152:	0e 94 ed 00 	call	0x1da	; 0x1da <sendChar>
+}
+ 156:	df 91       	pop	r29
+ 158:	cf 91       	pop	r28
+ 15a:	1f 91       	pop	r17
+ 15c:	0f 91       	pop	r16
+ 15e:	08 95       	ret
 
-00000168 <initializeUART>:
+00000160 <initializeUART>:
 	// Wait for new character received
 	while ( (UCSRA & (1<<7)) == 0 )
 	{}
 	// Then return it
 	return UDR;
 }
- 168:	0f 93       	push	r16
- 16a:	1f 93       	push	r17
- 16c:	8b 01       	movw	r16, r22
- 16e:	9c 01       	movw	r18, r24
- 170:	0e 56       	subi	r16, 0x6E	; 110
- 172:	11 09       	sbc	r17, r1
- 174:	21 09       	sbc	r18, r1
- 176:	31 09       	sbc	r19, r1
- 178:	03 39       	cpi	r16, 0x93	; 147
- 17a:	11 4c       	sbci	r17, 0xC1	; 193
- 17c:	21 40       	sbci	r18, 0x01	; 1
- 17e:	31 05       	cpc	r19, r1
- 180:	68 f5       	brcc	.+90     	; 0x1dc <initializeUART+0x74>
- 182:	2b ef       	ldi	r18, 0xFB	; 251
- 184:	24 0f       	add	r18, r20
- 186:	24 30       	cpi	r18, 0x04	; 4
- 188:	48 f5       	brcc	.+82     	; 0x1dc <initializeUART+0x74>
- 18a:	20 e2       	ldi	r18, 0x20	; 32
- 18c:	2b b9       	out	0x0b, r18	; 11
- 18e:	28 e1       	ldi	r18, 0x18	; 24
- 190:	2a b9       	out	0x0a, r18	; 10
- 192:	50 e0       	ldi	r21, 0x00	; 0
- 194:	45 50       	subi	r20, 0x05	; 5
- 196:	51 09       	sbc	r21, r1
- 198:	44 0f       	add	r20, r20
- 19a:	55 1f       	adc	r21, r21
- 19c:	40 68       	ori	r20, 0x80	; 128
- 19e:	40 bd       	out	0x20, r20	; 32
- 1a0:	dc 01       	movw	r26, r24
- 1a2:	cb 01       	movw	r24, r22
+ 160:	0f 93       	push	r16
+ 162:	1f 93       	push	r17
+ 164:	8b 01       	movw	r16, r22
+ 166:	9c 01       	movw	r18, r24
+ 168:	0e 56       	subi	r16, 0x6E	; 110
+ 16a:	11 09       	sbc	r17, r1
+ 16c:	21 09       	sbc	r18, r1
+ 16e:	31 09       	sbc	r19, r1
+ 170:	03 39       	cpi	r16, 0x93	; 147
+ 172:	11 4c       	sbci	r17, 0xC1	; 193
+ 174:	21 40       	sbci	r18, 0x01	; 1
+ 176:	31 05       	cpc	r19, r1
+ 178:	68 f5       	brcc	.+90     	; 0x1d4 <initializeUART+0x74>
+ 17a:	2b ef       	ldi	r18, 0xFB	; 251
+ 17c:	24 0f       	add	r18, r20
+ 17e:	24 30       	cpi	r18, 0x04	; 4
+ 180:	48 f5       	brcc	.+82     	; 0x1d4 <initializeUART+0x74>
+ 182:	20 e2       	ldi	r18, 0x20	; 32
+ 184:	2b b9       	out	0x0b, r18	; 11
+ 186:	28 e1       	ldi	r18, 0x18	; 24
+ 188:	2a b9       	out	0x0a, r18	; 10
+ 18a:	50 e0       	ldi	r21, 0x00	; 0
+ 18c:	45 50       	subi	r20, 0x05	; 5
+ 18e:	51 09       	sbc	r21, r1
+ 190:	44 0f       	add	r20, r20
+ 192:	55 1f       	adc	r21, r21
+ 194:	40 68       	ori	r20, 0x80	; 128
+ 196:	40 bd       	out	0x20, r20	; 32
+ 198:	dc 01       	movw	r26, r24
+ 19a:	cb 01       	movw	r24, r22
+ 19c:	88 0f       	add	r24, r24
+ 19e:	99 1f       	adc	r25, r25
+ 1a0:	aa 1f       	adc	r26, r26
+ 1a2:	bb 1f       	adc	r27, r27
  1a4:	88 0f       	add	r24, r24
  1a6:	99 1f       	adc	r25, r25
  1a8:	aa 1f       	adc	r26, r26
  1aa:	bb 1f       	adc	r27, r27
- 1ac:	88 0f       	add	r24, r24
- 1ae:	99 1f       	adc	r25, r25
- 1b0:	aa 1f       	adc	r26, r26
- 1b2:	bb 1f       	adc	r27, r27
- 1b4:	9c 01       	movw	r18, r24
- 1b6:	ad 01       	movw	r20, r26
+ 1ac:	9c 01       	movw	r18, r24
+ 1ae:	ad 01       	movw	r20, r26
+ 1b0:	22 0f       	add	r18, r18
+ 1b2:	33 1f       	adc	r19, r19
+ 1b4:	44 1f       	adc	r20, r20
+ 1b6:	55 1f       	adc	r21, r21
  1b8:	22 0f       	add	r18, r18
  1ba:	33 1f       	adc	r19, r19
  1bc:	44 1f       	adc	r20, r20
  1be:	55 1f       	adc	r21, r21
- 1c0:	22 0f       	add	r18, r18
- 1c2:	33 1f       	adc	r19, r19
- 1c4:	44 1f       	adc	r20, r20
- 1c6:	55 1f       	adc	r21, r21
- 1c8:	60 e0       	ldi	r22, 0x00	; 0
- 1ca:	70 e4       	ldi	r23, 0x40	; 64
- 1cc:	88 e3       	ldi	r24, 0x38	; 56
- 1ce:	90 e0       	ldi	r25, 0x00	; 0
- 1d0:	0e 94 04 01 	call	0x208	; 0x208 <__udivmodsi4>
- 1d4:	21 50       	subi	r18, 0x01	; 1
- 1d6:	31 09       	sbc	r19, r1
- 1d8:	30 bd       	out	0x20, r19	; 32
- 1da:	29 b9       	out	0x09, r18	; 9
- 1dc:	1f 91       	pop	r17
- 1de:	0f 91       	pop	r16
- 1e0:	08 95       	ret
+ 1c0:	60 e0       	ldi	r22, 0x00	; 0
+ 1c2:	70 e4       	ldi	r23, 0x40	; 64
+ 1c4:	88 e3       	ldi	r24, 0x38	; 56
+ 1c6:	90 e0       	ldi	r25, 0x00	; 0
+ 1c8:	0e 94 06 01 	call	0x20c	; 0x20c <__udivmodsi4>
+ 1cc:	21 50       	subi	r18, 0x01	; 1
+ 1ce:	31 09       	sbc	r19, r1
+ 1d0:	30 bd       	out	0x20, r19	; 32
+ 1d2:	29 b9       	out	0x09, r18	; 9
+ 1d4:	1f 91       	pop	r17
+ 1d6:	0f 91       	pop	r16
+ 1d8:	08 95       	ret
 
-000001e2 <SendChar>:
+000001da <sendChar>:
 	Tegn : Character for sending. 
 *************************************************************************/
-void SendChar(char Tegn)
+void sendChar(char Tegn)
 {
   // Wait for transmitter register empty (ready for new character)
   while ( (UCSRA & (1<<5)) == 0 )
- 1e2:	5d 9b       	sbis	0x0b, 5	; 11
- 1e4:	fe cf       	rjmp	.-4      	; 0x1e2 <SendChar>
+ 1da:	5d 9b       	sbis	0x0b, 5	; 11
+ 1dc:	fe cf       	rjmp	.-4      	; 0x1da <sendChar>
   {}
   // Then send the character
   UDR = Tegn;
- 1e6:	8c b9       	out	0x0c, r24	; 12
- 1e8:	08 95       	ret
+ 1de:	8c b9       	out	0x0c, r24	; 12
+ 1e0:	08 95       	ret
 
-000001ea <sendString>:
+000001e2 <sendString>:
 Sends 0-terminated string.
 Parameter:
-   Streng: Pointer to the string. 
+   string: Pointer to the string. 
 *************************************************************************/
 void sendString(char* s)
 {
- 1ea:	cf 93       	push	r28
- 1ec:	df 93       	push	r29
- 1ee:	ec 01       	movw	r28, r24
+ 1e2:	cf 93       	push	r28
+ 1e4:	df 93       	push	r29
+ 1e6:	ec 01       	movw	r28, r24
   // Repeat until zero-termination
   while (*s != 0)
- 1f0:	88 81       	ld	r24, Y
- 1f2:	88 23       	and	r24, r24
- 1f4:	31 f0       	breq	.+12     	; 0x202 <sendString+0x18>
- 1f6:	21 96       	adiw	r28, 0x01	; 1
+ 1e8:	88 81       	ld	r24, Y
+ 1ea:	88 23       	and	r24, r24
+ 1ec:	61 f0       	breq	.+24     	; 0x206 <sendString+0x24>
+ 1ee:	21 96       	adiw	r28, 0x01	; 1
   {
     // Send the character pointed to by "s"
-    SendChar(*s);
- 1f8:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <SendChar>
-   Streng: Pointer to the string. 
+    sendChar(*s);
+ 1f0:	0e 94 ed 00 	call	0x1da	; 0x1da <sendChar>
+	#else
+		//round up by default
+		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+	#endif
+
+	__builtin_avr_delay_cycles(__ticks_dc);
+ 1f4:	8f ef       	ldi	r24, 0xFF	; 255
+ 1f6:	93 eb       	ldi	r25, 0xB3	; 179
+ 1f8:	01 97       	sbiw	r24, 0x01	; 1
+ 1fa:	f1 f7       	brne	.-4      	; 0x1f8 <sendString+0x16>
+ 1fc:	00 c0       	rjmp	.+0      	; 0x1fe <sendString+0x1c>
+ 1fe:	00 00       	nop
+   string: Pointer to the string. 
 *************************************************************************/
 void sendString(char* s)
 {
   // Repeat until zero-termination
   while (*s != 0)
- 1fc:	89 91       	ld	r24, Y+
- 1fe:	81 11       	cpse	r24, r1
- 200:	fb cf       	rjmp	.-10     	; 0x1f8 <sendString+0xe>
-    // Send the character pointed to by "s"
-    SendChar(*s);
+ 200:	89 91       	ld	r24, Y+
+ 202:	81 11       	cpse	r24, r1
+ 204:	f5 cf       	rjmp	.-22     	; 0x1f0 <sendString+0xe>
+    sendChar(*s);
     // Advance the pointer one step
     s++;
+	_delay_ms(50);
   }
 }
- 202:	df 91       	pop	r29
- 204:	cf 91       	pop	r28
- 206:	08 95       	ret
+ 206:	df 91       	pop	r29
+ 208:	cf 91       	pop	r28
+ 20a:	08 95       	ret
 
-00000208 <__udivmodsi4>:
- 208:	a1 e2       	ldi	r26, 0x21	; 33
- 20a:	1a 2e       	mov	r1, r26
- 20c:	aa 1b       	sub	r26, r26
- 20e:	bb 1b       	sub	r27, r27
- 210:	fd 01       	movw	r30, r26
- 212:	0d c0       	rjmp	.+26     	; 0x22e <__udivmodsi4_ep>
+0000020c <__udivmodsi4>:
+ 20c:	a1 e2       	ldi	r26, 0x21	; 33
+ 20e:	1a 2e       	mov	r1, r26
+ 210:	aa 1b       	sub	r26, r26
+ 212:	bb 1b       	sub	r27, r27
+ 214:	fd 01       	movw	r30, r26
+ 216:	0d c0       	rjmp	.+26     	; 0x232 <__udivmodsi4_ep>
 
-00000214 <__udivmodsi4_loop>:
- 214:	aa 1f       	adc	r26, r26
- 216:	bb 1f       	adc	r27, r27
- 218:	ee 1f       	adc	r30, r30
- 21a:	ff 1f       	adc	r31, r31
- 21c:	a2 17       	cp	r26, r18
- 21e:	b3 07       	cpc	r27, r19
- 220:	e4 07       	cpc	r30, r20
- 222:	f5 07       	cpc	r31, r21
- 224:	20 f0       	brcs	.+8      	; 0x22e <__udivmodsi4_ep>
- 226:	a2 1b       	sub	r26, r18
- 228:	b3 0b       	sbc	r27, r19
- 22a:	e4 0b       	sbc	r30, r20
- 22c:	f5 0b       	sbc	r31, r21
+00000218 <__udivmodsi4_loop>:
+ 218:	aa 1f       	adc	r26, r26
+ 21a:	bb 1f       	adc	r27, r27
+ 21c:	ee 1f       	adc	r30, r30
+ 21e:	ff 1f       	adc	r31, r31
+ 220:	a2 17       	cp	r26, r18
+ 222:	b3 07       	cpc	r27, r19
+ 224:	e4 07       	cpc	r30, r20
+ 226:	f5 07       	cpc	r31, r21
+ 228:	20 f0       	brcs	.+8      	; 0x232 <__udivmodsi4_ep>
+ 22a:	a2 1b       	sub	r26, r18
+ 22c:	b3 0b       	sbc	r27, r19
+ 22e:	e4 0b       	sbc	r30, r20
+ 230:	f5 0b       	sbc	r31, r21
 
-0000022e <__udivmodsi4_ep>:
- 22e:	66 1f       	adc	r22, r22
- 230:	77 1f       	adc	r23, r23
- 232:	88 1f       	adc	r24, r24
- 234:	99 1f       	adc	r25, r25
- 236:	1a 94       	dec	r1
- 238:	69 f7       	brne	.-38     	; 0x214 <__udivmodsi4_loop>
- 23a:	60 95       	com	r22
- 23c:	70 95       	com	r23
- 23e:	80 95       	com	r24
- 240:	90 95       	com	r25
- 242:	9b 01       	movw	r18, r22
- 244:	ac 01       	movw	r20, r24
- 246:	bd 01       	movw	r22, r26
- 248:	cf 01       	movw	r24, r30
- 24a:	08 95       	ret
+00000232 <__udivmodsi4_ep>:
+ 232:	66 1f       	adc	r22, r22
+ 234:	77 1f       	adc	r23, r23
+ 236:	88 1f       	adc	r24, r24
+ 238:	99 1f       	adc	r25, r25
+ 23a:	1a 94       	dec	r1
+ 23c:	69 f7       	brne	.-38     	; 0x218 <__udivmodsi4_loop>
+ 23e:	60 95       	com	r22
+ 240:	70 95       	com	r23
+ 242:	80 95       	com	r24
+ 244:	90 95       	com	r25
+ 246:	9b 01       	movw	r18, r22
+ 248:	ac 01       	movw	r20, r24
+ 24a:	bd 01       	movw	r22, r26
+ 24c:	cf 01       	movw	r24, r30
+ 24e:	08 95       	ret
 
-0000024c <_exit>:
- 24c:	f8 94       	cli
+00000250 <_exit>:
+ 250:	f8 94       	cli
 
-0000024e <__stop_program>:
- 24e:	ff cf       	rjmp	.-2      	; 0x24e <__stop_program>
+00000252 <__stop_program>:
+ 252:	ff cf       	rjmp	.-2      	; 0x252 <__stop_program>
