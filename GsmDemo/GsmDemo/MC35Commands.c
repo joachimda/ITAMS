@@ -1,16 +1,27 @@
 /*
- * MC35Commands.c
- * Created: 20-02-2017 15:05:03
- *  Author: Joachim
- */ 
+* MC35Commands.c
+* Created: 20-02-2017 15:05:03
+*  Author: Joachim
+*/
 
 #define CTRL_Z 26
+#include <util/delay.h>
 #include "MC35Commands.h"
 
 void setTextMode()
 {
 	sendString("AT+CMGF=1");
 	sendString("\r\n");
+}
+
+void enableEcho()
+{
+	sendString("ATE1");
+}
+
+void disableEcho()
+{
+	sendString("ATE0");
 }
 
 void sendSms(char* message, char* phoneNumber)
@@ -23,13 +34,16 @@ void sendSms(char* message, char* phoneNumber)
 	sendChar(CTRL_Z);
 }
 
-char * getMessages()
+void getMessages(char* response)
 {
-	sendString("AT+CMGL=ALL");	
-	
-	char recieved[200];
+	disableEcho();
+	sendString("AT+CMGL=1");
+	unsigned int i = 0;
 	while(charReady())
 	{
-		readChar();	
+		_delay_ms(100);
+		response[i] = readChar();
+		i++;
 	}
+	enableEcho();
 }

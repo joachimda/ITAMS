@@ -9,7 +9,9 @@
 #define MC35COMMANDS_H_
 
 void sendSms(char* message, char* phoneNumber);
-char * getMessages();
+void getMessages(char* response);
 void setTextMode();
+void disableEcho();
+void enableEcho();
 
 #endif /* MC35COMMANDS_H_ */
