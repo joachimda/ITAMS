@@ -6,15 +6,18 @@
  */ 
 
 #include <avr/io.h>
-#include <util/delay.h>
+#define BAUD
 #define F_CPU 3686400
+#include <util/delay.h>
+#include "uartDriver.h"
+#include "ledDriver.h"
 
 int main(void)
 {
-    /* Replace with your application code */
     while (1)
     {
-		
+		initializeUART(BAUD, 8)
+		initLEDport('C');
     }
 }
 

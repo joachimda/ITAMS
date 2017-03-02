@@ -13,7 +13,8 @@ main.d main.o: .././main.c \
  f:\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h \
  f:\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay_basic.h \
  f:\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\math.h \
- .././uartDriver.h .././ledDriver.h .././MC35Commands.h
+ .././uartDriver.h .././ledDriver.h .././MC35Commands.h \
+ .././speakerDriver.h
 
 f:\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\io.h:
 
@@ -48,3 +49,5 @@ f:\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\math.h:
 .././ledDriver.h:
 
 .././MC35Commands.h:
+
+.././speakerDriver.h:

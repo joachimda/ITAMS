@@ -2,7 +2,6 @@
 
 #define MAX_LED_NR 7
 
-
 void initLEDport(char key)
 {
 	switch (key)

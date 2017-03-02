@@ -1,6 +1,5 @@
 /*
  * uartDriver.c
- *
  * Created: 20-02-2017 13:04:32
  *  Author: Joachim
  */ 
@@ -111,5 +110,16 @@ char array[7];
   itoa(num, array, 10);
   // - then send the string
   sendString(array);
+}
+
+/*************************************************************************
+Flushed the RX buffer by toggling the receiver bit 4 in UCSRB
+Parameters:
+none
+*************************************************************************/
+void flushRxBuffer()
+{
+	UCSRB ^= (-0^UCSRB) & (1 << 4);
+	UCSRB ^= (-1^UCSRB) & (1 << 4);
 }
 

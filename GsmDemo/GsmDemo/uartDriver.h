@@ -12,4 +12,5 @@ char readChar();
 void sendChar(char chr);
 void sendString(char* str);
 void SendInteger(int num);
+void flushRxBuffer();
 #endif /* UARTDRIVER_H_ */

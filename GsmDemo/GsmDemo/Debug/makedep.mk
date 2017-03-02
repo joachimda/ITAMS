@@ -8,5 +8,7 @@ main.c
 
 MC35Commands.c
 
+speakerDriver.c
+
 uartDriver.c
 

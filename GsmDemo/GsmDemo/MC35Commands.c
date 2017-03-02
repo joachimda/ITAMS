@@ -8,10 +8,20 @@
 #include <util/delay.h>
 #include "MC35Commands.h"
 
-void setTextMode()
+void setTextMode(char * callback)
 {
+	unsigned int i = 0;
+
 	sendString("AT+CMGF=1");
 	sendString("\r\n");
+
+	while(charReady())
+	{
+		_delay_ms(50);
+		char test = readChar();
+		callback[i] = test;
+		i++;
+	}
 }
 
 void enableEcho()
@@ -24,14 +34,25 @@ void disableEcho()
 	sendString("ATE0");
 }
 
-void sendSms(char* message, char* phoneNumber)
+void sendSms(char* message, char* phoneNumber, char* callback)
 {
-	setTextMode();
+	unsigned int i = 0;
+
+	disableEcho();
+	//setTextMode(TODO);
 	sendString("AT+CMGS=");
 	sendString(phoneNumber);
 	sendString("\r\n");
 	sendString(message);
+	//flushRxBuffer();
 	sendChar(CTRL_Z);
+	
+	while(charReady())
+	{
+		_delay_ms(50);
+		callback[i] = readChar();
+		i++;
+	}
 }
 
 void getMessages(char* response)
@@ -45,5 +66,4 @@ void getMessages(char* response)
 		response[i] = readChar();
 		i++;
 	}
-	enableEcho();
 }
