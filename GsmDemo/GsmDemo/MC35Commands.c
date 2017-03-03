@@ -24,21 +24,35 @@ void setTextMode(char * callback)
 	}
 }
 
-void enableEcho()
+void enableEcho(char* callback)
 {
-	sendString("ATE1");
+	unsigned int i = 0;
+
+	sendString("ATE1\r\n");
+	while(charReady())
+	{
+		_delay_ms(50);
+		char test = readChar();
+		callback[i] = test;
+		i++;
+	}
 }
 
-void disableEcho()
+void disableEcho(char* callback)
 {
-	sendString("ATE0");
+	unsigned int i = 0;
+
+	sendString("ATE0\r\n");
+	while(charReady())
+	{
+		callback[i] = readChar();
+		i++;
+	}
 }
 
 void sendSms(char* message, char* phoneNumber, char* callback)
 {
 	unsigned int i = 0;
-
-	disableEcho();
 	//setTextMode(TODO);
 	sendString("AT+CMGS=");
 	sendString(phoneNumber);
@@ -57,8 +71,7 @@ void sendSms(char* message, char* phoneNumber, char* callback)
 
 void getMessages(char* response)
 {
-	disableEcho();
-	sendString("AT+CMGL=1");
+	sendString("AT+CMGL=ALL\r\n");
 	unsigned int i = 0;
 	while(charReady())
 	{

@@ -1,20 +1,13 @@
-/**********************************************************************
-Boot Loader for ATMega32
-Based at the Atmel AVR Application Note AVR109 "Self Programming"
-
-NOTICE: NO BLOCK SUPPORT (not needed or supported when using AVRProg)
-
-Compatible with AVRPROG (version 1.40)
-
-Henning Hargaard 29.1.2015
-***********************************************************************/
 #include <avr/io.h>
 #include <avr/boot.h>
 #include <avr/pgmspace.h>
 #include "uart.h"
+#include "ledDriver.h"
+#define F_CPU 3686400
+#include <util/delay.h>
 
 #define	PAGESIZE 128
-// Assume 1024 word boot loader
+// Assume 1024W bootloader
 // Important: The Mega32 fuses must be set according to this !
 #define	APP_END	0x3BFF
 
@@ -26,6 +19,14 @@ Henning Hargaard 29.1.2015
 
 BOOTLOADER_SECTION int main()
 {
+	initLEDport('C');
+
+	for (unsigned int i = 0; i < 12; i++)
+	{
+		toggleLED(7);
+		_delay_ms(200);
+	}
+
 	char val;
 	unsigned int address;
 	unsigned int temp_int;
@@ -44,9 +45,10 @@ BOOTLOADER_SECTION int main()
 
 	// Initialize UART: 115200 bit/s, 8 data bits, no parity
 	InitUART();
-
+	
 	while (1)
 	{
+
 		val = ReadChar();
 
 		// Check auto increment status.
@@ -106,9 +108,29 @@ BOOTLOADER_SECTION int main()
 		{
 			if( address >= (APP_END>>1) ) // Protect boot loader area.
 			{
-				SendChar('?');	
+				SendChar('?');
 			}
 			else
+			{
+				boot_spm_busy_wait();
+				boot_page_write(address << 1); // Convert word-address to byte-address and write.
+			}
+			SendChar('\r'); // Send OK back.
+		}
+
+		// Enter and leave programming mode.
+		else if( (val=='P') || (val=='L') )
+		{
+			SendChar('\r'); // Nothing special to do, just answer OK.
+		}
+
+		// Exit boot loader.
+		else if(val=='E')
+		{
+			boot_spm_busy_wait();
+			boot_rww_enable();
+			SendChar('\r');
+			// Generate watchdog RESET (starting the application)
 			WDTCR = 0b00001000;
 			while(1)
 			{}

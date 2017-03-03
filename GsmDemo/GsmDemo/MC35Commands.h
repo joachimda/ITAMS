@@ -10,7 +10,7 @@
 void sendSms(char* message, char* phoneNumber, char* callback);
 void getMessages(char* response);
 void setTextMode(char * callback);
-void disableEcho();
-void enableEcho();
+void disableEcho(char* callback);
+void enableEcho(char* callback);
 
 #endif /* MC35COMMANDS_H_ */
