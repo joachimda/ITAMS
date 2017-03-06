@@ -15,8 +15,6 @@
 
 volatile unsigned int index = 0;
 
-
-
 ISR(USART_RXC_vect)
 {	
 	unsigned char value = UDR;
@@ -31,7 +29,6 @@ int main(void)
 	
 	while(1)
 	{
-		
 		//DO STUFF	
 		_delay_ms(1000);	
 	}
