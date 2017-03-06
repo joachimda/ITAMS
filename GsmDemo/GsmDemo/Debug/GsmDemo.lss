@@ -96,12 +96,12 @@ Disassembly of section .text:
   8e:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
 
 00000092 <__vector_13>:
-#include "MC35Commands.h"
 
 volatile unsigned int index = 0;
 volatile unsigned char value;
 
-ISR(USART_RXC_vect){
+ISR(USART_RXC_vect)
+{	
   92:	1f 92       	push	r1
   94:	0f 92       	push	r0
   96:	00 90 5f 00 	lds	r0, 0x005F	; 0x80005f <__TEXT_REGION_LENGTH__+0x7e005f>
@@ -116,7 +116,6 @@ ISR(USART_RXC_vect){
   aa:	df 93       	push	r29
   ac:	cd b7       	in	r28, 0x3d	; 61
   ae:	de b7       	in	r29, 0x3e	; 62
-	
 	value = UDR;
   b0:	8c e2       	ldi	r24, 0x2C	; 44
   b2:	90 e0       	ldi	r25, 0x00	; 0
