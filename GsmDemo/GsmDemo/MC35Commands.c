@@ -8,75 +8,33 @@
 #include <util/delay.h>
 #include "MC35Commands.h"
 
-void setTextMode(char * callback)
+void setTextMode()
 {
-	unsigned int i = 0;
-
 	sendString("AT+CMGF=1");
 	sendString("\r\n");
-
-	while(charReady())
-	{
-		_delay_ms(50);
-		char test = readChar();
-		callback[i] = test;
-		i++;
-	}
 }
 
-void enableEcho(char* callback)
+void enableEcho()
 {
-	unsigned int i = 0;
-
 	sendString("ATE1\r\n");
-	while(charReady())
-	{
-		_delay_ms(50);
-		char test = readChar();
-		callback[i] = test;
-		i++;
-	}
 }
 
-void disableEcho(char* callback)
+void disableEcho()
 {
-	unsigned int i = 0;
-
 	sendString("ATE0\r\n");
-	while(charReady())
-	{
-		callback[i] = readChar();
-		i++;
-	}
 }
 
-void sendSms(char* message, char* phoneNumber, char* callback)
+void sendSms(char* message, char* phoneNumber)
 {
-	unsigned int i = 0;
 	//setTextMode(TODO);
 	sendString("AT+CMGS=");
 	sendString(phoneNumber);
 	sendString("\r\n");
 	sendString(message);
-	//flushRxBuffer();
-	sendChar(CTRL_Z);
-	
-	while(charReady())
-	{
-		_delay_ms(50);
-		callback[i] = readChar();
-		i++;
-	}
+	sendByte(CTRL_Z);	
 }
 
-void getMessages(char* response)
+void getAllMessages()
 {
 	sendString("AT+CMGL=ALL\r\n");
-	unsigned int i = 0;
-	while(charReady())
-	{
-		_delay_ms(100);
-		response[i] = readChar();
-		i++;
-	}
 }

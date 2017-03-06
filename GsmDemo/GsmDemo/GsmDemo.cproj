@@ -178,10 +178,10 @@
     <Compile Include="speakerDriver.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="uartDriver.c">
+    <Compile Include="usartDriver.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="uartDriver.h">
+    <Compile Include="usartDriver.h">
       <SubType>compile</SubType>
     </Compile>
   </ItemGroup>

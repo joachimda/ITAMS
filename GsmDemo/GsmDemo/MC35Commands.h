@@ -7,10 +7,10 @@
 #ifndef MC35COMMANDS_H_
 #define MC35COMMANDS_H_
 
-void sendSms(char* message, char* phoneNumber, char* callback);
-void getMessages(char* response);
-void setTextMode(char * callback);
-void disableEcho(char* callback);
-void enableEcho(char* callback);
+void sendSms(char* message, char* phoneNumber);
+void getAllMessages();
+void setTextMode();
+void disableEcho();
+void enableEcho();
 
 #endif /* MC35COMMANDS_H_ */
