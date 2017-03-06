@@ -9,6 +9,12 @@
 #include "MC35Commands.h"
 #include "usartDriver.h"
 
+void sendPin()
+{
+	sendString((unsigned char*)SEND_PIN);
+	sendString((unsigned char*)ENTER);
+}
+
 void setTextMode()
 {
 	sendString((unsigned char*)SET_TEXT_MODE);

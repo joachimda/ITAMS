@@ -45,7 +45,6 @@ Allocating common symbols
 Common symbol       size              file
 
 data                0x32              main.o
-value               0x1               main.o
 
 Discarded input sections
 
@@ -80,6 +79,7 @@ Discarded input sections
  .text          0x00000000        0x0 MC35Commands.o
  .data          0x00000000        0x0 MC35Commands.o
  .bss           0x00000000        0x0 MC35Commands.o
+ .text.sendPin  0x00000000       0x1e MC35Commands.o
  .text.setTextMode
                 0x00000000       0x1e MC35Commands.o
  .text.enableEcho
@@ -502,38 +502,36 @@ END GROUP
  *(.fini0)
                 0x0000052a                _etext = .
 
-.data           0x00800060       0x2c load address 0x0000052a
+.data           0x00800060       0x34 load address 0x0000052a
                 0x00800060                PROVIDE (__data_start, .)
  *(.data)
  *(.data*)
  *(.rodata)
- .rodata        0x00800060       0x2b MC35Commands.o
+ .rodata        0x00800060       0x34 MC35Commands.o
  *(.rodata*)
  *(.gnu.linkonce.d*)
-                0x0080008c                . = ALIGN (0x2)
- *fill*         0x0080008b        0x1 
-                0x0080008c                _edata = .
-                0x0080008c                PROVIDE (__data_end, .)
+                0x00800094                . = ALIGN (0x2)
+                0x00800094                _edata = .
+                0x00800094                PROVIDE (__data_end, .)
 
-.bss            0x0080008c       0x35
-                0x0080008c                PROVIDE (__bss_start, .)
+.bss            0x00800094       0x34
+                0x00800094                PROVIDE (__bss_start, .)
  *(.bss)
  *(.bss*)
- .bss.index     0x0080008c        0x2 main.o
-                0x0080008c                index
+ .bss.index     0x00800094        0x2 main.o
+                0x00800094                index
  *(COMMON)
- COMMON         0x0080008e       0x33 main.o
-                0x0080008e                data
-                0x008000c0                value
-                0x008000c1                PROVIDE (__bss_end, .)
+ COMMON         0x00800096       0x32 main.o
+                0x00800096                data
+                0x008000c8                PROVIDE (__bss_end, .)
                 0x0000052a                __data_load_start = LOADADDR (.data)
-                0x00000556                __data_load_end = (__data_load_start + SIZEOF (.data))
+                0x0000055e                __data_load_end = (__data_load_start + SIZEOF (.data))
 
-.noinit         0x008000c1        0x0
+.noinit         0x008000c8        0x0
                 [!provide]                PROVIDE (__noinit_start, .)
  *(.noinit*)
                 [!provide]                PROVIDE (__noinit_end, .)
-                0x008000c1                _end = .
+                0x008000c8                _end = .
                 [!provide]                PROVIDE (__heap_start, .)
 
 .eeprom         0x00810000        0x0
@@ -600,60 +598,60 @@ END GROUP
 .debug_sfnames
  *(.debug_sfnames)
 
-.debug_aranges  0x00000000       0xb0
+.debug_aranges  0x00000000       0xb8
  *(.debug_aranges)
  .debug_aranges
                 0x00000000       0x28 main.o
  .debug_aranges
-                0x00000028       0x48 MC35Commands.o
+                0x00000028       0x50 MC35Commands.o
  .debug_aranges
-                0x00000070       0x40 usartDriver.o
+                0x00000078       0x40 usartDriver.o
 
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000      0x9ad
+.debug_info     0x00000000      0x9be
  *(.debug_info .gnu.linkonce.wi.*)
  .debug_info    0x00000000      0x4e6 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.1.130/gcc/dev/atmega32/avr5/crtatmega32.o
- .debug_info    0x000004e6      0x1d8 main.o
- .debug_info    0x000006be      0x15c MC35Commands.o
- .debug_info    0x0000081a      0x193 usartDriver.o
+ .debug_info    0x000004e6      0x1d4 main.o
+ .debug_info    0x000006ba      0x171 MC35Commands.o
+ .debug_info    0x0000082b      0x193 usartDriver.o
 
-.debug_abbrev   0x00000000      0x783
+.debug_abbrev   0x00000000      0x794
  *(.debug_abbrev)
  .debug_abbrev  0x00000000      0x4a3 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.1.130/gcc/dev/atmega32/avr5/crtatmega32.o
- .debug_abbrev  0x000004a3      0x115 main.o
- .debug_abbrev  0x000005b8       0xd0 MC35Commands.o
- .debug_abbrev  0x00000688       0xfb usartDriver.o
+ .debug_abbrev  0x000004a3      0x126 main.o
+ .debug_abbrev  0x000005c9       0xd0 MC35Commands.o
+ .debug_abbrev  0x00000699       0xfb usartDriver.o
 
-.debug_line     0x00000000      0x5ac
+.debug_line     0x00000000      0x5ce
  *(.debug_line .debug_line.* .debug_line_end)
  .debug_line    0x00000000      0x115 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.1.130/gcc/dev/atmega32/avr5/crtatmega32.o
  .debug_line    0x00000115      0x1be main.o
- .debug_line    0x000002d3      0x148 MC35Commands.o
- .debug_line    0x0000041b      0x191 usartDriver.o
+ .debug_line    0x000002d3      0x16a MC35Commands.o
+ .debug_line    0x0000043d      0x191 usartDriver.o
 
-.debug_frame    0x00000000      0x1fc
+.debug_frame    0x00000000      0x220
  *(.debug_frame)
- .debug_frame   0x00000000       0x74 main.o
- .debug_frame   0x00000074       0xd4 MC35Commands.o
- .debug_frame   0x00000148       0xb4 usartDriver.o
+ .debug_frame   0x00000000       0x78 main.o
+ .debug_frame   0x00000078       0xf4 MC35Commands.o
+ .debug_frame   0x0000016c       0xb4 usartDriver.o
 
-.debug_str      0x00000000      0x402
+.debug_str      0x00000000      0x40a
  *(.debug_str)
  .debug_str     0x00000000      0x196 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.1.130/gcc/dev/atmega32/avr5/crtatmega32.o
  .debug_str     0x00000196      0x1a8 main.o
                                 0x1e1 (size before relaxing)
- .debug_str     0x0000033e       0x76 MC35Commands.o
-                                0x1d9 (size before relaxing)
- .debug_str     0x000003b4       0x4e usartDriver.o
+ .debug_str     0x0000033e       0x7e MC35Commands.o
+                                0x1e1 (size before relaxing)
+ .debug_str     0x000003bc       0x4e usartDriver.o
                                 0x1c3 (size before relaxing)
 
-.debug_loc      0x00000000      0x3b3
+.debug_loc      0x00000000      0x3fb
  *(.debug_loc)
- .debug_loc     0x00000000       0xdd main.o
- .debug_loc     0x000000dd      0x17c MC35Commands.o
- .debug_loc     0x00000259      0x15a usartDriver.o
+ .debug_loc     0x00000000       0xea main.o
+ .debug_loc     0x000000ea      0x1b7 MC35Commands.o
+ .debug_loc     0x000002a1      0x15a usartDriver.o
 
 .debug_macinfo
  *(.debug_macinfo)
@@ -673,11 +671,11 @@ END GROUP
 .debug_pubtypes
  *(.debug_pubtypes)
 
-.debug_ranges   0x00000000       0x80
+.debug_ranges   0x00000000       0x88
  *(.debug_ranges)
  .debug_ranges  0x00000000       0x18 main.o
- .debug_ranges  0x00000018       0x38 MC35Commands.o
- .debug_ranges  0x00000050       0x30 usartDriver.o
+ .debug_ranges  0x00000018       0x40 MC35Commands.o
+ .debug_ranges  0x00000058       0x30 usartDriver.o
 
 .debug_macro
  *(.debug_macro)

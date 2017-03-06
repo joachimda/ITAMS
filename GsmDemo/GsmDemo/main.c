@@ -14,11 +14,10 @@
 #include "MC35Commands.h"
 
 volatile unsigned int index = 0;
-volatile unsigned char value;
 
 ISR(USART_RXC_vect)
 {	
-	value = UDR;
+	unsigned char value = UDR;
 	data[index] = value;
 	index++;
 }

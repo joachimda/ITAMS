@@ -5,29 +5,29 @@ Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
   0 .text         0000052a  00000000  00000000  00000094  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  1 .data         0000002c  00800060  0000052a  000005be  2**0
+  1 .data         00000034  00800060  0000052a  000005be  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  2 .bss          00000035  0080008c  0080008c  000005ea  2**0
+  2 .bss          00000034  00800094  00800094  000005f2  2**0
                   ALLOC
-  3 .comment      00000030  00000000  00000000  000005ea  2**0
+  3 .comment      00000030  00000000  00000000  000005f2  2**0
                   CONTENTS, READONLY
-  4 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  0000061c  2**2
+  4 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000624  2**2
                   CONTENTS, READONLY
-  5 .debug_aranges 000000b0  00000000  00000000  00000658  2**0
+  5 .debug_aranges 000000b8  00000000  00000000  00000660  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_info   000009ad  00000000  00000000  00000708  2**0
+  6 .debug_info   000009be  00000000  00000000  00000718  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_abbrev 00000783  00000000  00000000  000010b5  2**0
+  7 .debug_abbrev 00000794  00000000  00000000  000010d6  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   000005ac  00000000  00000000  00001838  2**0
+  8 .debug_line   000005ce  00000000  00000000  0000186a  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  000001fc  00000000  00000000  00001de4  2**2
+  9 .debug_frame  00000220  00000000  00000000  00001e38  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    00000402  00000000  00000000  00001fe0  2**0
+ 10 .debug_str    0000040a  00000000  00000000  00002058  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    000003b3  00000000  00000000  000023e2  2**0
+ 11 .debug_loc    000003fb  00000000  00000000  00002462  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 00000080  00000000  00000000  00002795  2**0
+ 12 .debug_ranges 00000088  00000000  00000000  0000285d  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -72,13 +72,13 @@ Disassembly of section .text:
   6a:	02 c0       	rjmp	.+4      	; 0x70 <__do_copy_data+0x10>
   6c:	05 90       	lpm	r0, Z+
   6e:	0d 92       	st	X+, r0
-  70:	ac 38       	cpi	r26, 0x8C	; 140
+  70:	a4 39       	cpi	r26, 0x94	; 148
   72:	b1 07       	cpc	r27, r17
   74:	d9 f7       	brne	.-10     	; 0x6c <__do_copy_data+0xc>
 
 00000076 <__do_clear_bss>:
   76:	20 e0       	ldi	r18, 0x00	; 0
-  78:	ac e8       	ldi	r26, 0x8C	; 140
+  78:	a4 e9       	ldi	r26, 0x94	; 148
   7a:	b0 e0       	ldi	r27, 0x00	; 0
   7c:	01 c0       	rjmp	.+2      	; 0x80 <.do_clear_bss_start>
 
@@ -86,7 +86,7 @@ Disassembly of section .text:
   7e:	1d 92       	st	X+, r1
 
 00000080 <.do_clear_bss_start>:
-  80:	a1 3c       	cpi	r26, 0xC1	; 193
+  80:	a8 3c       	cpi	r26, 0xC8	; 200
   82:	b2 07       	cpc	r27, r18
   84:	e1 f7       	brne	.-8      	; 0x7e <.do_clear_bss_loop>
   86:	0e 94 7e 00 	call	0xfc	; 0xfc <main>
@@ -96,9 +96,9 @@ Disassembly of section .text:
   8e:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
 
 00000092 <__vector_13>:
+#include "MC35Commands.h"
 
 volatile unsigned int index = 0;
-volatile unsigned char value;
 
 ISR(USART_RXC_vect)
 {	
@@ -114,29 +114,31 @@ ISR(USART_RXC_vect)
   a6:	ff 93       	push	r31
   a8:	cf 93       	push	r28
   aa:	df 93       	push	r29
-  ac:	cd b7       	in	r28, 0x3d	; 61
-  ae:	de b7       	in	r29, 0x3e	; 62
-	value = UDR;
-  b0:	8c e2       	ldi	r24, 0x2C	; 44
-  b2:	90 e0       	ldi	r25, 0x00	; 0
-  b4:	fc 01       	movw	r30, r24
-  b6:	80 81       	ld	r24, Z
-  b8:	80 93 c0 00 	sts	0x00C0, r24	; 0x8000c0 <value>
+  ac:	1f 92       	push	r1
+  ae:	cd b7       	in	r28, 0x3d	; 61
+  b0:	de b7       	in	r29, 0x3e	; 62
+	unsigned char value = UDR;
+  b2:	8c e2       	ldi	r24, 0x2C	; 44
+  b4:	90 e0       	ldi	r25, 0x00	; 0
+  b6:	fc 01       	movw	r30, r24
+  b8:	80 81       	ld	r24, Z
+  ba:	89 83       	std	Y+1, r24	; 0x01
 	data[index] = value;
-  bc:	80 91 8c 00 	lds	r24, 0x008C	; 0x80008c <__data_end>
-  c0:	90 91 8d 00 	lds	r25, 0x008D	; 0x80008d <__data_end+0x1>
-  c4:	20 91 c0 00 	lds	r18, 0x00C0	; 0x8000c0 <value>
-  c8:	82 57       	subi	r24, 0x72	; 114
-  ca:	9f 4f       	sbci	r25, 0xFF	; 255
-  cc:	fc 01       	movw	r30, r24
-  ce:	20 83       	st	Z, r18
+  bc:	80 91 94 00 	lds	r24, 0x0094	; 0x800094 <__data_end>
+  c0:	90 91 95 00 	lds	r25, 0x0095	; 0x800095 <__data_end+0x1>
+  c4:	8a 56       	subi	r24, 0x6A	; 106
+  c6:	9f 4f       	sbci	r25, 0xFF	; 255
+  c8:	29 81       	ldd	r18, Y+1	; 0x01
+  ca:	fc 01       	movw	r30, r24
+  cc:	20 83       	st	Z, r18
 	index++;
-  d0:	80 91 8c 00 	lds	r24, 0x008C	; 0x80008c <__data_end>
-  d4:	90 91 8d 00 	lds	r25, 0x008D	; 0x80008d <__data_end+0x1>
-  d8:	01 96       	adiw	r24, 0x01	; 1
-  da:	90 93 8d 00 	sts	0x008D, r25	; 0x80008d <__data_end+0x1>
-  de:	80 93 8c 00 	sts	0x008C, r24	; 0x80008c <__data_end>
+  ce:	80 91 94 00 	lds	r24, 0x0094	; 0x800094 <__data_end>
+  d2:	90 91 95 00 	lds	r25, 0x0095	; 0x800095 <__data_end+0x1>
+  d6:	01 96       	adiw	r24, 0x01	; 1
+  d8:	90 93 95 00 	sts	0x0095, r25	; 0x800095 <__data_end+0x1>
+  dc:	80 93 94 00 	sts	0x0094, r24	; 0x800094 <__data_end>
 }
+  e0:	0f 90       	pop	r0
   e2:	df 91       	pop	r29
   e4:	cf 91       	pop	r28
   e6:	ff 91       	pop	r31
@@ -332,11 +334,11 @@ void getAllMessages()
  204:	cd b7       	in	r28, 0x3d	; 61
  206:	de b7       	in	r29, 0x3e	; 62
 	sendString((unsigned char*)GET_ALL_MESSAGES);
- 208:	8f e7       	ldi	r24, 0x7F	; 127
+ 208:	88 e8       	ldi	r24, 0x88	; 136
  20a:	90 e0       	ldi	r25, 0x00	; 0
  20c:	0e 94 40 01 	call	0x280	; 0x280 <sendString>
 	sendString((unsigned char*)ENTER);	
- 210:	8a e6       	ldi	r24, 0x6A	; 106
+ 210:	89 e6       	ldi	r24, 0x69	; 105
  212:	90 e0       	ldi	r25, 0x00	; 0
  214:	0e 94 40 01 	call	0x280	; 0x280 <sendString>
  218:	df 91       	pop	r29

@@ -15,10 +15,12 @@
 #define DISABLE_ECHO "ATE0"
 #define SET_TEXT_MODE "AT+CMGF=1"
 #define SEND_MESSAGE "AT+CMGS="
+#define SEND_PIN "AT+CPIN="
 
 void sendSms(unsigned char* message, unsigned char* phoneNumber);
 void getAllMessages();
 void setTextMode();
+void sendPin();
 void disableEcho();
 void enableEcho();
 void sendToMC35();
