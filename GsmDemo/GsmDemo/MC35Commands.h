@@ -9,6 +9,7 @@
 #define MC35COMMANDS_H_
 #define CTRL_Z 26
 #define ENTER "\r"
+#define SEND_PIN "AT+CPIN="
 #define GET_ALL_MESSAGES "AT+CMGL=ALL"
 #define DELETE_FIRST_INDEX "AT+CMGD=1"
 #define ENABLE_ECHO "ATE1"
@@ -21,6 +22,7 @@ void getAllMessages();
 void setTextMode();
 void disableEcho();
 void enableEcho();
-void sendToMC35();
-
+void initMC35();
+void sendPin(unsigned char* pin);
+unsigned char waitForMessageReady()
 #endif /* MC35COMMANDS_H_ */

@@ -9,6 +9,11 @@
 #include "MC35Commands.h"
 #include "usartDriver.h"
 
+void initMC35()
+{
+	setTextMode();
+}
+
 void setTextMode()
 {
 	sendString((unsigned char*)SET_TEXT_MODE);
@@ -47,6 +52,12 @@ unsigned char waitForMessageReady()
 	return 0;
 }
 
+void sendPin(unsigned char* pin)
+{
+	sendString(SEND_PIN);
+	sendString(pin);
+	sendString(ENTER);
+}
 void getAllMessages()
 {
 	sendString((unsigned char*)GET_ALL_MESSAGES);
