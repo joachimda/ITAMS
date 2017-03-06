@@ -8,7 +8,5 @@ main.c
 
 MC35Commands.c
 
-speakerDriver.c
-
 usartDriver.c
 

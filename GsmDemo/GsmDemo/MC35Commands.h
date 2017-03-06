@@ -5,12 +5,22 @@
  */ 
 
 #ifndef MC35COMMANDS_H_
-#define MC35COMMANDS_H_
 
-void sendSms(char* message, char* phoneNumber);
+#define MC35COMMANDS_H_
+#define CTRL_Z 26
+#define ENTER "\r"
+#define GET_ALL_MESSAGES "AT+CMGL=ALL"
+#define DELETE_FIRST_INDEX "AT+CMGD=1"
+#define ENABLE_ECHO "ATE1"
+#define DISABLE_ECHO "ATE0"
+#define SET_TEXT_MODE "AT+CMGF=1"
+#define SEND_MESSAGE "AT+CMGS="
+
+void sendSms(unsigned char* message, unsigned char* phoneNumber);
 void getAllMessages();
 void setTextMode();
 void disableEcho();
 void enableEcho();
+void sendToMC35();
 
 #endif /* MC35COMMANDS_H_ */

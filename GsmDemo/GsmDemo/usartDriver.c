@@ -11,7 +11,7 @@
 #include <util/delay.h>
 #define  XTAL 3686400
 
-void usartInit(char* data)
+void usartInit(unsigned char* data)
 {
 	for (int i = 0; i < DATA_SIZE;i++)
 	{
@@ -22,7 +22,7 @@ void usartInit(char* data)
 	UCSRB = ((1<<TXEN)|(1<<RXEN) | (1<<RXCIE));
 }
 
-void sendString(uint8_t* s)
+void sendString(unsigned char* s)
 {
 	// Repeat until zero-termination
 	while (*s != 0)
@@ -35,7 +35,7 @@ void sendString(uint8_t* s)
 }
 
 
-void sendByte(uint8_t u8Data)
+void sendByte(unsigned char u8Data)
 {
 	// Wait until last byte has been transmitted
 	while((UCSRA &(1<<UDRE)) == 0);

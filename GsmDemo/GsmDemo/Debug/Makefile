@@ -40,7 +40,6 @@ C_SRCS +=  \
 ../ledDriver.c \
 ../main.c \
 ../MC35Commands.c \
-../speakerDriver.c \
 ../usartDriver.c
 
 
@@ -54,28 +53,24 @@ OBJS +=  \
 ledDriver.o \
 main.o \
 MC35Commands.o \
-speakerDriver.o \
 usartDriver.o
 
 OBJS_AS_ARGS +=  \
 ledDriver.o \
 main.o \
 MC35Commands.o \
-speakerDriver.o \
 usartDriver.o
 
 C_DEPS +=  \
 ledDriver.d \
 main.d \
 MC35Commands.d \
-speakerDriver.d \
 usartDriver.d
 
 C_DEPS_AS_ARGS +=  \
 ledDriver.d \
 main.d \
 MC35Commands.d \
-speakerDriver.d \
 usartDriver.d
 
 OUTPUT_FILE_PATH +=GsmDemo.elf
@@ -92,8 +87,6 @@ LINKER_SCRIPT_DEP+=
 
 
 # AVR32/GNU C Compiler
-
-
 
 
 
