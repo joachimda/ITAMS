@@ -27,9 +27,10 @@ int main(void)
 	usartInit();
 	sei();
 	
-	while (1)
+	//setTextMode();
+	
+	while(1)
 	{
-		getAllMessages();
-		_delay_ms(2000);
+		_delay_ms(1000);	
 	}
 }

@@ -5,10 +5,9 @@
  */ 
 
 #ifndef MC35COMMANDS_H_
-
 #define MC35COMMANDS_H_
 #define CTRL_Z 26
-#define ENTER "\r"
+#define ENTER "\r\n"
 #define GET_ALL_MESSAGES "AT+CMGL=ALL"
 #define DELETE_FIRST_INDEX "AT+CMGD=1"
 #define ENABLE_ECHO "ATE1"
@@ -16,13 +15,12 @@
 #define SET_TEXT_MODE "AT+CMGF=1"
 #define SEND_MESSAGE "AT+CMGS="
 #define SEND_PIN "AT+CPIN="
-
+#define PIN "8195"
 void sendSms(unsigned char* message, unsigned char* phoneNumber);
 void getAllMessages();
 void setTextMode();
 void sendPin();
 void disableEcho();
 void enableEcho();
-void sendToMC35();
 
 #endif /* MC35COMMANDS_H_ */

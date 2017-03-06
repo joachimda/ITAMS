@@ -9,9 +9,10 @@
 #include "MC35Commands.h"
 #include "usartDriver.h"
 
-void sendPin()
+void sendPin(unsigned char* pin)
 {
 	sendString((unsigned char*)SEND_PIN);
+	sendString(pin);
 	sendString((unsigned char*)ENTER);
 }
 
