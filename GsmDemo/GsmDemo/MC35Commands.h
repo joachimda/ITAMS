@@ -16,6 +16,8 @@
 #define SEND_MESSAGE "AT+CMGS="
 #define SEND_PIN "AT+CPIN="
 #define PIN "8195"
+
+
 void sendSms(unsigned char* message, unsigned char* phoneNumber);
 void getAllMessages();
 void setTextMode();
