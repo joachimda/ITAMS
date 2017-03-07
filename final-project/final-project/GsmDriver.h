@@ -4,17 +4,22 @@
 class GsmDriver
 {
 	public:
+	// methods
 	GsmDriver();
 	~GsmDriver();
-	bool SendMessage(char* phonenumber, char* message);
-	char* GetMessage();
-	void SaveReceivedChar(char receivedChar);
+	bool sendMessage(unsigned char* phonenumber, unsigned char* message);
+	unsigned char* getMessage();
+	void saveReceivedChar(unsigned char receivedChar);
 
 	private:
-	bool SetTextMode();
-	bool EnableEcho();
-	bool DisableEcho();
-	bool WaitForMessageReady();
+	// methods
+	bool setTextMode();
+	bool enableEcho();
+	bool disableEcho();
+	bool waitForMessageReady();
+	// members
+	unsigned char* receivedData[100];
+	unsigned char index = 0;
 };
 
 #endif //__GSMDRIVER_H__
