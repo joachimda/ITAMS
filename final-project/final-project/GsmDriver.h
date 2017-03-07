@@ -9,12 +9,12 @@ class GsmDriver
 	bool SendMessage(char* phonenumber, char* message);
 	char* GetMessage();
 	
+
 	private:
 	bool SetTextMode();
 	bool EnableEcho();
 	bool DisableEcho();
 	bool WaitForMessageReady();
-
-}; //GsmDriver
+};
 
 #endif //__GSMDRIVER_H__
