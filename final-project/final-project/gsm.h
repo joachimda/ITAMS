@@ -13,10 +13,10 @@ class GsmDriver
 
 	private:
 	// methods
-	bool setTextMode();
-	bool enableEcho();
-	bool disableEcho();
-	bool waitForMessageReady();
+	void setTextMode();
+	void enableEcho();
+	void disableEcho();
+	void waitForMessageReady();
 	// members
 	unsigned char* receivedData[100];
 	unsigned char index = 0;

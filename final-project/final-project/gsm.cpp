@@ -21,22 +21,23 @@ unsigned char* GsmDriver::getMessage()
 	return NULL;
 }
 
-bool GsmDriver::setTextMode()
+void GsmDriver::setTextMode()
+{
+	sendString((unsigned char*)SET_TEXT_MODE);
+	sendString((unsigned char*)ENTER);
+}
+
+void GsmDriver::enableEcho()
 {
 	return false;
 }
 
-bool GsmDriver::enableEcho()
+void GsmDriver::disableEcho()
 {
 	return false;
 }
 
-bool GsmDriver::disableEcho()
-{
-	return false;
-}
-
-bool GsmDriver::waitForMessageReady()
+void GsmDriver::waitForMessageReady()
 {
 	return false;
 }
