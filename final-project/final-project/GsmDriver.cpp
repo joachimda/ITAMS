@@ -10,32 +10,32 @@ GsmDriver::~GsmDriver()
 
 }
 
-bool GsmDriver::SendMessage(char* phonenumber, char* message)
+bool GsmDriver::sendMessage(unsigned char* phonenumber, unsigned char* message)
 {
 	return false;
 }
 
-char* GsmDriver::GetMessage()
+unsigned char* GsmDriver::getMessage()
 {
 	return NULL;
 }
 
-bool GsmDriver::SetTextMode()
+bool GsmDriver::setTextMode()
 {
 	return false;
 }
 
-bool GsmDriver::EnableEcho()
+bool GsmDriver::enableEcho()
 {
 	return false;
 }
 
-bool GsmDriver::DisableEcho()
+bool GsmDriver::disableEcho()
 {
 	return false;
 }
 
-bool GsmDriver::WaitForMessageReady()
+bool GsmDriver::waitForMessageReady()
 {
 	return false;
 }
