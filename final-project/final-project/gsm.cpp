@@ -1,9 +1,11 @@
 #include "gsm.h"
 #include "usart.h"
+#include "commands.h"
+#include <avr/io.h>
 
 GsmDriver::GsmDriver()
 {
-
+	index_ = 0;
 }
 
 GsmDriver::~GsmDriver()
