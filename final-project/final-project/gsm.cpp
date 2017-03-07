@@ -21,6 +21,12 @@ unsigned char* GsmDriver::getMessage()
 	return NULL;
 }
 
+void GsmDriver::getAllMessages()
+{
+	sendString((unsigned char*)GET_ALL_MESSAGES);
+	sendString((unsigned char*)ENTER);
+}
+
 void GsmDriver::setTextMode()
 {
 	sendString((unsigned char*)SET_TEXT_MODE);
