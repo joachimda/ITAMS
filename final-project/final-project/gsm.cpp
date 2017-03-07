@@ -10,7 +10,6 @@ GsmDriver::GsmDriver()
 
 GsmDriver::~GsmDriver()
 {
-
 }
 
 void GsmDriver::sendMessage(unsigned char* phonenumber, unsigned char* message)
