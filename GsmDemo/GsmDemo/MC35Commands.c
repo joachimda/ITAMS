@@ -4,79 +4,62 @@
 *  Author: Joachim
 */
 
-#define CTRL_Z 26
+#define F_CPU 3686400
 #include <util/delay.h>
 #include "MC35Commands.h"
+#include "usartDriver.h"
 
-void setTextMode(char * callback)
+void initMC35()
 {
-	unsigned int i = 0;
-
-	sendString("AT+CMGF=1");
-	sendString("\r\n");
-
-	while(charReady())
-	{
-		_delay_ms(50);
-		char test = readChar();
-		callback[i] = test;
-		i++;
-	}
+	setTextMode();
 }
 
-void enableEcho(char* callback)
+void setTextMode()
 {
-	unsigned int i = 0;
-
-	sendString("ATE1\r\n");
-	while(charReady())
-	{
-		_delay_ms(50);
-		char test = readChar();
-		callback[i] = test;
-		i++;
-	}
+	sendString((unsigned char*)SET_TEXT_MODE);
+	sendString((unsigned char*)ENTER);
 }
 
-void disableEcho(char* callback)
+void enableEcho()
 {
-	unsigned int i = 0;
-
-	sendString("ATE0\r\n");
-	while(charReady())
-	{
-		callback[i] = readChar();
-		i++;
-	}
+	sendString((unsigned char*)ENABLE_ECHO);
+	sendString((unsigned char*)ENTER);
 }
 
-void sendSms(char* message, char* phoneNumber, char* callback)
+void disableEcho()
 {
-	unsigned int i = 0;
-	//setTextMode(TODO);
-	sendString("AT+CMGS=");
+	sendString((unsigned char*)DISABLE_ECHO);
+	sendString((unsigned char*)ENTER);
+}
+
+void sendSms(unsigned char* message, unsigned char* phoneNumber)
+{
+	setTextMode();
+	sendString((unsigned char*)SEND_MESSAGE);
 	sendString(phoneNumber);
-	sendString("\r\n");
+	sendString((unsigned char*)ENTER);
 	sendString(message);
-	//flushRxBuffer();
-	sendChar(CTRL_Z);
-	
-	while(charReady())
-	{
-		_delay_ms(50);
-		callback[i] = readChar();
-		i++;
-	}
+	sendByte(CTRL_Z);	
 }
 
-void getMessages(char* response)
+unsigned char waitForMessageReady()
 {
-	sendString("AT+CMGL=ALL\r\n");
-	unsigned int i = 0;
-	while(charReady())
+	for (unsigned int i = 0; i < DATA_SIZE; i++)
 	{
-		_delay_ms(100);
-		response[i] = readChar();
-		i++;
+		if(data[i] == '>')
+		return 1;
 	}
+	return 0;
+}
+
+void sendPin(unsigned char* pin)
+{
+	sendString(SEND_PIN);
+	sendString(pin);
+	sendString(ENTER);
+}
+void getAllMessages()
+{
+	sendString((unsigned char*)GET_ALL_MESSAGES);
+	sendString((unsigned char*)ENTER);	
 }

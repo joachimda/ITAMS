@@ -172,16 +172,10 @@
     <Compile Include="MC35Commands.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="speakerDriver.c">
+    <Compile Include="usartDriver.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="speakerDriver.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="uartDriver.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="uartDriver.h">
+    <Compile Include="usartDriver.h">
       <SubType>compile</SubType>
     </Compile>
   </ItemGroup>
