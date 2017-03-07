@@ -11,7 +11,7 @@ GsmDriver::~GsmDriver()
 
 }
 
-bool GsmDriver::sendMessage(unsigned char* phonenumber, unsigned char* message)
+void GsmDriver::sendMessage(unsigned char* phonenumber, unsigned char* message)
 {
 	setTextMode();
 	sendString((unsigned char*)SEND_MESSAGE);
