@@ -10,6 +10,7 @@ class GsmDriver
 	bool sendMessage(unsigned char* phonenumber, unsigned char* message);
 	unsigned char* getMessage();
 	void saveReceivedChar(unsigned char receivedChar);
+	void getAllMessages();
 
 	private:
 	// methods
