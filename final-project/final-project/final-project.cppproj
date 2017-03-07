@@ -151,13 +151,22 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="GsmDriver.cpp">
+    <Compile Include="commands.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="GsmDriver.h">
+    <Compile Include="gsm.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="gsm.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="main.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="usart.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="usart.h">
       <SubType>compile</SubType>
     </Compile>
   </ItemGroup>
