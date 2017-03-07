@@ -15,6 +15,5 @@ int main(void)
 
 ISR(USART_RXC_vect)
 {
-	// something!
-	gsm.EnableEcho();
+	gsm.saveReceivedChar(UDR);
 }

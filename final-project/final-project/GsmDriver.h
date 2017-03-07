@@ -8,7 +8,7 @@ class GsmDriver
 	~GsmDriver();
 	bool SendMessage(char* phonenumber, char* message);
 	char* GetMessage();
-	
+	void SaveReceivedChar(char receivedChar);
 
 	private:
 	bool SetTextMode();
