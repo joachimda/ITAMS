@@ -2,7 +2,7 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
 
-#include "GsmDriver.h"
+#include "gsm.h"
 
 GsmDriver gsm = new GsmDriver();
 
