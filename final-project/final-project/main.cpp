@@ -4,7 +4,7 @@
 
 #include "gsm.h"
 
-GsmDriver gsm = new GsmDriver();
+GsmDriver* gsm = new GsmDriver();
 
 int main(void)
 {
