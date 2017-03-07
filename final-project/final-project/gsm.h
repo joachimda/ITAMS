@@ -16,6 +16,7 @@ class GsmDriver
 	void enableEcho();
 	void disableEcho();
 	unsigned char waitForMessageReady();
+	void clearDataBuffer();
 
 	unsigned char* receivedData_[100];
 	int index_;

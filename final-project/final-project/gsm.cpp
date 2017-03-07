@@ -6,6 +6,8 @@
 GsmDriver::GsmDriver()
 {
 	index_ = 0;
+
+	clearDataBuffer();
 }
 
 GsmDriver::~GsmDriver()
@@ -28,11 +30,6 @@ void GsmDriver::getMessage()
 
 void saveReceivedChar(unsigned char receivedChar)
 {
-	for (unsigned int i = 0; i<DATA_SIZE; i++)
-	{
-		data[i] = 0;
-	}
-
 	data[index_] = UDR;
 	index_++;
 }
@@ -69,4 +66,12 @@ unsigned char GsmDriver::waitForMessageReady()
 		return 1;
 	}
 	return 0;
+}
+
+void GsmDriver::clearDataBuffer()
+{
+	for (unsigned int i = 0; i<DATA_SIZE; i++)
+	{
+		data[i] = 0;
+	}
 }
