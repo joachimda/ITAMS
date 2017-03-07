@@ -8,16 +8,29 @@
 #define  F_CPU 3686400
 #include <util/delay.h>
 #include <avr/interrupt.h>
-
 #include "usartDriver.h"
 #include "ledDriver.h"
 #include "MC35Commands.h"
 
 volatile unsigned int index = 0;
 
+void clearDataArray(unsigned char* dataArray)
+{
+	for (unsigned int i = 0; i< DATA_SIZE;i++)
+	{
+		dataArray[i] = 0;
+	}
+}
+
 ISR(USART_RXC_vect)
+<<<<<<< HEAD
 {	
 	unsigned char value = UDR;
+=======
+{
+	clearDataArray(data);
+	value = UDR;
+>>>>>>> 2b63572f771842cb97e36b3b4b59c81017f20511
 	data[index] = value;
 	index++;
 }
