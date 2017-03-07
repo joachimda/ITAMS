@@ -40,15 +40,22 @@ void GsmDriver::setTextMode()
 
 void GsmDriver::enableEcho()
 {
-	return false;
+	sendString((unsigned char*)ENABLE_ECHO);
+	sendString((unsigned char*)ENTER);
 }
 
 void GsmDriver::disableEcho()
 {
-	return false;
+	sendString((unsigned char*)DISABLE_ECHO);
+	sendString((unsigned char*)ENTER);
 }
 
 void GsmDriver::waitForMessageReady()
 {
-	return false;
+	for (unsigned int i = 0; i < DATA_SIZE; i++)
+	{
+		if(data[i] == '>')
+		return 1;
+	}
+	return 0;
 }
