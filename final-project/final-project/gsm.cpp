@@ -13,7 +13,12 @@ GsmDriver::~GsmDriver()
 
 bool GsmDriver::sendMessage(unsigned char* phonenumber, unsigned char* message)
 {
-	return false;
+	setTextMode();
+	sendString((unsigned char*)SEND_MESSAGE);
+	sendString(phonenumber);
+	sendString((unsigned char*)ENTER);
+	sendString(message);
+	sendByte(CTRL_Z);
 }
 
 unsigned char* GsmDriver::getMessage()
