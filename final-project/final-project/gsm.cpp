@@ -23,9 +23,19 @@ void GsmDriver::sendMessage(unsigned char* phonenumber, unsigned char* message)
 	sendByte(CTRL_Z);
 }
 
-unsigned char* GsmDriver::getMessage()
+void GsmDriver::getMessage()
 {
-	return NULL;
+}
+
+void saveReceivedChar(unsigned char receivedChar)
+{
+	for (unsigned int i = 0; i<DATA_SIZE; i++)
+	{
+		data[i] = 0;
+	}
+
+	data[index_] = UDR;
+	index_++;
 }
 
 void GsmDriver::getAllMessages()
