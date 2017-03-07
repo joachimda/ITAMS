@@ -52,7 +52,7 @@ void GsmDriver::disableEcho()
 	sendString((unsigned char*)ENTER);
 }
 
-void GsmDriver::waitForMessageReady()
+unsigned char GsmDriver::waitForMessageReady()
 {
 	for (unsigned int i = 0; i < DATA_SIZE; i++)
 	{
