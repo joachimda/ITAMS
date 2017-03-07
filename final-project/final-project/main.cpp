@@ -15,5 +15,5 @@ int main(void)
 
 ISR(USART_RXC_vect)
 {
-	gsm.saveReceivedChar(UDR);
+	gsm->saveReceivedChar(UDR);
 }
