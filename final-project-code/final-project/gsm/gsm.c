@@ -5,7 +5,7 @@
 
 void gsmInit()
 {
-	uartInit(9600, 8);
+	uartInit();
 
 	gsmDisableEcho();
 	gsmSetTextMode();
@@ -13,9 +13,6 @@ void gsmInit()
 
 void gsmSendSms(unsigned char* phoneNumber, unsigned char* message)
 {
-	//unsigned char temp[100] = {0};
-	//unsigned char counter = 0;
-
 	uartSendString((unsigned char*)SEND_MESSAGE);
 	uartSendString((unsigned char*)phoneNumber);
 	uartSendString((unsigned char*)CR);

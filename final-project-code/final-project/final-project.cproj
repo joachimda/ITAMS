@@ -148,9 +148,6 @@
     <Compile Include="uart\uart.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="uart\uartwork.h">
-      <SubType>compile</SubType>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="gsm" />

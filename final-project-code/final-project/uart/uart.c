@@ -2,12 +2,9 @@
 #define  XTAL 3686400
 #include <avr/interrupt.h>
 #include <util/delay.h>
-#include "uartwork.h"
 #include <avr/io.h>
 #include <stdlib.h>
-
-#define USART_BAUDRATE 9600
-#define BAUD_PRESCALE (((F_CPU / (USART_BAUDRATE * 16UL))) - 1)
+#include "uart.h"
 
 volatile unsigned char value = 0;
 
@@ -34,7 +31,7 @@ unsigned char uartCharReady()
 	return 1;
 }
 
-char uartReadChar()
+unsigned char uartReadChar()
 {
 	return value;
 }
@@ -42,7 +39,7 @@ char uartReadChar()
 void uartSendByte(unsigned char u8Data)
 {
 	// Wait until last byte has been transmitted
-	while((UCSRA &(1<<UDRE)) == 0);
+	while( (UCSRA & ( 1 << UDRE) ) == 0);
 
 	// Transmit data
 	UDR = u8Data;

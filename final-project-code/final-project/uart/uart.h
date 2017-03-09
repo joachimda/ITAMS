@@ -7,12 +7,15 @@
 #ifndef UART_H_
 #define UART_H_
 
+#define USART_BAUDRATE 9600
+#define BAUD_PRESCALE (((F_CPU / (USART_BAUDRATE * 16UL))) - 1)
+
 void uartInit();
 unsigned char uartCharReady();
-char uartReadChar();
-char uartReadCharWithTimeout(int timeout);
-void uartSendByte(unsigned char* Ch);
-void uartSendString(char* String);
+unsigned char uartReadChar();
+unsigned char uartReadCharWithTimeout(int timeout);
+void uartSendByte(unsigned char charToSend);
+void uartSendString(unsigned char* string);
 void uartSendInteger(int number);
 void uartFlush();
 /**************************************/
