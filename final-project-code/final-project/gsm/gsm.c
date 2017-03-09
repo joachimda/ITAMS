@@ -20,7 +20,7 @@ void gsmSendSms(unsigned char* phoneNumber, unsigned char* message)
 	uartSendString((unsigned char*)phoneNumber);
 	uartSendString((unsigned char*)ENTER);
 
-	while(uartReadChar() != '>') {}
+	while(uartReadChar() != '>') { }
 	_delay_ms(200);
 
 	uartSendString((unsigned char*)message);
@@ -108,7 +108,7 @@ void gsmWaitForResponse()
 		}
 	}
 
-	_delay_ms(250);
+	_delay_ms(200);
 }
 
 void gsmSetTextMode()

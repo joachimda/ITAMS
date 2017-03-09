@@ -11,16 +11,10 @@ int main(void)
 	unsigned char prefix[100] = {0};
 	unsigned char message[100] = {0};
 
-	while(1)
-	{
-		receivedChar = uartReadChar();
+	_delay_ms(2000);
 
-		if (receivedChar == '+')
-		{
-			while(uartReadChar() != ',') {}
-			index = uartReadChar();
-			gsmReadNewlines();
-			gsmReadSms(index, prefix, message);
-		}
-	}
+	gsmSendSms("24464105","ThIs Is A tEsT");
+
+	unsigned char stopHere = 0;
+
 }
