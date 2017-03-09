@@ -13,15 +13,16 @@ void gsmInit()
 
 void gsmSendSms(unsigned char* phoneNumber, unsigned char* message)
 {
-	unsigned char temp[100] = {0};
-	unsigned char counter = 0;
+	//unsigned char temp[100] = {0};
+	//unsigned char counter = 0;
 
 	uartSendString((unsigned char*)SEND_MESSAGE);
 	uartSendString((unsigned char*)phoneNumber);
-	uartSendString((unsigned char*)ENTER);
+	uartSendString((unsigned char*)CR);
 
-	while(uartReadChar() != '>') { }
+	//while(uartReadChar() != '>') { }
 	_delay_ms(200);
+	uartReadChar();
 
 	uartSendString((unsigned char*)message);
 	uartSendString((unsigned char*)CTRL_Z);
@@ -72,7 +73,7 @@ void gsmDeleteSms(unsigned char index)
 
 void gsmWaitForResponse()
 {
-	char* error = "ERROR";
+	unsigned char* error = "ERROR";
 	unsigned char pointer = 0;
 	unsigned char received = 0;
 	unsigned char previous = 0;
@@ -114,14 +115,14 @@ void gsmWaitForResponse()
 void gsmSetTextMode()
 {
 	uartSendString((unsigned char*)SET_TEXT_MODE);
-	uartSendString((unsigned char*)ENTER);
+	uartSendString((unsigned char*)CR);
 	gsmWaitForResponse();
 }
 
 void gsmDisableEcho()
 {
 	uartSendString((unsigned char*)DISABLE_ECHO);
-	uartSendString((unsigned char*)ENTER);
+	uartSendString((unsigned char*)CR);
 	gsmWaitForResponse();
 }
 

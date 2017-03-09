@@ -11,8 +11,6 @@ int main(void)
 	unsigned char prefix[100] = {0};
 	unsigned char message[100] = {0};
 
-	_delay_ms(2000);
-
 	gsmSendSms("24464105","ThIs Is A tEsT");
 
 	unsigned char stopHere = 0;
