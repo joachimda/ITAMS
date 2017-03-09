@@ -1,8 +1,3 @@
-/**************************************
-* "uart.h":                           *
-* Header file for Mega32 UART driver. *
-* Henning Hargaard, 1/11 2011         *
-***************************************/
 
 #ifndef UART_H_
 #define UART_H_
