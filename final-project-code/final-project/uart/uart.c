@@ -122,7 +122,7 @@ void uartSendString(char* String)
 	while (*String != 0)
 	{
 		// Send the character pointed to by "String"
-		SendChar(*String);
+		uartSendChar(*String);
 		// Advance the pointer one step
 		String++;
 	}
@@ -141,13 +141,16 @@ void uartSendInteger(int Number)
 	// Convert the integer to an ASCII string (array), radix = 10
 	itoa(Number, array, 10);
 	// - then send the string
-	SendString(array);
+	uartSendString(array);
 }
 
 void uartFlush()
 {
 	unsigned char dummy;
-	while ( UCSRA & (1<<RXC) ) dummy = UDR;
+	while ( UCSRA & (1<<RXC) )
+	{
+		dummy = UDR;
+	}
 }
 
 /**************************************************/
