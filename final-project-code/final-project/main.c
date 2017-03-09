@@ -14,5 +14,4 @@ int main(void)
 	gsmSendSms("24464105","ThIs Is A tEsT");
 
 	unsigned char stopHere = 0;
-
 }
