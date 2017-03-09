@@ -13,7 +13,6 @@
 #include "MC35Commands.h"
 
 volatile unsigned int index = 0;
-volatile unsigned char value;
 
 void clearDataArray(unsigned char* dataArray)
 {
@@ -24,9 +23,14 @@ void clearDataArray(unsigned char* dataArray)
 }
 
 ISR(USART_RXC_vect)
+<<<<<<< HEAD
+{	
+	unsigned char value = UDR;
+=======
 {
 	clearDataArray(data);
 	value = UDR;
+>>>>>>> 2b63572f771842cb97e36b3b4b59c81017f20511
 	data[index] = value;
 	index++;
 }
@@ -36,9 +40,9 @@ int main(void)
 	usartInit();
 	sei();
 	
-	while (1)
+	while(1)
 	{
-		getAllMessages();
-		_delay_ms(2000);
+		//DO STUFF	
+		_delay_ms(1000);	
 	}
 }

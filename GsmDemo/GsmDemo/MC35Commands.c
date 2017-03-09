@@ -9,9 +9,17 @@
 #include "MC35Commands.h"
 #include "usartDriver.h"
 
+<<<<<<< HEAD
+void sendPin(unsigned char* pin)
+{
+	sendString((unsigned char*)SEND_PIN);
+	sendString(pin);
+	sendString((unsigned char*)ENTER);
+=======
 void initMC35()
 {
 	setTextMode();
+>>>>>>> 2b63572f771842cb97e36b3b4b59c81017f20511
 }
 
 void setTextMode()
