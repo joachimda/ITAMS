@@ -4,8 +4,25 @@
 
 int main(void)
 {
-	while(1) // Repeat indefinitely
+	uartInit(9600, 8);
+	gsmInit();
+	
+	unsigned char receivedChar = 0;
+	unsigned char index = 0;
+	unsigned char prefix[100] = {0};
+	unsigned char message[100] = {0};
+
+	while(1)
 	{
-		gsmInit();
+		receivedChar = uartReadChar();
+
+		if (receivedChar == '+')
+		{
+			while(uartReadChar() != ',') {}
+			index = uartReadChar();
+			uartReadChar();
+			uartReadChar();
+			gsmReadSms(index, prefix, message);
+		}
 	}
 }
