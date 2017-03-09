@@ -4,7 +4,6 @@
 
 int main(void)
 {
-	uartInit(9600, 8);
 	gsmInit();
 	
 	unsigned char receivedChar = 0;
@@ -20,8 +19,7 @@ int main(void)
 		{
 			while(uartReadChar() != ',') {}
 			index = uartReadChar();
-			uartReadChar();
-			uartReadChar();
+			gsmReadNewlines();
 			gsmReadSms(index, prefix, message);
 		}
 	}

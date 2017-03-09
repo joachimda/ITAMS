@@ -5,6 +5,8 @@
 
 void gsmInit()
 {
+	uartInit(9600, 8);
+
 	gsmDisableEcho();
 	gsmSetTextMode();
 }
