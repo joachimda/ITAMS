@@ -2,26 +2,17 @@
 #include <avr/io.h>
 #include <util/delay.h>
 #include <avr/interrupt.h>
-#include "usart/usart.h"
-#include "gsm/gsm.h"
-
-void ledInit(void){
-	//outputs, all off
-	DDRB = 0xFF;
-	PORTB = 0xFF;
-}
+#include "uart/uart.h"
 
 int main(void)
 {
-	usartInit();  // Initialise USART
+	uartInit(9600, 8);
 	sei();        // enable all interrupts
-	ledInit();    // init LEDs for testing
-	value = 'A';  //0x41;
-	PORTB = ~value; // 0 = LED on
+	char value = 'B';  //0x41;
 	
 	while(1) // Repeat indefinitely
 	{
-		usartSendByte(value);  // send value
+		uartSendChar(value);  // send value
 		_delay_ms(250);
 		// delay just to stop Hyperterminal screen cluttering up
 	}
