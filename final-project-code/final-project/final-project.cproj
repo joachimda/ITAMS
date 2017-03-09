@@ -142,13 +142,10 @@
     <Compile Include="main.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="uart\uart.c">
-      <SubType>compile</SubType>
-    </Compile>
     <Compile Include="uart\uart.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="uart\uartwork.c">
+    <Compile Include="uart\uart.c">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="uart\uartwork.h">

@@ -15,10 +15,10 @@ volatile char data[DATA_SIZE];
 
 void uartInit(unsigned long BaudRate, unsigned char DataBit);
 char readChar();
-void sendString(unsigned char* s);
-void sendByte(unsigned char chr);
+void uartSendString(unsigned char* s);
+void uartSendByte(unsigned char chr);
 void SendInteger(int num);
-void flushRxBuffer();
+void uartFlush();
 
 
 #endif /* UARTDRIVER_H_ */

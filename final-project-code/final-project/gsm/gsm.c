@@ -20,7 +20,7 @@ void gsmSendSms(unsigned char* phoneNumber, unsigned char* message)
 	uartSendString((unsigned char*)phoneNumber);
 	uartSendString((unsigned char*)CR);
 
-	//while(uartReadChar() != '>') { }
+	while(uartReadChar() != '>') { }
 	_delay_ms(200);
 	uartReadChar();
 
@@ -32,7 +32,7 @@ void gsmSendSms(unsigned char* phoneNumber, unsigned char* message)
 void gsmReadSms(unsigned char index, unsigned char* prefix, unsigned char* message)
 {
 	uartSendString((unsigned char*)READ_MESSAGE);
-	uartSendChar(index);
+	uartSendByte(index);
 	uartSendString((unsigned char*)ENTER);
 
 	gsmReadLine(prefix, MAX_SIZE);

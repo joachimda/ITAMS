@@ -7,13 +7,13 @@
 #ifndef UART_H_
 #define UART_H_
 
-void uartInit(unsigned long BaudRate, unsigned char DataBit);
+void uartInit();
 unsigned char uartCharReady();
 char uartReadChar();
 char uartReadCharWithTimeout(int timeout);
-void uartSendChar(char Ch);
+void uartSendByte(unsigned char* Ch);
 void uartSendString(char* String);
-void uartSendInteger(int Number);
+void uartSendInteger(int number);
 void uartFlush();
 /**************************************/
 

@@ -1,156 +1,81 @@
-/**************************************************
-* "uart.c":                                       *
-* Implementation file for the Mega32 UART driver. *
-*  STK500 setup:                                  *
-*  Header "RS232 spare" connected to RXD/TXD:     *
-*  RXD = PORTD, bit0                              *
-*  TXD = PORTD, bit1                              *
-*                                                 *
-* Henning Hargaard, 1/11 2011                     *
-***************************************************/
+#define  F_CPU 3686400
+#define  XTAL 3686400
+#include <avr/interrupt.h>
+#include <util/delay.h>
+#include "uartwork.h"
 #include <avr/io.h>
 #include <stdlib.h>
-#define F_CPU 3686400
-#include <util/delay.h>
-#include "uart.h"
 
-// Constants
-#define XTAL 3686400
+#define USART_BAUDRATE 9600
+#define BAUD_PRESCALE (((F_CPU / (USART_BAUDRATE * 16UL))) - 1)
 
-/*************************************************************************
-USART initialization.
-Asynchronous mode.
-RX and TX enabled.
-No interrupts enabled.
-Number of Stop Bits = 1.
-No Parity.
-Baud rate = Parameter.
-Data bits = Parameter.
-Parameters:
-BaudRate: Wanted Baud Rate.
-Databits: Wanted number of Data Bits.
-*************************************************************************/
-void uartInit(unsigned long BaudRate, unsigned char DataBit)
+volatile unsigned char value = 0;
+
+ISR(USART_RXC_vect)
 {
-	unsigned int TempUBRR;
-
-	if ((BaudRate >= 110) && (BaudRate <= 115200) && (DataBit >=5) && (DataBit <= 8))
-	{
-		// "Normal" clock, no multiprocessor mode (= default)
-		UCSRA = 0b00100000;
-		// No interrupts enabled
-		// Receiver enabled
-		// Transmitter enabled
-		// No 9 bit operation
-		UCSRB = 0b00011000;
-		// Asynchronous operation, 1 stop bit, no parity
-		// Bit7 always has to be 1
-		// Bit 2 and bit 1 controls the number of databits
-		UCSRC = 0b10000000 | (DataBit-5)<<1;
-		// Set Baud Rate according to the parameter BaudRate:
-		// Select Baud Rate (first store "UBRRH--UBRRL" in local 16-bit variable,
-		//                   then write the two 8-bit registers separately):
-		TempUBRR = XTAL/(16*BaudRate) - 1;
-		// Write upper part of UBRR
-		UBRRH = TempUBRR >> 8;
-		// Write lower part of UBRR
-		UBRRL = TempUBRR;
-	}
+	value = UDR;
 }
 
-/*************************************************************************
-Returns 0 (FALSE), if the UART has NOT received a new character.
-Returns value <> 0 (TRUE), if the UART HAS received a new character.
-*************************************************************************/
+void uartInit()
+{
+	sei();
+	UBRRL = BAUD_PRESCALE;
+	UBRRH = (BAUD_PRESCALE >> 8);
+	UCSRB = ((1<<TXEN)|(1<<RXEN) | (1<<RXCIE));
+}
+
 unsigned char uartCharReady()
 {
-	return UCSRA & (1<<RXC);
-}
-
-/*************************************************************************
-Awaits new character received.
-Then this character is returned.
-*************************************************************************/
-char uartReadChar()
-{
-	// Wait for new character received
-	while ( (UCSRA & (1<<7)) == 0 )
-	{}
-	// Then return it
-	return UDR;
-}
-
-char ReadCharWithTimeout(int timeout)
-{
-	int counter = 0;
-	while ((UCSRA & (1<<RXC)) == 0)
+	if (value == 0)
 	{
-		if (counter < timeout) {
-			counter++;
-			} else {
-			return 0;
-		}
-		_delay_ms(1);
+		return 0;
 	}
 	
-	return UDR;
+	return 1;
 }
 
-/*************************************************************************
-Awaits transmitter-register ready.
-Then it send the character.
-Parameter :
-Ch : Character for sending.
-*************************************************************************/
-void uartSendChar(char Ch)
+char uartReadChar()
 {
-	// Wait for transmitter register empty (ready for new character)
-	while ( (UCSRA & (1<<5)) == 0 )
-	{}
-	// Then send the character
-	UDR = Ch;
+	return value;
 }
 
-/*************************************************************************
-Sends 0-terminated string.
-Parameter:
-String: Pointer to the string.
-*************************************************************************/
-void uartSendString(char* String)
+void uartSendByte(unsigned char u8Data)
 {
-	// Repeat untill zero-termination
-	while (*String != 0)
+	// Wait until last byte has been transmitted
+	while((UCSRA &(1<<UDRE)) == 0);
+
+	// Transmit data
+	UDR = u8Data;
+}
+
+void uartSendString(unsigned char* s)
+{
+	// Repeat until zero-termination
+	while (*s != 0)
 	{
-		// Send the character pointed to by "String"
-		uartSendChar(*String);
+		// Send the character pointed to by "s"
+		uartSendByte(*s);
 		// Advance the pointer one step
-		String++;
+		s++;
 	}
 }
 
-/*************************************************************************
-Converts the integer "Number" to an ASCII string - and then sends this
-string using the USART.
-Makes use of the C standard library <stdlib.h>.
-Parameter:
-Number: The integer to be converted and send.
-*************************************************************************/
-void uartSendInteger(int Number)
+void uartSendInteger(int num)
 {
 	char array[7];
-	// Convert the integer to an ASCII string (array), radix = 10
-	itoa(Number, array, 10);
+	// Convert the integer till an ASCII string (array), radix = 10
+	itoa(num, array, 10);
 	// - then send the string
 	uartSendString(array);
 }
 
+/*************************************************************************
+Flushed the RX buffer by toggling the receiver bit 4 in UCSRB
+Parameters:
+none
+*************************************************************************/
 void uartFlush()
 {
-	unsigned char dummy;
-	while ( UCSRA & (1<<RXC) )
-	{
-		dummy = UDR;
-	}
+	UCSRB ^= (-0^UCSRB) & (1 << 4);
+	UCSRB ^= (-1^UCSRB) & (1 << 4);
 }
-
-/**************************************************/
