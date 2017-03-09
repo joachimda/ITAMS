@@ -7,15 +7,29 @@
 #include "uart.h"
 
 volatile unsigned char value = 0;
+volatile unsigned int index = 0;
+volatile char test[50];
 
 ISR(USART_RXC_vect)
 {
-	value = UDR;
+	char value1;
+	value1 = UDR;
+
+	test[index] = value1;
+	index++;
+}
+
+void clear()
+{
+	for (unsigned int i = 0; i< 50; i++)
+	{
+		test[i] = 0;
+	}
+	index = 0;
 }
 
 void uartInit()
 {
-	sei();
 	UBRRL = BAUD_PRESCALE;
 	UBRRH = (BAUD_PRESCALE >> 8);
 	UCSRB = ((1<<TXEN)|(1<<RXEN) | (1<<RXCIE));

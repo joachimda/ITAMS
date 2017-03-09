@@ -3,7 +3,7 @@
 
 #define CTRL_Z 26
 #define MAX_SIZE 100
-#define ENTER "\r"
+#define ENTER "\r\n"
 #define GET_ALL_MESSAGES "AT+CMGL=ALL"
 #define DELETE_INDEX "AT+CMGD="
 #define ENABLE_ECHO "ATE1"
@@ -12,8 +12,6 @@
 #define SEND_MESSAGE "AT+CMGS="
 #define READ_MESSAGE "AT+CMGR="
 #define SEND_PIN "AT+CPIN="
-#define CR 13
-#define LF 10
 
 void gsmInit();
 void gsmSendSms(unsigned char* phoneNumber, unsigned char* message);

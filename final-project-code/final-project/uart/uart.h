@@ -2,9 +2,10 @@
 #ifndef UART_H_
 #define UART_H_
 
-#define USART_BAUDRATE 9600
+#define USART_BAUDRATE 38400
 #define BAUD_PRESCALE (((F_CPU / (USART_BAUDRATE * 16UL))) - 1)
 
+void clear();
 void uartInit();
 unsigned char uartCharReady();
 unsigned char uartReadChar();

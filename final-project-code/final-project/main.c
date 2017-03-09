@@ -2,13 +2,15 @@
 #include <util/delay.h>
 #include <avr/io.h>
 #include "gsm/gsm.h"
+#include <avr/interrupt.h>
 
 int main(void)
 {
-	unsigned char receivedChar = 0;
-	unsigned char index = 0;
-	unsigned char prefix[100] = {0};
-	unsigned char message[100] = {0};
+	//unsigned char receivedChar;
+	//unsigned char prefix[100];
+	unsigned char* message[100];
+
+	sei();
 
 	gsmInit();
 
