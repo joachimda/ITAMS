@@ -1,9 +1,9 @@
-#include <avr/io.h>
-#include "gsm.h"
-#include "usart.h"
+#define F_CPU 3686400
 #include <avr/io.h>
 #include <util/delay.h>
 #include <avr/interrupt.h>
+#include "usart/usart.h"
+#include "gsm/gsm.h"
 
 void ledInit(void){
 	//outputs, all off
