@@ -1,6 +1,16 @@
 #include "gsm.h"
 
-void sendSms(unsigned char* phoneNumber, unsigned char* message)
+void gsmInit()
 {
-
+	gsmSetTextMode();
+	gsmDisableEcho();
 }
+
+void gsmSetTextMode()
+{}
+
+void gsmDisableEcho()
+{}
+
+void gsmSendSms(unsigned char* phoneNumber, unsigned char* message)
+{}

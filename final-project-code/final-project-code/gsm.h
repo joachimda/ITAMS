@@ -1,6 +1,10 @@
 #ifndef GSM_H_
 #define GSM_H_
 
-void sendSms(unsigned char* phoneNumber, unsigned char* message);
+void gsmInit();
+void gsmSendSms(unsigned char* phoneNumber, unsigned char* message);
+
+void gsmSetTextMode();
+void gsmDisableEcho();
 
 #endif /* GSM_H_ */
