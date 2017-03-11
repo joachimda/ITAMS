@@ -2,21 +2,20 @@
 #include <util/delay.h>
 #include <avr/io.h>
 #include "gsm/gsm.h"
+#include "uart/uart.h"
 #include <avr/interrupt.h>
 
 int main(void)
 {
-	//unsigned char receivedChar;
-	//unsigned char prefix[100];
-	unsigned char* message[100];
-
 	sei();
-
 	gsmInit();
+	uartInit();
 
-	gsmSendSms("24464105","ThIs Is A tEsT");
+	gsmDeleteSms();
 
-	unsigned char stopHere = 0;
+	gsmCleanResponse();
 
-	while(1) { }
+	gsmSendSms("50128894","More test");
+	volatile unsigned char stopHere = 0;
+	//while(1) { }
 }

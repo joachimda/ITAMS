@@ -8,7 +8,7 @@
 
 volatile unsigned char value = 0;
 volatile unsigned int index = 0;
-volatile char test[50];
+char test[50];
 
 ISR(USART_RXC_vect)
 {
