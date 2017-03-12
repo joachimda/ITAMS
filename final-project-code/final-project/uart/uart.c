@@ -8,22 +8,22 @@
 
 volatile unsigned char value = 0;
 volatile unsigned int index = 0;
-volatile char test[50];
+char dataArray[200];
 
 ISR(USART_RXC_vect)
 {
 	char value1;
 	value1 = UDR;
 
-	test[index] = value1;
+	dataArray[index] = value1;
 	index++;
 }
 
-void clear()
+void clearDataArray()
 {
-	for (unsigned int i = 0; i< 50; i++)
+	for (unsigned int i = 0; i< 200; i++)
 	{
-		test[i] = 0;
+		dataArray[i] = 0;
 	}
 	index = 0;
 }
