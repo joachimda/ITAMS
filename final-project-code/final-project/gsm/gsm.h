@@ -45,7 +45,7 @@ struct gsmStatus
 void gsmCommandDeleteArrayOfSms(unsigned int numberOfMessages);
 void gsmInit();
 void gsmCommandSendSms(unsigned char* phoneNumber, unsigned char* message);
-void gsmCommandReadSms(char* header, char* data);
+void gsmCommandReadSms(char* header, char* data, char* phoneNumber);
 void gsmCommandDeleteSms();
 void gsmCommandReadAllSms();
 void gsmUtilWaitForResponse();
@@ -58,6 +58,6 @@ void gsmUtilCheckForAck();
 int gsmUtilDisassembleSms(char* meta, int offset);
 void gsmCommandGetStatus(struct gsmStatus *stat);
 void gsmUtilSetStatusFlags(struct gsmStatus *stat);
-void gsmExecuteSmsRequest(char* data);
+void gsmExecuteSmsRequest(char* data, char* phoneNumber);
 
 #endif /* GSM_H_ */

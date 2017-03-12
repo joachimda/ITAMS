@@ -24,6 +24,7 @@ const char REQ_CURRENT_GPS_COORD = 'G';
 const char REQ_ALT_DATA = 'A';
 const char REQ_PRES_DATA = 'P';
 
+
 void gsmInit()
 {
 	gsmCommandSetTextMode();
@@ -84,7 +85,7 @@ void gsmCommandSendSms(unsigned char* phoneNumber, unsigned char* message)
 /************************************************************************/
 /* Reads the message located on the first index of the MC35 storage		*/
 /************************************************************************/
-void gsmCommandReadSms(char* meta, char* data)
+void gsmCommandReadSms(char* meta, char* data, char* phoneNumber)
 {
 	int offset = RESPONSE_OFFSET;
 	clearDataArray();
@@ -94,20 +95,21 @@ void gsmCommandReadSms(char* meta, char* data)
 	_delay_ms(300);
 	offset = gsmUtilDisassembleSms(meta, offset);
 	gsmUtilDisassembleSms(data, offset);
+	gsmutilGetSenderInfo(meta, phoneNumber);
 }
 
 /************************************************************************/
 /* Disassemble the SMS data and put into separate char arrays           */
 /* Return current offset												*/
 /************************************************************************/
-int gsmUtilDisassembleSms(char* meta, int offset)
+int gsmUtilDisassembleSms(char* part, int offset)
 {
 	char k = 0;
 	if (dataArray[0] == CR && dataArray[1] == LF)
 	{
 		for (int i = offset; i < DATA_SIZE; i++)
 		{
-			meta[k] = dataArray[i];
+			part[k] = dataArray[i];
 			if (dataArray[i] == CR && dataArray[i+1] == LF)
 			{
 				return i+2;
@@ -117,6 +119,16 @@ int gsmUtilDisassembleSms(char* meta, int offset)
 	}
 }
 
+void gsmutilGetSenderInfo(char* meta, char* phoneNumber)
+{
+	int k = 0;
+	int startIndex = 21;
+	int endIndex = startIndex + 11; 
+	for (int i = startIndex; i < endIndex ; i++)
+	{
+		phoneNumber[k++] = meta[i];
+	}
+}
 
 /************************************************************************/
 /* Deletes all messages stored on indexed up to the number given by		*/
@@ -240,7 +252,7 @@ void gsmUtilSetStatusFlags(struct gsmStatus *stat)
 /************************************************************************/
 /* Executes a received SMS command                                      */
 /************************************************************************/
-void gsmExecuteSmsRequest(char* data)
+void gsmExecuteSmsRequest(char* data, char* phoneNumber)
 {
 	if(data[0] == REQ_TEMP_DATA)
 	{
@@ -251,7 +263,7 @@ void gsmExecuteSmsRequest(char* data)
 		dtostrf(temp, 10, 2, tempArray);
 		memcpy(msg, preMsg, 24);
 		strcat(msg, tempArray);
-		gsmCommandSendSms("50128894", msg);
+		gsmCommandSendSms(phoneNumber, msg);
 	}
 	
 	if(data[0] == REQ_ALT_DATA)
@@ -263,7 +275,7 @@ void gsmExecuteSmsRequest(char* data)
 		dtostrf(alt, 10, 2, altArray);
 		memcpy(msg, preMsg, 20);
 		strcat(msg, altArray);
-		gsmCommandSendSms("50128894", msg);
+		gsmCommandSendSms(phoneNumber, msg);
 	}
 
 	if (data[0] == REQ_PRES_DATA)
@@ -275,7 +287,7 @@ void gsmExecuteSmsRequest(char* data)
 		ltoa(pres, presArray, 10);
 		memcpy(msg, preMsg, 20);
 		strcat(msg, presArray);
-		gsmCommandSendSms("50128894", msg);
+		gsmCommandSendSms(phoneNumber, msg);
 	}
 
 	if(data[0] == REQ_CURRENT_GPS_COORD)

@@ -21,6 +21,7 @@ int main(void)
 	struct gsmStatus stats;
 	char meta[75] = {0};
 	char data[50] = {0};
+	char phoneNumber[11] = {0};
 
 	gsmCommandGetStatus(&stats);
 	clearSmsData(meta, data);
@@ -31,8 +32,8 @@ int main(void)
 
 		if (stats.newMessage == 1)
 		{
-			gsmCommandReadSms(meta, data);
-			gsmExecuteSmsRequest(data);
+			gsmCommandReadSms(meta, data, phoneNumber);
+			gsmExecuteSmsRequest(data, phoneNumber);
 			gsmCommandDeleteSms();
 			clearSmsData(meta, data);			
 		}
