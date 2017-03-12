@@ -223,7 +223,6 @@ void gsmUtilSetStatusFlags(struct gsmStatus *stat)
 	{
 		stat->newMessage = 1;
 	}
-	
 	else
 	{
 		stat->newMessage = 0;
@@ -239,15 +238,12 @@ void gsmExecuteSmsRequest(char* data)
 	{
 		gsmCommandSendSms("50128894","TEMP: 23.2 deg.");
 	}
-
 	if(data[0] == REQ_ALT_DATA)
 	{
 		gsmCommandSendSms("50128894","Measured altitude: 52.8 meter above sea level.");
 	}
-
 	if(data[0] == REQ_CURRENT_GPS_COORD)
 	{
 		gsmCommandSendSms("50128894","Current location at: S1.0023deg SW13.20deg.");
 	}
 }
-
