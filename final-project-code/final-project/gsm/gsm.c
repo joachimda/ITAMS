@@ -1,6 +1,12 @@
 #define F_CPU 3686400
 #include <util/delay.h>
 #include <string.h>
+#include <math.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <avr/io.h>
+#include <avr/interrupt.h>
 #include "../uart/uart.h"
 #include "gsm.h"
 #include "../bmp085/bmp085.h"
@@ -16,6 +22,7 @@ char dataArray[DATA_SIZE];
 const char REQ_TEMP_DATA = 'T';
 const char REQ_CURRENT_GPS_COORD = 'G';
 const char REQ_ALT_DATA = 'A';
+const char REQ_PRES_DATA = 'P';
 
 void gsmInit()
 {
@@ -237,20 +244,42 @@ void gsmExecuteSmsRequest(char* data)
 {
 	if(data[0] == REQ_TEMP_DATA)
 	{
-		char * msg = "The temperature is: ";
-		char  msgOut[30];
-		double temp = getTemperature();
-
-		strcpy(msgOut, msg);
-		strcat(msgOut,(char)temp );
-		gsmCommandSendSms("50128894","TEMP: 23.2 deg.");
+		volatile char msg[40] = {0};
+		volatile char preMsg = "Temperature in celcius:  "; //Terminated at index 24
+		volatile char tempArray[10];
+		volatile double temp = getTemperature();
+		dtostrf(temp, 10, 2, tempArray);
+		memcpy(msg, preMsg, 24);
+		strcat(msg, tempArray);
+		gsmCommandSendSms("50128894", msg);
 	}
+	
 	if(data[0] == REQ_ALT_DATA)
 	{
-		gsmCommandSendSms("50128894","Measured altitude: 52.8 meter above sea level.");
+		volatile char msg[40] = {0};
+		volatile char preMsg = "Altitude in meters:  "; //Terminated at index 20
+		volatile char altArray[10];
+		volatile double alt = getAltitude();
+		dtostrf(alt, 10, 2, altArray);
+		memcpy(msg, preMsg, 20);
+		strcat(msg, altArray);
+		gsmCommandSendSms("50128894", msg);
 	}
+
+	if (data[0] == REQ_PRES_DATA)
+	{
+		volatile char msg[40] = {0};
+		volatile char preMsg = "Pressure in Pascal:  "; //Terminated at index 20
+		volatile char presArray[10];
+		volatile long pres = getPressure();
+		ltoa(pres, presArray, 10);
+		memcpy(msg, preMsg, 20);
+		strcat(msg, presArray);
+		gsmCommandSendSms("50128894", msg);
+	}
+
 	if(data[0] == REQ_CURRENT_GPS_COORD)
 	{
-		gsmCommandSendSms("50128894","Current location at: S1.0023deg SW13.20deg.");
+		/*awaiting implementation*/
 	}
 }

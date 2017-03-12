@@ -3,11 +3,10 @@
 #define F_CPU 3686400
 #include <util/delay.h>
 #include <avr/io.h>
+#include <avr/interrupt.h>
 #include "gsm/gsm.h"
 #include "uart/uart.h"
 #include "bmp085/bmp085.h"
-
-#include <avr/interrupt.h>
 
 void clearSmsData(char* meta, char* data);
 
@@ -37,7 +36,6 @@ int main(void)
 			gsmCommandDeleteSms();
 			clearSmsData(meta, data);			
 		}
-		
 		_delay_ms(1000);
 	}
 }
