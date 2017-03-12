@@ -8,9 +8,7 @@
 **************************************************************************/
 #include <inttypes.h>
 #include <compat/twi.h>
-
 #include "i2c.h"
-
 
 /* define CPU frequency in MHz here if not defined in Makefile */
 #ifndef F_CPU
@@ -78,7 +76,6 @@ void i2c_start_wait(unsigned char address)
 {
     uint8_t   twst;
 
-
     while ( 1 )
     {
 	    // send START condition
@@ -113,7 +110,6 @@ void i2c_start_wait(unsigned char address)
     	//if( twst != TW_MT_SLA_ACK) return 1;
     	break;
      }
-
 }/* i2c_start_wait */
 
 
@@ -127,7 +123,6 @@ void i2c_start_wait(unsigned char address)
 unsigned char i2c_rep_start(unsigned char address)
 {
     return i2c_start( address );
-
 }/* i2c_rep_start */
 
 
@@ -138,10 +133,8 @@ void i2c_stop(void)
 {
     /* send stop condition */
 	TWCR = (1<<TWINT) | (1<<TWEN) | (1<<TWSTO);
-	
 	// wait until stop condition is executed and bus released
 	while(TWCR & (1<<TWSTO));
-
 }/* i2c_stop */
 
 
@@ -159,15 +152,12 @@ unsigned char i2c_write( unsigned char data )
 	// send data to the previously addressed device
 	TWDR = data;
 	TWCR = (1<<TWINT) | (1<<TWEN);
-
 	// wait until transmission completed
 	while(!(TWCR & (1<<TWINT)));
-
 	// check value of TWI Status Register. Mask prescaler bits
 	twst = TW_STATUS & 0xF8;
 	if( twst != TW_MT_DATA_ACK) return 1;
 	return 0;
-
 }/* i2c_write */
 
 
@@ -180,9 +170,7 @@ unsigned char i2c_readAck(void)
 {
 	TWCR = (1<<TWINT) | (1<<TWEN) | (1<<TWEA);
 	while(!(TWCR & (1<<TWINT)));    
-
     return TWDR;
-
 }/* i2c_readAck */
 
 
@@ -195,7 +183,5 @@ unsigned char i2c_readNak(void)
 {
 	TWCR = (1<<TWINT) | (1<<TWEN);
 	while(!(TWCR & (1<<TWINT)));
-	
     return TWDR;
-
 }/* i2c_readNak */

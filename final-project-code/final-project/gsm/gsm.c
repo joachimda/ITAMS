@@ -52,6 +52,9 @@ void gsmCommandReadAllSms()
 	clearDataArray();
 }
 
+/************************************************************************/
+/* Sends an SMS containing message to recipient specified by phoneNumber*/
+/************************************************************************/
 void gsmCommandSendSms(unsigned char* phoneNumber, unsigned char* message)
 {
 	gsmUtilWaitForResponse();
@@ -70,6 +73,9 @@ void gsmCommandSendSms(unsigned char* phoneNumber, unsigned char* message)
 
 }
 
+/************************************************************************/
+/* Reads the message located on the first index of the MC35 storage		*/
+/************************************************************************/
 void gsmCommandReadSms(char* meta, char* data)
 {
 	int offset = RESPONSE_OFFSET;
@@ -103,6 +109,11 @@ int gsmUtilDisassembleSms(char* meta, int offset)
 	}
 }
 
+
+/************************************************************************/
+/* Deletes all messages stored on indexed up to the number given by		*/
+/* the parameter numberOfMessages										*/
+/************************************************************************/
 void gsmCommandDeleteArrayOfSms(unsigned int numberOfMessages)
 {
 	for (volatile unsigned int k = 0; k < 10; k++)
@@ -189,7 +200,7 @@ void gsmUtilCleanResponse()
 }
 
 /************************************************************************/
-/* Requests                                                                     */
+/* Requests the status parameters from MC35								*/
 /************************************************************************/
 void gsmCommandGetStatus(struct gsmStatus *stat)
 {

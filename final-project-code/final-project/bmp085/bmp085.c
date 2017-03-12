@@ -28,7 +28,8 @@ void readMemory(uint8_t reg, uint8_t buff[], uint8_t bytes)
 	i2c_start_wait(I2C_BMP_SLAVE_ADDR | I2C_WRITE);
 	i2c_write(reg);
 	i2c_rep_start(I2C_BMP_SLAVE_ADDR | I2C_READ);
-	for(i=0; i<bytes; i++) {
+	for(i=0; i<bytes; i++)
+	{
 		if(i==bytes-1)
 		buff[i] = i2c_readNak();
 		else
@@ -36,7 +37,6 @@ void readMemory(uint8_t reg, uint8_t buff[], uint8_t bytes)
 	}
 	i2c_stop();
 }
-
 
 #if FILTERPRESSURE == 1
 #define AVERAGECOEF 21
@@ -56,7 +56,7 @@ long averageFilter(long input)
 	{
 		sum += k[i];
 	}
-	return (sum / AVERAGECOEF) ;
+	return (sum / AVERAGECOEF);
 }
 #endif
 
@@ -183,6 +183,5 @@ void bmpInit() {
 	{
 		getRawPressure();
 	}
-	
 	#endif
 }
