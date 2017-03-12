@@ -211,3 +211,6 @@ FakesAssemblies/
 *.pdf
 *.tdo 
 *.db
+*.glo
+*.glsdefs
+*.ist
