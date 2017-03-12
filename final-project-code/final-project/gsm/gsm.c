@@ -94,7 +94,7 @@ void gsmCommandReadSms(char* meta, char* data, char* phoneNumber)
 	_delay_ms(300);
 	offset = gsmUtilDisassembleSms(meta, offset);
 	gsmUtilDisassembleSms(data, offset);
-	gsmutilGetSenderInfo(meta, phoneNumber);
+	gsmUtilGetSenderInfo(meta, phoneNumber);
 }
 
 /************************************************************************/
@@ -118,7 +118,7 @@ int gsmUtilDisassembleSms(char* part, int offset)
 	}
 }
 
-void gsmutilGetSenderInfo(char* meta, char* phoneNumber)
+void gsmUtilGetSenderInfo(char* meta, char* phoneNumber)
 {
 	int k = 0;
 	int startIndex = 21;
