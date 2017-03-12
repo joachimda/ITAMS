@@ -101,7 +101,7 @@ void i2c_start_wait(unsigned char address)
     	twst = TW_STATUS & 0xF8;
     	if ( (twst == TW_MT_SLA_NACK )||(twst ==TW_MR_DATA_NACK) ) 
     	{    	    
-    	    /* device busy, send stop condition to terminate write operation */
+    	    	/* device busy, send stop condition to terminate write operation */
 	        TWCR = (1<<TWINT) | (1<<TWEN) | (1<<TWSTO);
 	        
 	        // wait until stop condition is executed and bus released
