@@ -5,8 +5,8 @@
 #define USART_BAUDRATE 38400
 #define BAUD_PRESCALE (((F_CPU / (USART_BAUDRATE * 16UL))) - 1)
 
-extern char test[];
-void clear();
+extern char dataArray[];
+void clearDataArray();
 void uartInit();
 unsigned char uartCharReady();
 unsigned char uartReadChar();
@@ -15,6 +15,5 @@ void uartSendByte(unsigned char charToSend);
 void uartSendString(unsigned char* string);
 void uartSendInteger(int number);
 void uartFlush();
-/**************************************/
 
 #endif /* UART_H_ */

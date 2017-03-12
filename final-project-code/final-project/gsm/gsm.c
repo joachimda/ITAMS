@@ -1,90 +1,212 @@
-#include "gsm.h"
 #define F_CPU 3686400
 #include <util/delay.h>
+#include <string.h>
 #include "../uart/uart.h"
-
-char test[50];
+#include "gsm.h"
+const char CR = 13;
+const char LF = 10;
+const char CTRL_Z = 26;
+const int RESPONSE_OFFSET = 2;
+const int SMS_FLAG_INDEX = 18;
+const char TRUE = 1;
+const char FALSE = 0;
+char ackFlag;
+char dataArray[DATA_SIZE];
+const char REQ_TEMP_DATA = 'T';
+const char REQ_CURRENT_GPS_COORD = 'G';
+const char REQ_ALT_DATA = 'A';
 
 void gsmInit()
 {
-	clear();
-	gsmDisableEcho();
-	gsmSetTextMode();
-	gsmWaitForResponse();
+	gsmCommandSetTextMode();
+	gsmCommandDisableEcho();
+    //gsmCommandReadAllSms();
+
 }
 
-
-void gsmCleanResponse()
+void gsmCommandSetTextMode()
 {
-	for (unsigned int i = 0; i < 50; i++)
-	{
-		if(test[i] == 10 || test[i] == 13)
-			{
-				test[i] = 0;
-			}
-	}
+	clearDataArray();
+	uartSendString((unsigned char*)SET_TEXT_MODE);
+	uartSendString((unsigned char*)ENTER);
+	gsmUtilWaitForResponse();
+	gsmUtilCleanResponse();
+	gsmUtilCheckForAck();
+}
 
-	int index = 0;
-	for (unsigned int i = 0; i < 50; i++)
+void gsmCommandDisableEcho()
+{
+	clearDataArray();
+	uartSendString((unsigned char*)DISABLE_ECHO);
+	uartSendString((unsigned char*)ENTER);
+	gsmUtilWaitForResponse();
+	gsmUtilCleanResponse();
+	gsmUtilCheckForAck();
+}
+
+void gsmCommandReadAllSms()
+{
+	clearDataArray();
+	gsmUtilWaitForResponse();
+	uartSendString((unsigned char*)GET_ALL_MESSAGES);
+	uartSendString((unsigned char*)ENTER);
+	gsmUtilWaitForResponse();
+	gsmUtilWaitForResponse();
+	clearDataArray();
+}
+
+void gsmCommandSendSms(unsigned char* phoneNumber, unsigned char* message)
+{
+	clearDataArray();
+	gsmUtilWaitForResponse();
+	gsmUtilWaitForResponse();
+	uartSendString((unsigned char*)SEND_MESSAGE);
+	uartSendString((unsigned char*)phoneNumber);
+	uartSendString((unsigned char*)ENTER);
+	gsmUtilWaitForResponse();
+	uartSendString((unsigned char*)message);
+	gsmUtilWaitForResponse();
+	gsmUtilWaitForResponse();
+	uartSendByte(CTRL_Z);
+	gsmUtilWaitForResponse();
+}
+
+void gsmCommandReadSms(char* meta, char* data)
+{
+	int offset = RESPONSE_OFFSET;
+	clearDataArray();
+	uartSendString((unsigned char*)READ_FIRST_MESSAGE);
+	uartSendString((unsigned char*)ENTER);
+	gsmUtilWaitForResponse();
+	_delay_ms(300);
+	offset = gsmUtilDisassembleSms(meta, offset);
+	gsmUtilDisassembleSms(data, offset); 
+}
+
+/************************************************************************/
+/* Disassemble the SMS data and terminate with ASCII 13		            */
+/* Return current offset												*/
+/************************************************************************/
+int gsmUtilDisassembleSms(char* meta, int offset)
+{
+	char k = 0;
+	if (dataArray[0] == CR && dataArray[1] == LF)
 	{
-		if (test[i] != 0)
+		for (int i = offset; i < DATA_SIZE; i++)
 		{
-			test[index] = test[i];
-			test[i] = 0;
-			index++;
+			meta[k] = dataArray[i];
+			if (dataArray[i] == CR && dataArray[i+1] == LF)
+			{
+				return i+2;
+			}
+			k++;
 		}
 	}
 }
 
-void gsmSendSms(unsigned char* phoneNumber, unsigned char* message)
+/************************************************************************/
+/* Deletes the SMS located on index 0							        */
+/************************************************************************/
+void gsmCommandDeleteSms()
 {
-	gsmWaitForResponse();
-	uartSendString((unsigned char*)SEND_MESSAGE);
-	uartSendString((unsigned char*)phoneNumber);
-	uartSendString((unsigned char*)ENTER);
-	gsmWaitForResponse();
-	uartSendString((unsigned char*)message);
-	gsmWaitForResponse();
-	uartSendByte(26);
-	gsmWaitForResponse();
-}
-
-void gsmReadSms(unsigned char index, unsigned char* message)
-{
-	uartSendString((unsigned char*)READ_MESSAGE);
-	uartSendByte(index);
-	uartSendString((unsigned char*)ENTER);
-	gsmWaitForResponse();
-}
-
-void gsmDeleteSms()
-{
+	clearDataArray();
 	uartSendString((unsigned char*)DELETE_FIRST_INDEX);
 	uartSendString((unsigned char*)ENTER);
-	gsmWaitForResponse();
+	gsmUtilWaitForResponse();
+	gsmUtilCleanResponse();
+	gsmUtilCheckForAck();
 }
 
-void gsmWaitForResponse()
+/************************************************************************/
+/* Checks for an OK received and sets the ACK flag accordingly			*/
+/************************************************************************/
+void gsmUtilCheckForAck()
 {
-	_delay_ms(200);
+	if (dataArray[0] == 'O' && dataArray [1] == 'K')
+	{
+		ackFlag = 1;
+	}
+	else
+	{
+		ackFlag = 0;
+	}
 }
 
-void gsmSetTextMode()
+/************************************************************************/
+/* Creates a delay while MC35 sends a reply								*/
+/************************************************************************/
+void gsmUtilWaitForResponse()
 {
-	uartSendString((unsigned char*)SET_TEXT_MODE);
+	_delay_ms(500);
+}
+
+/************************************************************************/
+/* Removes any leading and traling LF/CR from a response				*/
+/************************************************************************/
+void gsmUtilCleanResponse()
+{
+	if (dataArray[0] != 0)
+	{
+		for (unsigned int i = 0; i < DATA_SIZE; i++)
+		{
+			if(dataArray[i] == LF || dataArray[i] == CR)
+			{
+				dataArray[i] = 0;
+			}
+		}
+
+		int index = 0;
+		for (unsigned int i = 0; i < DATA_SIZE; i++)
+		{
+			if (dataArray[i] != 0)
+			{
+				dataArray[index] = dataArray[i];
+				dataArray[i] = 0;
+				index++;
+			}
+		}
+	}
+}
+
+void gsmCommandGetStatus(struct gsmStatus *stat)
+{
+	stat->callInProgress = 0;
+	stat->newMessage = 0;
+	stat->serviceAvailable = 0;
+	clearDataArray();
+	uartSendString((unsigned char*)GET_STATUS);
 	uartSendString((unsigned char*)ENTER);
-	gsmWaitForResponse();
+	gsmUtilWaitForResponse();
+	gsmUtilSetStatusFlags(stat);
 }
 
-void gsmDisableEcho()
+void gsmUtilSetStatusFlags(struct gsmStatus *stat)
 {
-	uartSendString((unsigned char*)DISABLE_ECHO);
-	uartSendString((unsigned char*)ENTER);
-	gsmWaitForResponse();
+	if (dataArray[18] == 49)	//if SMS flag (index 18) is set to 49 (1 ASCII)
+	{
+		stat->newMessage = 1;	
+	}
+	
+	else
+	{
+		stat->newMessage = 0;	
+	}
+
 }
 
-void gsmReadNewlines()
+void gsmExecuteSmsRequest(char* data)
 {
-	//uartReadChar();
-	//uartReadChar();
+	
+
+	if(data[0] == REQ_TEMP_DATA)
+	{
+		gsmCommandSendSms("50128894","TEMP: 23.2 deg");
+	}
+
+	//if (strcmp(data, (unsigned char*)REQ_ALT_DATA) == 0)
+	//{
+		//gsmCommandSendSms("50128894","TEMP: 23.2 deg");
+	//}
+
 }
+
