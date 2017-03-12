@@ -18,7 +18,6 @@
 /* I2C clock in Hz */
 #define SCL_CLOCK  10000L
 
-
 /*************************************************************************
  Initialization of the I2C bus interface. Need to be called only once
 *************************************************************************/
@@ -30,7 +29,6 @@ void i2c_init(void)
   TWBR = ((F_CPU/SCL_CLOCK)-16)/2;  /* must be > 10 for stable operation */
 
 }/* i2c_init */
-
 
 /*************************************************************************	
   Issues a start condition and sends address and transfer direction.
@@ -59,12 +57,13 @@ unsigned char i2c_start(unsigned char address)
 
 	// check value of TWI Status Register. Mask prescaler bits.
 	twst = TW_STATUS & 0xF8;
-	if ( (twst != TW_MT_SLA_ACK) && (twst != TW_MR_SLA_ACK) ) return 1;
+	if ( (twst != TW_MT_SLA_ACK) && (twst != TW_MR_SLA_ACK) ) 
+	{
+		return 1;	
+	}
 
 	return 0;
-
 }/* i2c_start */
-
 
 /*************************************************************************
  Issues a start condition and sends address and transfer direction.
@@ -73,21 +72,24 @@ unsigned char i2c_start(unsigned char address)
  Input:   address and transfer direction of I2C device
 *************************************************************************/
 void i2c_start_wait(unsigned char address)
-{
-    uint8_t   twst;
+{	
+	uint8_t   twst;
 
-    while ( 1 )
-    {
-	    // send START condition
-	    TWCR = (1<<TWINT) | (1<<TWSTA) | (1<<TWEN);
+    	while ( 1 )
+	{
+	// send START condition
+	TWCR = (1<<TWINT) | (1<<TWSTA) | (1<<TWEN);
     
     	// wait until transmission completed
     	while(!(TWCR & (1<<TWINT)));
     
     	// check value of TWI Status Register. Mask prescaler bits.
     	twst = TW_STATUS & 0xF8;
-    	if ( (twst != TW_START) && (twst != TW_REP_START)) continue;
-    
+    	if ( (twst != TW_START) && (twst != TW_REP_START))
+	{
+		continue;
+	}
+		
     	// send device address
     	TWDR = address;
     	TWCR = (1<<TWINT) | (1<<TWEN);
@@ -112,7 +114,6 @@ void i2c_start_wait(unsigned char address)
      }
 }/* i2c_start_wait */
 
-
 /*************************************************************************
  Issues a repeated start condition and sends address and transfer direction 
  Input:   address and transfer direction of I2C device
@@ -125,7 +126,6 @@ unsigned char i2c_rep_start(unsigned char address)
     return i2c_start( address );
 }/* i2c_rep_start */
 
-
 /*************************************************************************
  Terminates the data transfer and releases the I2C bus
 *************************************************************************/
@@ -137,7 +137,6 @@ void i2c_stop(void)
 	while(TWCR & (1<<TWSTO));
 }/* i2c_stop */
 
-
 /*************************************************************************
   Send one byte to I2C device
   
@@ -147,8 +146,8 @@ void i2c_stop(void)
 *************************************************************************/
 unsigned char i2c_write( unsigned char data )
 {	
-    uint8_t   twst;
-    
+	uint8_t   twst;
+
 	// send data to the previously addressed device
 	TWDR = data;
 	TWCR = (1<<TWINT) | (1<<TWEN);
@@ -156,10 +155,13 @@ unsigned char i2c_write( unsigned char data )
 	while(!(TWCR & (1<<TWINT)));
 	// check value of TWI Status Register. Mask prescaler bits
 	twst = TW_STATUS & 0xF8;
-	if( twst != TW_MT_DATA_ACK) return 1;
+	if( twst != TW_MT_DATA_ACK)
+	{
+		return 1;
+	}
+	
 	return 0;
 }/* i2c_write */
-
 
 /*************************************************************************
  Read one byte from the I2C device, request more data from device 
@@ -170,9 +172,8 @@ unsigned char i2c_readAck(void)
 {
 	TWCR = (1<<TWINT) | (1<<TWEN) | (1<<TWEA);
 	while(!(TWCR & (1<<TWINT)));    
-    return TWDR;
+    	return TWDR;
 }/* i2c_readAck */
-
 
 /*************************************************************************
  Read one byte from the I2C device, read is followed by a stop condition 
@@ -183,5 +184,5 @@ unsigned char i2c_readNak(void)
 {
 	TWCR = (1<<TWINT) | (1<<TWEN);
 	while(!(TWCR & (1<<TWINT)));
-    return TWDR;
+    	return TWDR;
 }/* i2c_readNak */
