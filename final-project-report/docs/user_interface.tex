@@ -1,0 +1,19 @@
+\section{Brugergrænseflade}
+
+Til anvendelse af systemet skal en mobiltelefon bruges til at sende sms. De mulige kommandoer er vist i tabel~\ref{tab:commands}. Kan brugeren ikke huske de mulige kommandoer, kan vedkommende sende et 'L' og derved få en liste over mulige kommandoer tilsendt. Hvis GSM modulet modtager en ukendt kommando vil brugeren modtage en besked som gør opmærksom på dette.
+
+\begin{table}[h]
+	\centering
+	\begin{tabular}{|c|l|}
+		\hline
+		\rowcolor[HTML]{EFEFEF} 
+		\multicolumn{1}{|l|}{\cellcolor[HTML]{EFEFEF}\textbf{SMS}} & \textbf{Sensor}	\\ \hline
+		T & Temperatur	\\ \hline
+		A & Altitude	\\ \hline
+		P & Lufttryk	\\ \hline
+	\end{tabular}
+	\caption{Kommandooversigt.}
+	\label{tab:commands}
+\end{table}
+
+\input{docs/diagnostics}
