@@ -22,6 +22,7 @@
 const char REQ_TEMP_DATA;
 const char REQ_CURRENT_GPS_COORD;
 const char REQ_ALT_DATA;
+const char REQ_PRES_DATA;
 
 #define DATA_SIZE 100
 
