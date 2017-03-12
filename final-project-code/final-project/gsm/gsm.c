@@ -3,6 +3,7 @@
 #include <string.h>
 #include "../uart/uart.h"
 #include "gsm.h"
+#include "../bmp085/bmp085.h"
 const char CR = 13;
 const char LF = 10;
 const char CTRL_Z = 26;
@@ -237,6 +238,12 @@ void gsmExecuteSmsRequest(char* data)
 {
 	if(data[0] == REQ_TEMP_DATA)
 	{
+		char * msg = "The temperature is: ";
+		char  msgOut[30];
+		double temp = getTemperature();
+
+		strcpy(msgOut, msg);
+		strcat(msgOut,(char)temp );
 		gsmCommandSendSms("50128894","TEMP: 23.2 deg.");
 	}
 
@@ -250,4 +257,3 @@ void gsmExecuteSmsRequest(char* data)
 		gsmCommandSendSms("50128894","Current location at: S1.0023deg SW13.20deg.");
 	}
 }
-
