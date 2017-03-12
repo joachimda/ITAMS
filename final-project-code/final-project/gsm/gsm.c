@@ -242,8 +242,6 @@ void gsmUtilSetStatusFlags(struct gsmStatus *stat)
 /************************************************************************/
 void gsmExecuteSmsRequest(char* data)
 {
-	bmpInit();
-	sei();
 	if(data[0] == REQ_TEMP_DATA)
 	{
 		volatile char msg[40] = {0};
@@ -275,7 +273,7 @@ void gsmExecuteSmsRequest(char* data)
 		volatile char presArray[10];
 		volatile long pres = getPressure();
 		ltoa(pres, presArray, 10);
-		memcpy(msg, preMsg, 19);
+		memcpy(msg, preMsg, 20);
 		strcat(msg, presArray);
 		gsmCommandSendSms("50128894", msg);
 	}

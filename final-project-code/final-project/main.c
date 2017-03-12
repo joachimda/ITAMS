@@ -15,6 +15,7 @@ int main(void)
 	sei();
 	uartInit();
 	gsmInit();
+	bmpInit();
 	gsmCommandDeleteArrayOfSms(10);
 
 	struct gsmStatus stats;
