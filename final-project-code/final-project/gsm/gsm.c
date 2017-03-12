@@ -79,7 +79,6 @@ void gsmCommandSendSms(unsigned char* phoneNumber, unsigned char* message)
 
 	uartSendByte(CTRL_Z);
 	gsmUtilWaitForSmsDelivery();
-
 }
 
 /************************************************************************/
@@ -124,7 +123,7 @@ void gsmutilGetSenderInfo(char* meta, char* phoneNumber)
 	int k = 0;
 	int startIndex = 21;
 	int endIndex = startIndex + 11; 
-	for (int i = startIndex; i < endIndex ; i++)
+	for (int i = startIndex; i < endIndex; i++)
 	{
 		phoneNumber[k++] = meta[i];
 	}
@@ -281,7 +280,7 @@ void gsmExecuteSmsRequest(char* data, char* phoneNumber)
 	if (data[0] == REQ_PRES_DATA)
 	{
 		volatile char msg[40] = {0};
-		volatile char preMsg = "Pressure in Pascal:  "; //Terminated at index 20
+		volatile char preMsg = "Pressure in pascal:  "; //Terminated at index 20
 		volatile char presArray[10];
 		volatile long pres = getPressure();
 		ltoa(pres, presArray, 10);
