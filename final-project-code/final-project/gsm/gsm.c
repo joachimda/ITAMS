@@ -51,24 +51,25 @@ void gsmCommandReadAllSms()
 	uartSendString((unsigned char*)GET_ALL_MESSAGES);
 	uartSendString((unsigned char*)ENTER);
 	gsmUtilWaitForResponse();
-	gsmUtilWaitForResponse();
 	clearDataArray();
 }
 
 void gsmCommandSendSms(unsigned char* phoneNumber, unsigned char* message)
 {
+	gsmUtilWaitForResponse();
 	clearDataArray();
 	gsmUtilWaitForResponse();
-	gsmUtilWaitForResponse();
+
 	uartSendString((unsigned char*)SEND_MESSAGE);
 	uartSendString((unsigned char*)phoneNumber);
 	uartSendString((unsigned char*)ENTER);
 	gsmUtilWaitForResponse();
 	uartSendString((unsigned char*)message);
 	gsmUtilWaitForResponse();
-	gsmUtilWaitForResponse();
+
 	uartSendByte(CTRL_Z);
-	gsmUtilWaitForResponse();
+	gsmUtilWaitForSmsDelivery();
+
 }
 
 void gsmCommandReadSms(char* meta, char* data)
@@ -84,7 +85,7 @@ void gsmCommandReadSms(char* meta, char* data)
 }
 
 /************************************************************************/
-/* Disassemble the SMS data and terminate with ASCII 13		            */
+/* Disassemble the SMS data and put into separate char arrays           */
 /* Return current offset												*/
 /************************************************************************/
 int gsmUtilDisassembleSms(char* meta, int offset)
@@ -102,6 +103,20 @@ int gsmUtilDisassembleSms(char* meta, int offset)
 			k++;
 		}
 	}
+}
+
+void gsmCommandDeleteArrayOfSms(unsigned int numberOfMessages)
+{
+
+		for (volatile unsigned int k = 0; k < 10; k++)
+		{
+			uartSendString((unsigned char*)DELETE_AT_INDEX);
+			uartSendInteger(k+1);
+			uartSendString((unsigned char*)ENTER);
+			gsmUtilWaitForResponse();
+			gsmUtilCleanResponse();
+			gsmUtilCheckForAck();
+		}
 }
 
 /************************************************************************/
@@ -132,6 +147,11 @@ void gsmUtilCheckForAck()
 	}
 }
 
+
+void gsmUtilWaitForSmsDelivery()
+{
+	_delay_ms(3000);
+}
 /************************************************************************/
 /* Creates a delay while MC35 sends a reply								*/
 /************************************************************************/

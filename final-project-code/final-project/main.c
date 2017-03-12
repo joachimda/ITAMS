@@ -14,18 +14,14 @@ int main(void)
 	sei();
 	uartInit();
 	gsmInit();
+	gsmCommandDeleteArrayOfSms(10);
 
 	struct gsmStatus stats;
 	char meta[75] = {0};
 	char data[50] = {0};
 
-	gsmCommandReadSms(meta, data);
-	gsmCommandDeleteSms();
 	gsmCommandGetStatus(&stats);
-
-			clearSmsData(meta, data);			
-
-	//gsmSendSms("50128894","More test");
+	clearSmsData(meta, data);
 	volatile unsigned char stopHere = 0;
 	while(1)
 	{

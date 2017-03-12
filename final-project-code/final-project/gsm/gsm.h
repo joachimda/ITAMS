@@ -1,11 +1,12 @@
 #ifndef GSM_H_
 #define GSM_H_
-#pragma once
 /************************************************************************/
 /* Global command macros												*/
 /************************************************************************/
 #define ENTER "\r"
+
 #define GET_ALL_MESSAGES "AT+CMGL=ALL"
+#define DELETE_AT_INDEX "AT+CMGD="
 #define DELETE_FIRST_INDEX "AT+CMGD=1"
 #define ENABLE_ECHO "ATE1"
 #define DISABLE_ECHO "ATE0"
@@ -23,6 +24,7 @@ const char REQ_CURRENT_GPS_COORD;
 const char REQ_ALT_DATA;
 
 #define DATA_SIZE 100
+
 extern const int SMS_FLAG_INDEX;
 extern const char CR;
 extern const char LF;
@@ -39,12 +41,14 @@ struct gsmStatus
 	char callInProgress;
 };
 
+void gsmCommandDeleteArrayOfSms(unsigned int numberOfMessages);
 void gsmInit();
 void gsmCommandSendSms(unsigned char* phoneNumber, unsigned char* message);
 void gsmCommandReadSms(char* header, char* data);
 void gsmCommandDeleteSms();
 void gsmCommandReadAllSms();
 void gsmUtilWaitForResponse();
+void gsmUtilWaitForSmsDelivery();
 void gsmCommandSetTextMode();
 void gsmCommandDisableEcho();
 void gsmReadNewlines();
