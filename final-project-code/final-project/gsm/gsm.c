@@ -20,8 +20,6 @@ void gsmInit()
 {
 	gsmCommandSetTextMode();
 	gsmCommandDisableEcho();
-    //gsmCommandReadAllSms();
-
 }
 
 void gsmCommandSetTextMode()
@@ -81,7 +79,7 @@ void gsmCommandReadSms(char* meta, char* data)
 	gsmUtilWaitForResponse();
 	_delay_ms(300);
 	offset = gsmUtilDisassembleSms(meta, offset);
-	gsmUtilDisassembleSms(data, offset); 
+	gsmUtilDisassembleSms(data, offset);
 }
 
 /************************************************************************/
@@ -107,16 +105,15 @@ int gsmUtilDisassembleSms(char* meta, int offset)
 
 void gsmCommandDeleteArrayOfSms(unsigned int numberOfMessages)
 {
-
-		for (volatile unsigned int k = 0; k < 10; k++)
-		{
-			uartSendString((unsigned char*)DELETE_AT_INDEX);
-			uartSendInteger(k+1);
-			uartSendString((unsigned char*)ENTER);
-			gsmUtilWaitForResponse();
-			gsmUtilCleanResponse();
-			gsmUtilCheckForAck();
-		}
+	for (volatile unsigned int k = 0; k < 10; k++)
+	{
+		uartSendString((unsigned char*)DELETE_AT_INDEX);
+		uartSendInteger(k+1);
+		uartSendString((unsigned char*)ENTER);
+		gsmUtilWaitForResponse();
+		gsmUtilCleanResponse();
+		gsmUtilCheckForAck();
+	}
 }
 
 /************************************************************************/
@@ -147,13 +144,16 @@ void gsmUtilCheckForAck()
 	}
 }
 
-
+/************************************************************************/
+/* Creates a delay to await SMS delivery								*/
+/************************************************************************/
 void gsmUtilWaitForSmsDelivery()
 {
 	_delay_ms(3000);
 }
+
 /************************************************************************/
-/* Creates a delay while MC35 sends a reply								*/
+/* Creates a delay await a reply from MC35								*/
 /************************************************************************/
 void gsmUtilWaitForResponse()
 {
@@ -188,6 +188,9 @@ void gsmUtilCleanResponse()
 	}
 }
 
+/************************************************************************/
+/* Requests                                                                     */
+/************************************************************************/
 void gsmCommandGetStatus(struct gsmStatus *stat)
 {
 	stat->callInProgress = 0;
@@ -200,33 +203,40 @@ void gsmCommandGetStatus(struct gsmStatus *stat)
 	gsmUtilSetStatusFlags(stat);
 }
 
+/************************************************************************/
+/* Sets the flags in the GSM Status struct according to the CIND output */
+/************************************************************************/
 void gsmUtilSetStatusFlags(struct gsmStatus *stat)
 {
 	if (dataArray[18] == 49)	//if SMS flag (index 18) is set to 49 (1 ASCII)
 	{
-		stat->newMessage = 1;	
+		stat->newMessage = 1;
 	}
 	
 	else
 	{
-		stat->newMessage = 0;	
+		stat->newMessage = 0;
 	}
-
 }
 
+/************************************************************************/
+/* Executes a received SMS command                                      */
+/************************************************************************/
 void gsmExecuteSmsRequest(char* data)
 {
-	
-
 	if(data[0] == REQ_TEMP_DATA)
 	{
-		gsmCommandSendSms("50128894","TEMP: 23.2 deg");
+		gsmCommandSendSms("50128894","TEMP: 23.2 deg.");
 	}
 
-	//if (strcmp(data, (unsigned char*)REQ_ALT_DATA) == 0)
-	//{
-		//gsmCommandSendSms("50128894","TEMP: 23.2 deg");
-	//}
+	if(data[0] == REQ_ALT_DATA)
+	{
+		gsmCommandSendSms("50128894","Measured altitude: 52.8 meter above sea level.");
+	}
 
+	if(data[0] == REQ_CURRENT_GPS_COORD)
+	{
+		gsmCommandSendSms("50128894","Current location at: S1.0023deg SW13.20deg.");
+	}
 }
 
