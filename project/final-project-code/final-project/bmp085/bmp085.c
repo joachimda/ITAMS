@@ -33,6 +33,7 @@ void readMemory(uint8_t reg, uint8_t buff[], uint8_t bytes)
 		if(i==bytes-1)
 		buff[i] = i2c_readNak();
 		else
+
 		buff[i] = i2c_readAck();
 	}
 	i2c_stop();
