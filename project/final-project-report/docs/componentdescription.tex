@@ -6,6 +6,14 @@ Brugeren af systemet vil være interesseret i at kunne indhente forskellige mål
 
 \subsubsection{MC35}
 En Siemens MC35 GSM/GPRS Modem (vist på figur~\ref{fig:devicegsm}) er i projektet anvendt til at sende og modtage sms beskeder, som gør kommunikation mellem bruger og system mulig. Under udvikling har to forskellige enheder været brugt. Med den første enhed var der en del inkonsistens i opførsel under udvikling, men da denne enheds blev udskiftet stoppede problemerne og debugging af problemer blev meget lettere.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.7\linewidth]{figs/device_gsm.jpg}
+	\caption{Siemens MC35 GSM/GPRS modem.}
+	\label{fig:devicegsm}
+\end{figure}
+
 Der interfaces mellem ATmega32 og MC35 ved hjælp af en UART forbindelse med en baudrate\footnote{Symboler (signalpulser) per sek.} på 38400.
 MC35 har autobauding slået til som fabriks indstilling, hvilket gør det muligt at kommunikere med modemet en række forskellige understøttede hastigheder.
 Med autobauding er der dog nogle særlige restriktioner og forudsætninger der skal overholdes:
@@ -65,17 +73,15 @@ kommando.
 	\label{fig:regucsrb}
 \end{figure}
 
+MC35 sender "OK" tilbage efter hver succesfuldt udført kommando, hvilket gør det lettere at reagere på eventuelle fejl fra modemet. En yderligere timing foranstalting er dog at et delay på minimum 200ms køres
+ før der igen kan skrives til MC35 efter den har sendt "OK". 
 
-\begin{figure}[h]
-	\centering
-	\includegraphics[width=0.7\linewidth]{figs/device_gsm.jpg}
-	\caption{Siemens MC35 GSM/GPRS modem.}
-	\label{fig:devicegsm}
-\end{figure}
 
 \subsubsection{ATmega32}
-ATmega32 er brugt i forbindelse med STK500 boardet, som hovedkomponent i udviklingen. Denne er vist på figur~\ref{fig:deviceatmege32}. 
-Boardet interfacer med GSM modemet via UART og fortolker de modtagne kommandoer før der kan anmodes om de ønskede målinger fra BMP modulet.
+ATmega32 er brugt sammen med STK500 boardet, som hovedkomponent i udviklingen. Denne er vist på figur~\ref{fig:deviceatmege32}. 
+Boardet interfacer som tidligere beskrevet med GSM modemet via UART og fortolker de modtagne kommandoer før der kan anmodes om de ønskede målinger fra BMP modulet, som interfaces med I2C two-wire kommunikation.
+STK500 har gjort det markant lettere at udvikle til ATmega32, idet megen funktionalitet er samlet og ikke skal klattes sammen på et fumlebræt. I forbindelse med BMP085 er der lavet en simpel
+ spændingsdeler der sørger for at bringe STK500's 5V spænding ned på ca. 3.3V som er angivet i BMP085's datablad.
 
 \begin{figure}[h]
 	\centering
@@ -94,3 +100,9 @@ Disse tre forskellige målinger kan så anmodes af ATmega32 og senders ud til br
 	\caption{BMP085 digital trykføler.}
 	\label{fig:devicebmp}
 \end{figure}
+
+I forbindelse med BMP085 er der taget udgangspunkt i en driver\footnote{Davide Geroni, 2012} der er afledt af en lignende driver til Arduino.
+Driveren bruges i projektet til at hente kalibreringsdata fra BMP085's EEPROM og udføre beregninger på rå måledata. Samtidig giver driveren 
+mulighed for udnytte BMP085 chippens forskellige muligheder for målepræcision og oversampling. Da dette projekt ikke nødvendigvis er tidskritisk er 
+den højeste målepræcision valgt, dog på beskostning af svartider og strømforbrug.
+I forbindelse med brugen af BMP085 er der gjort nogle tekniske overvejelser for at imødekomme sensorens tekniske krav. Disse beskrives nærmere i afsnittet om tekniske overvejelser.
