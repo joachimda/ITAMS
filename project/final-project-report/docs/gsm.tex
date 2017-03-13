@@ -33,13 +33,13 @@ Inholdet af indikator control\footnote{MC35 data sheet side 59} giver informtion
     \item Signal strength indicaion - 0 til 5 Se databladet s. 60 for opdeling pr. dBm.
 \end{itemize}
 
-Når der sendes en forespørgsel på indikator control modtages et svar på følgende format:
+Når der sendes en forespørgsel på indikator control modtages et svar på følgende format:\\
 
-CIND?
-+CIND: 5,99,1,0,0,0,0,0
+	CIND?\\
+	+CIND: 5,99,1,0,0,0,0,0\\
 
 Der er implementeret en Status struct der kan holde på værdierne af indikator kontrollen, samt en setter funktion der sørger for at læse svaret fra MC35 og derefter sætte værdierne.
-I det nuværende system bruges udelukkende indikation for Ulæst besked, dog kan dette nemt udvides.
+I det nuværende system bruges udelukkende indikation for ulæst besked, dog kan dette nemt udvides.
 
 Når programmet på ATmega32 detekterer et '1' på Unread Message, sendes der en anmodning om den specifikke besked. Programmet skiller da den modtagne data ad ved at lææge hhv. meta-data, sender information og kommando 
 ud i separate char arrays. Herefter reageres der på indholdet af beskeden, hvorefter der sendes et svar tilbage til afsenderen.
