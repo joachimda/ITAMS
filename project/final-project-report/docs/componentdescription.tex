@@ -62,7 +62,7 @@ Der er skrevet en Interrupt Service Routine der gemmer den modtagne data i et ch
 og reagerer på eventuelle kommandoer. Hver gang en dataen er behandlet, slettes indholdet af arrayet og er derfor klargjort til næste 
 kommando. 
 
-\begin{lstlisting}[caption=Initiering af UCSRB,label=code:initucsrb] 
+\begin{lstlisting}[caption=Initiering af UCSRB.,label=code:initucsrb] 
 	UCSRB = ( (1<<TXEN) | (1<<RXEN) | (1<<RXCIE) );
 \end{lstlisting}
 
@@ -73,8 +73,8 @@ kommando.
 	\label{fig:regucsrb}
 \end{figure}
 
-MC35 sender "OK" tilbage efter hver succesfuldt udført kommando, hvilket gør det lettere at reagere på eventuelle fejl fra modemet. En yderligere timing foranstalting er dog at et delay på minimum 200ms køres
- før der igen kan skrives til MC35 efter den har sendt "OK". 
+MC35 sender ''OK'' tilbage efter hver succesfuldt udført kommando, hvilket gør det lettere at reagere på eventuelle fejl fra modemet. En yderligere timing foranstalting er dog at et delay på minimum 200ms køres
+ før der igen kan skrives til MC35 efter den har sendt ''OK''. 
 
 
 \subsubsection{ATmega32}
