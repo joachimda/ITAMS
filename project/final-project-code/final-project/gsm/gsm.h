@@ -43,8 +43,8 @@ struct gsmStatus
 	char callInProgress;
 };
 
-void gsmCommandDeleteArrayOfSms(unsigned int numberOfMessages);
 void gsmInit();
+void gsmCommandDeleteArrayOfSms(unsigned int numberOfMessages);
 void gsmCommandSendSms(unsigned char* phoneNumber, unsigned char* message);
 void gsmCommandReadSms(char* header, char* data, char* phoneNumber);
 void gsmCommandDeleteSms();
