@@ -1,4 +1,4 @@
-\subsection{BMP085 Trykføler}
+\subsection{BMP085}
 
 I forbindelse med læsning af sensordata fra den barometriske trykmåler BMP085, bruges I2C interfacet. Atmega32 understøtter I2C komunikatiuon og på figur~\ref{fig:voltagedivider} ses den hardwaremæssige opsætning. Atmega 32’s input spænding er 5V bruges en simpel spændingsdeler, så BMP085 ikke overbelastes.
 
@@ -18,7 +18,7 @@ På figur~\ref{fig:voltagediv} vise modstandsberegningerne til spændingsdeleren
 	\label{fig:voltagediv}
 \end{figure}
 
-\subsection{Brug af I2C bussen med BMP085}
+\subsubsection{Brug af I2C bussen med BMP085}
 
 I2C protokollen implementerer master/slave teknikken, og er et TWI (two wire interface). 
 Atmega32 agerer I2C master som sætter clock hastigheden ved at skrive til PIN (SCK). I2C masteren sender data bytes til I2C slaven på addressen 0x77.
@@ -59,7 +59,7 @@ Timing diagrammet for start af temperatur/tyk måling fremgår a BM085’s datab
 Som det kan ses på figur~\ref{fig:bmpi2ctiming}, sender BMP085 en ACK for hver 8 bit der modtages. Atmega32 masteren sender en stop condition efter sidste ACK. S indikerer start conditionen.
 Som angivet på figur~\ref{fig:bmp085commands} er der konverterings tider forbundet med målingerne. BMP085 giver muliged for at signalere et fuldendt måling ved at sætte BMP085’s EOC pin høj når en kovertering er slut. Dette bruges dog ikke i dette projekt da der ikke har været tid til at udvikle kredsløbet der hiver 3.3v logik op til 5v.
 
-\subsection{Implementering af I2C driver}
+\subsubsection{Implementering af I2C driver}
 Der er i dette projekt taget udgangspunkt i en I2C driver\footnote{Peter Fleury} til at initiere interfacet samt sende/modtage tage på I2C bussen.
 
 Af hovedfunktionaliteter der benyttes kan der blandt andet nævnes:
@@ -91,7 +91,7 @@ Af hovedfunktionaliteter der benyttes kan der blandt andet nævnes:
 \subsubsection{Fejlhåndtering i I2C driver}
 Når en start condition sendes til BMP085 returneres 0 hvis den ikke er tilgængelig.
 
-\subsection{Kalibrering af BMP085}
+\subsubsection{Kalibrering af BMP085}
 BMP085 har indkodet kalibrerings data i dens EEPROM, som bruges til at kompensere offsettet på udførte målinger. I alt indeholder EEPROM’en 176 bit kalibreringsdata der har til formål at tweake sensorens parametre og målinger\footnote{BMP085 Data Sheet rev. 1.2 side 8}. I I2C driveren findes en funktion til indlæsning af kalibreringsdata.
 For at give en ide om kalibreringens virkemåde kan et pseudo kode eksempel ses nedenfor. 
 Pseudokokde ekspempel på hvordan kalbreringsdata bruges til kompensering af temperatur-måledata i driveren.
