@@ -3,9 +3,19 @@
 Dette GSM modem er valgt fordi skolen havde det på lager og det var let tilgængeligt.
 Under implementeringen af en driver har der været et stort fokus på at overholde den timings, da den ellers ikke vil fungere konsistent.\\
 
-Når GSM modulet modtager en SMS, bliver den gemt i et array, som kan aflæses ved at et bestemt index aflæses. For ikke at være nød til at holde styr på flere index's og for at hurtigt kunne aflæse en ny besked er driveren designet til kun at bruge plads 0 i dette array. Når en besked er aflæst bliver denne plads i array'et nulstillet, således vil en ny besked altid være på en kendt plads.\\
+Når GSM modulet modtager en SMS, bliver den gemt i et array, som kan aflæses ved at et bestemt index aflæses. For ikke at være nød til at holde styr 
+på flere index's og for at hurtigt kunne aflæse en ny besked er driveren designet til kun at bruge plads 0 i dette array. 
+Når en besked er aflæst bliver denne plads i array'et nulstillet, således vil en ny besked altid være på en kendt plads.\\
 
 Information omkring brug af modem'et er indhentet ved hjælp af tilsvarende datasheet og online kilder, se side~\pageref{sec:refs} for referencer.
+
+Selve kommunikationen mellem ATmega32 og MC35 var relativt simpel. Hvorimod behandling of modulering af data fra modemet var en større udfordring.
+Kommunikationen og behandling af data er der skrevet en driver, som groft sagt kan deles op i to sektioner. En utility sektion, der har til formål at 
+behandle data, samt en command sektion der står for at sende kommandoer fra ATmega32 til MC35 modemet. 
+
+\subsubsection{Polling for Ny SMS}
+
+ATmega32 poller MC35 1 gang hvert sekund, hvor der anmodes om 
 
 % The technical considerations and choices made during the project work.
 
