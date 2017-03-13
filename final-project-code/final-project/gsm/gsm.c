@@ -25,6 +25,7 @@ const char REQ_TEMP_DATA = 'T';
 const char REQ_CURRENT_GPS_COORD = 'G';
 const char REQ_ALT_DATA = 'A';
 const char REQ_PRES_DATA = 'P';
+const char REQ_COMPLETE_COMMMANDS = 'C';
 
 void gsmInit()
 {
@@ -293,6 +294,18 @@ void gsmExecuteSmsRequest(char* data, char* phoneNumber)
 
 	if(data[0] == REQ_CURRENT_GPS_COORD)
 	{
-		/*awaiting implementation*/
+		volatile char* msg = "This feature is not awaiting implementation.";
+		gsmCommandSendSms(phoneNumber, msg);
+	}
+
+	if(data[0] == REQ_COMPLETE_COMMMANDS)
+	{
+		volatile char* msg = "Available commands are:\n\nRequest temperature: C\nRequest barometric pressure: P\nRequest altitude: A\n\nYou can reply to this message.";
+		gsmCommandSendSms(phoneNumber, msg);
+	}
+	else
+	{
+		volatile char* msg = "Unknown command. Send reply to this message with C to get a complete list of commands.";
+		gsmCommandSendSms(phoneNumber, msg);
 	}
 }
