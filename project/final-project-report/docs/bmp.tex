@@ -50,9 +50,9 @@ Kommandoerne er definerede BMP085 driverens h-fil. Oversampling modes er definer
 	\label{fig:bmp085commandmodes}
 \end{figure}
 
-Timing diagrammet for start af temperatur/tyk måling fremgår a BM085’s datablad, og kan ses på figur~\ref{fig:bmpi2ctiming}.
+Timing diagrammet for start af temperatur/tyk måling fremgår a BM085’s datablad, og kan ses på figur~\ref{fig:bmpi2ctiming} der viser I2C timing diagrammet.
 
-\begin{figure}[h]
+\begin{figure}[H]
 	\centering
 	\includegraphics[width=0.9\linewidth]{figs/bmp_i2c_timing}
 	\caption{BMM/I2C timingdiagram}
@@ -62,7 +62,7 @@ Timing diagrammet for start af temperatur/tyk måling fremgår a BM085’s datab
 Som det kan ses på figur~\ref{fig:bmpi2ctiming}, sender BMP085 en ACK for hver 8 bit der modtages. Atmega32 masteren sender en stop condition efter sidste ACK. S indikerer start conditionen.
 Som angivet på figur~\ref{fig:bmp085commands} er der konverterings tider forbundet med målingerne. BMP085 giver muliged for at signalere et fuldendt måling ved at sætte BMP085’s EOC pin høj når en kovertering er slut. Dette bruges dog ikke i dette projekt da der ikke har været tid til at udvikle kredsløbet der hiver 3.3v logik op til 5v.
 
-\subsection{Implementering af I2C driver}
+\subsection{Integrering af I2C driver}
 Der er i dette projekt taget udgangspunkt i en I2C driver\footnote{Peter Fleury} til at initiere interfacet samt sende/modtage tage på I2C bussen.
 
 Af hovedfunktionaliteter der benyttes kan der blandt andet nævnes:
@@ -131,6 +131,7 @@ I driveren sættes $P_0$ til 101325 Pa, trykket aflæses fra måleren hvorefter 
 	\caption{Altitude graf.}
 	\label{fig:altitude_graph}
 \end{figure}
+
 
 % The technical considerations and choices made during the project work.
 
