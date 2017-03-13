@@ -7,7 +7,7 @@ const unsigned char OUTPUT = 0b11111111;
 const unsigned char DEFAULT_OFF = 0xFF;
 const char LED_PORT = 'B';
 
-void initLed()
+void ledInit()
 {
 	switch (LED_PORT)
 	{
@@ -56,17 +56,17 @@ void ledToggleAll()
 
 void ledReadyForRequest()
 {
-	for (int i = 0; i < 3; i++)
+	for (int i = 0; i < 4; i++)
 	{
 		ledToggleAll();
-		_delay_ms(500);
+		_delay_ms(50);
 	}
 }
 
 void ledMessageReceived()
 {
 	unsigned char mask;
-	for(int i = 0; i < 7; i++)
+	for(int i = 0; i < 8; i++)
 	{
 		mask = ~(0b00000001 << i);
 		switch (LED_PORT)
@@ -84,6 +84,33 @@ void ledMessageReceived()
 			PORTD = PORTD & mask;
 			break;
 		}
-		_delay_ms(200);
+		_delay_ms(50);
 	}
+	ledToggleAll();
+}
+
+void ledMessageSent()
+{
+	unsigned char mask;
+	for(int i = 7; i >= 0; i--)
+	{
+		mask = ~(0b00000001 << i);
+		switch (LED_PORT)
+		{
+			case 'A':
+			PORTA = PORTA & mask;
+			break;
+			case 'B':
+			PORTB = PORTB & mask;
+			break;
+			case 'C':
+			PORTC = PORTC & mask;
+			break;
+			case 'D':
+			PORTD = PORTD & mask;
+			break;
+		}
+		_delay_ms(50);
+	}
+	ledToggleAll();
 }

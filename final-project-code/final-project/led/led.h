@@ -5,9 +5,10 @@ const unsigned char OUTPUT;
 const char LED_PORT;
 const unsigned char DEFAULT_OFF;
 
-void initLed();
+void ledInit();
 void ledToggleAll();
 void ledMessageReceived();
 void ledReadyForRequest();
+void ledMessageSent();
 
 #endif /* LED_H_ */
