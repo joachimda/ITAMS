@@ -62,6 +62,67 @@ Timing diagrammet for start af temperatur/tyk måling fremgår a BM085’s datab
 Som det kan ses på figur~\ref{fig:bmpi2ctiming}, sender BMP085 en ACK for hver 8 bit der modtages. Atmega32 masteren sender en stop condition efter sidste ACK. S indikerer start conditionen.
 Som angivet på figur~\ref{fig:bmp085commands} er der konverterings tider forbundet med målingerne. BMP085 giver muliged for at signalere et fuldendt måling ved at sætte BMP085’s EOC pin høj når en kovertering er slut. Dette bruges dog ikke i dette projekt da der ikke har været tid til at udvikle kredsløbet der hiver 3.3v logik op til 5v.
 
+\subsection{Implementering af I2C driver}
+Der er i dette projekt taget udgangspunkt i en I2C driver\footnote{Peter Fleury} til at initiere interfacet samt sende/modtage tage på I2C bussen.
+
+Af hovedfunktionaliteter der benyttes kan der blandt andet nævnes:
+
+\begin{itemize}
+	\item Initiering af I2C bussen:
+	\begin{itemize}
+		\item Sætter clock hastigheden (uden prescaler).
+	\end{itemize}
+	
+	\item Afsendelse af start condition:
+	\begin{itemize}
+		\item TWCR = (1<<TWINT) | (1<<TWSTA) | (1<<TWEN). TWI interrupt flagget cleares, start flagget sættes, TWI Enable sættes til 1.
+	\end{itemize}
+	
+	\item Afsendelse af stop condition:
+	\begin{itemize}
+		\item TWCR = (1<<TWINT) | (1<<TWEN) | (1<<TWSTO);
+		\item Herefter frigives I2C bussen.
+	\end{itemize}
+	
+	\item Indlæsning af data
+	\begin{itemize}
+		\item Returnerer indholdet af TWDR. Hvis der ønskes yderligere data fra BMP085 sættes TWEA bitten (Acknowledge)
+	\end{itemize}
+	
+\end{itemize}
+
+\subsubsection{Fejlhåndtering i I2C driver}
+Når en start condition sendes til BMP085 returneres 0 hvis den ikke er tilgængelig.
+
+\subsection{Kalibrering af BMP085}
+BMP085 har indkodet kalibrerings data i dens EEPROM, som bruges til at kompensere offsettet på udførte målinger. I alt indeholder EEPROM’en 176 bit kalibreringsdata der har til formål at tweake sensorens parametre og målinger\footnote{BMP085 Data Sheet rev. 1.2 side 8}. I I2C driveren findes en funktion til indlæsning af kalibreringsdata.
+For at give en ide om kalibreringens virkemåde kan et pseudo kode eksempel ses nedenfor. 
+Pseudokokde ekspempel på hvordan kalbreringsdata bruges til kompensering af temperatur-måledata i driveren.
+
+\begin{lstlisting}
+//Get calibration data
+readMemory(CAL_REG_AC5, buffer, 2);
+regAC5 = buffer[0] <<8 | buffer[1]));
+readMemory(CAL_REG_AC6, buffer, 2);
+regAC6 = buffer[0] <<8 | buffer[1]));
+
+//calculate raw temperature
+Ut = uncompensatedValue;
+x1 = ut - regAC6) * regAC5 >> 15;
+x2 = regMC << 11) / (x1 + regMD);
+rawTemperature = x1 + x2;
+\end{lstlisting}
+
+Beregningerne understøttes af BMP085’s datablad på side 13.
+BMP085 har ikke mulighed for at måle altitude. Dog kan dette beregnes da det gennemsnitlige tryk ved havoverfladen er kendt da ligningen på figur \ref{fig:equation} er givet.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.4\linewidth]{figs/equation}
+	\caption{Ligning.}
+	\label{fig:equation}
+\end{figure}
+
 
 % The technical considerations and choices made during the project work.
 
