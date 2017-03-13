@@ -56,6 +56,66 @@ Systemet modtager følgende kommandoer:
 
 En bruger af systemet har mulighed for at få tilsendt alle anerkendte kommandoer til sin mobiltelefon.
 
+\subsubsection{Implementering af GSM driver}
+
+Driveren til GSM modulet er lavet fra bunden med henblik på at kunne tilføje nye sensorenheder og kommandoer til at hente data. Her følger funktionsbeskrivelserne. Efter at have haft en del problemer med diverse delays rundt i systemet er alle delays sat væsentligt op i forhold til hvad der nok var nødvendigt. Dette var, ironisk nok, for at spare tid under udvikling.
+
+\paragraph{void gsmInit();}
+Sørger for at GSM modulet bliver sat i textmode, samt for at slå echo fra.
+
+\paragraph{void gsmCommandSetTextMode();}
+Sætter modulet i textmode.
+
+\paragraph{void gsmCommandDisableEcho();}
+Slår echo fra.
+
+\paragraph{void gsmUtilWaitForResponse();}
+Sørger for at driveren venter på respons fra modulet før de næste kommandoer sendes.
+
+\paragraph{void gsmUtilCleanResponse();}
+Når modulet sender OK eller ERROR tilbage som svar, sætter den mange linjeskift og uinteressante tegn ind. Denne funktion fjerner dem fra svaret.
+
+\paragraph{void gsmUtilCheckForAck();}
+Sætter et flag, som angiver om der sidst er kommet OK eller noget andet fra modulet. Hovedsageligt brugt under debugging til at teste systemet.
+
+\paragraph{void gsmCommandDeleteArrayOfSms(unsigned int numberOfMessages);}
+Sletter et antal af modtagne beskeder fra modulets hukommelse. Da driveren for at se om der er kommet nye beskeder vil tjekke om der er nogle ulæste skal denne funktion kaldes under opstart for at sikre at der ikke ligger nogle beskeder som kan forstyrre det øvrige flow.
+
+\paragraph{void gsmCommandGetStatus(struct gsmStatus *stat);}
+Tager imod en status struct som indeholder flag til beskrivelse af det kørende system.
+
+\begin{itemize}
+	\item Om der er kommet en ny besked.
+	\item Har modulet forbindelse til netværket.
+	\item Er der et opkald igang.
+\end{itemize}
+
+\paragraph{void gsmUtilSetStatusFlags(struct gsmStatus *stat);}
+Sætter flagene i en status struct for at signalere om nye beskeder i det kørende system. Sætter lige nu kun flaget \textit{newMessage}.
+
+\paragraph{void gsmCommandReadSms(char* header, char* data, char* phoneNumber);}
+Læser metadata, indhold og telefonnummer ud af en modtagen besked. Metadata værende tidspunkt for modtagelse og hvorvidt besked er ulæst etc. Indholdet er så selve den skrevne besked, som indeholder en kommando.
+
+\paragraph{int gsmUtilDisassembleSms(char* meta, int offset);}
+Bruges til at dele en SMS op i seperate dele. En til meta/header information og en til selve indholdet/beskeden. Sender også et offset tilbage, sådan at driveren selv ved hvor den skal læse fra næste gang.
+
+\paragraph{void gsmExecuteSmsRequest(char* data, char* phoneNumber);}
+Tager datapointeren, som peger på kommandoen og det telefonnummer, som den skal sende den ønskede måling til.
+
+Alt efter hvilken måling der ønskes vil forskellige funktioner kaldes på den fundne BMP085 driver. Herefter formatteres beskeden og sender til samme nummer som anmodningen kom fra.
+
+\paragraph{void gsmCommandSendSms(unsigned char* phoneNumber, unsigned char* message);}
+Tager simpelt nok imod et nummer og en besked. Så sørger den for at de nødvendige delays bliver overholdt sådan at modulet får tid nok til at svare.
+
+\paragraph{void gsmUtilWaitForSmsDelivery();}
+Venter i nogle sekunder for at sikre at modulet har haft tid til at håndtere anmodningen og er klar til at modtage en ny.
+
+\paragraph{void gsmCommandDeleteSms();}
+Sletter beskeden på index 1. 
+
+\paragraph{void gsmCommandReadAllSms();}
+Primært brugt til debugging til at læse alle beskederne.
+
 % The technical considerations and choices made during the project work.
 
 % Advantages and disadvantages for the possible alternative solutions.
