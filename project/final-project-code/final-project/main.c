@@ -20,6 +20,7 @@ int main(void)
 	bmpInit();
 	gsmCommandDeleteArrayOfSms(10);
 
+	_delay_ms(5000); // ensure 5 sec. delay
 	struct gsmStatus stats;
 	char meta[75] = {0};
 	char data[50] = {0};
