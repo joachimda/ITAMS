@@ -10,6 +10,8 @@
 #include "../uart/uart.h"
 #include "gsm.h"
 #include "../bmp085/bmp085.h"
+#include "../led/led.h"
+
 const char CR = 13;
 const char LF = 10;
 const char CTRL_Z = 26;
@@ -23,7 +25,6 @@ const char REQ_TEMP_DATA = 'T';
 const char REQ_CURRENT_GPS_COORD = 'G';
 const char REQ_ALT_DATA = 'A';
 const char REQ_PRES_DATA = 'P';
-
 
 void gsmInit()
 {
@@ -79,6 +80,7 @@ void gsmCommandSendSms(unsigned char* phoneNumber, unsigned char* message)
 
 	uartSendByte(CTRL_Z);
 	gsmUtilWaitForSmsDelivery();
+	ledMessageSent();
 }
 
 /************************************************************************/
