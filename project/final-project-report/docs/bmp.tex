@@ -118,11 +118,19 @@ BMP085 har ikke mulighed for at måle altitude. Dog kan dette beregnes da det ge
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=0.4\linewidth]{figs/equation}
+	\includegraphics[width=0.45\linewidth]{figs/equation}
 	\caption{Ligning.}
 	\label{fig:equation}
 \end{figure}
 
+I driveren sættes $P_0$ til 101325 Pa, trykket aflæses fra måleren hvorefter altitude beregnes og returneres. 
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.7\linewidth]{figs/altitude_graph}
+	\caption{Altitude graf.}
+	\label{fig:altitude_graph}
+\end{figure}
 
 % The technical considerations and choices made during the project work.
 
