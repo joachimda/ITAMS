@@ -44,10 +44,11 @@ http://code.google.com/p/bmp085driver/
 /************************************************************************/
 /*						  Measurement modes                             */
 /************************************************************************/
-#define MODE_ULTRALOWPOWER 0		 //oversampling=0, internalsamples=1, maxconvtimepressure=4.5ms, avgcurrent=3uA, RMSnoise_hPA=0.06, RMSnoise_m=0.5
-#define MODE_STANDARD	   1		 //oversampling=1, internalsamples=2, maxconvtimepressure=7.5ms, avgcurrent=5uA, RMSnoise_hPA=0.05, RMSnoise_m=0.4
-#define MODE_HIGH_RES      2		 //oversampling=2, internalsamples=4, maxconvtimepressure=13.5ms, avgcurrent=7uA, RMSnoise_hPA=0.04, RMSnoise_m=0.3
-#define MODE_ULTRAHIGH_RES 3		 //oversampling=3, internalsamples=8, maxconvtimepressure=25.5ms, avgcurrent=12uA, RMSnoise_hPA=0.03, RMSnoise_m=0.25
+#define MODE_ULTRALOWPOWER 0						//oversampling=0, internalsamples=1, maxconvtimepressure=4.5ms, avgcurrent=3uA, RMSnoise_hPA=0.06, RMSnoise_m=0.5
+#define MODE_STANDARD	   1						//oversampling=1, internalsamples=2, maxconvtimepressure=7.5ms, avgcurrent=5uA, RMSnoise_hPA=0.05, RMSnoise_m=0.4
+#define MODE_HIGH_RES      2						//oversampling=2, internalsamples=4, maxconvtimepressure=13.5ms, avgcurrent=7uA, RMSnoise_hPA=0.04, RMSnoise_m=0.3
+#define MODE_ULTRAHIGH_RES 3						//oversampling=3, internalsamples=8, maxconvtimepressure=25.5ms, avgcurrent=12uA, RMSnoise_hPA=0.03, RMSnoise_m=0.25
+#define MODE			   MODE_ULTRAHIGH_RES		//Mode definition
 
 //auto-update temperature enabled
 #define AUTO_UPDATE_TEMP 1 //auto-update temperature every read
@@ -56,9 +57,8 @@ http://code.google.com/p/bmp085driver/
 /************************************************************************/
 /*							HW initiation								*/
 /************************************************************************/
-#define MODE			MODE_ULTRAHIGH_RES		//Mode definition
-#define UNIT_PASCAL_OFFSET	0						//define a unit offset (pa)
-#define UNIT_METER_OFFSET	0						//define a unit offset (m)
+#define UNIT_PASCAL_OFFSET	0					//define a unit offset (pa)
+#define UNIT_METER_OFFSET	0					//define a unit offset (m)
 #define FILTERPRESSURE  1						//average filter for pressure
 extern void bmpInit();							//non static at link-time
 
