@@ -76,7 +76,6 @@ kommando.
 MC35 sender ''OK'' tilbage efter hver succesfuldt udført kommando, hvilket gør det lettere at reagere på eventuelle fejl fra modemet. En yderligere timing foranstalting er dog at et delay på minimum 200ms køres
  før der igen kan skrives til MC35 efter den har sendt ''OK''. 
 
-
 \subsubsection{ATmega32}
 ATmega32 er brugt sammen med STK500 boardet, som hovedkomponent i udviklingen. Denne er vist på figur~\ref{fig:deviceatmege32}. 
 Boardet interfacer som tidligere beskrevet med GSM modemet via UART og fortolker de modtagne kommandoer før der kan anmodes om de ønskede målinger fra BMP modulet, som interfaces med I2C two-wire kommunikation.
@@ -91,7 +90,7 @@ STK500 har gjort det markant lettere at udvikle til ATmega32, idet megen funktio
 \end{figure}
 
 \subsubsection{BMP}
-BMP08 modulet er brugt til at foretage målingerne og kommunikerer med ATmega32 over I2C. Den er i stand til at måle temperatur, lufttryk og altitude. 
+BMP08 modulet er brugt til at foretage målingerne og kommunikerer med ATmega32 over I2C. Den er i stand til at måle temperatur og lufttryk. Altitude beregnes ud fra det målte lufttryk. 
 Disse tre forskellige målinger kan så anmodes af ATmega32 og senders ud til brugeren. Vist på figur~\ref{fig:devicebmp}.
 
 \begin{figure}[h]
@@ -106,10 +105,3 @@ Driveren bruges i projektet til at hente kalibreringsdata fra BMP085's EEPROM og
 mulighed for udnytte BMP085 chippens forskellige muligheder for målepræcision og oversampling. Da dette projekt ikke nødvendigvis er tidskritisk er 
 den højeste målepræcision valgt, dog på beskostning af svartider og strømforbrug.
 I forbindelse med brugen af BMP085 er der gjort nogle tekniske overvejelser for at imødekomme sensorens tekniske krav. Disse beskrives nærmere i afsnittet om tekniske overvejelser.
-
-\begin{figure}[h]
-	\centering
-	\includegraphics[width=\linewidth]{figs/bmp085_pin_diagram}
-	\caption{BMP085 pin diagram}
-	\label{fig:gmp085pindiagram}
-\end{figure}
