@@ -7,12 +7,14 @@
 #include "gsm/gsm.h"
 #include "uart/uart.h"
 #include "bmp085/bmp085.h"
+#include "led/led.h"
 
 void clearSmsData(char* meta, char* data);
 
 int main(void)
 {
 	sei();
+	ledInit();
 	uartInit();
 	gsmInit();
 	bmpInit();
@@ -28,16 +30,18 @@ int main(void)
 	volatile unsigned char stopHere = 0;
 	while(1)
 	{
+		ledReadyForRequest();
 		gsmCommandGetStatus(&stats);
 
 		if (stats.newMessage == 1)
 		{
+			ledMessageReceived();
 			gsmCommandReadSms(meta, data, phoneNumber);
 			gsmExecuteSmsRequest(data, phoneNumber);
 			gsmCommandDeleteSms();
-			clearSmsData(meta, data);			
+			clearSmsData(meta, data);
 		}
-		_delay_ms(1000);
+		_delay_ms(500);
 	}
 }
 
