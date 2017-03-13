@@ -1,10 +1,10 @@
 #ifndef GSM_H_
 #define GSM_H_
+
 /************************************************************************/
 /* Global command macros												*/
 /************************************************************************/
 #define ENTER "\r"
-
 #define GET_ALL_MESSAGES "AT+CMGL=ALL"
 #define DELETE_AT_INDEX "AT+CMGD="
 #define DELETE_FIRST_INDEX "AT+CMGD=1"
