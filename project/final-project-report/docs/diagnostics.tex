@@ -1,2 +1,21 @@
 \subsection{Diagnostisering}
 Til diagnostisering og for at holde øje med systemets opførsel under operation er STK500's LED porte brugt til at vise de forskellige stadier som systemet befinder sig i.
+
+Ved opstart er alle LED'erne slukket. Når systemet er klart til at modtage beskeder er 
+
+\begin{lstlisting}[caption=Hello caption]
+#ifndef LED_H_
+#define LED_H_
+
+const unsigned char OUTPUT;
+const char LED_PORT;
+const unsigned char DEFAULT_OFF;
+
+void ledInit();
+void ledToggleAll();
+void ledMessageReceived();
+void ledReadyForRequest();
+void ledMessageSent();
+
+#endif /* LED_H_ */
+\end{lstlisting}
