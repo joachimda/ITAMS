@@ -15,7 +15,46 @@ behandle data, samt en command sektion der står for at sende kommandoer fra ATm
 
 \subsubsection{Polling for Ny SMS}
 
-ATmega32 poller MC35 1 gang hvert sekund, hvor der anmodes om 
+ATmega32 poller MC35 1 gang hvert sekund, hvor der anmodes om data fra MC35's indikator control. 
+Dette gøres for at undgå overheadet der følger med at skulle modtage al dataen fra et SMS index og derefter checke om det er fyldt ud.
+
+Inholdet af indikator control\footnote{MC35 data sheet side 59} giver informtion vedrørende en række status parametre på MC35, herunder:
+
+\begin{itemize}
+    \item Battery level indication - Denne bruges ikke i projektet da MC35 er tilsluttet en strømforsyning.
+    \item Signal Quality - Spænder fra 0 til 7 eller 99 hvis signalet ikke er målbart (et opkald ikke foretages).
+    \item Service availibilty - 0 eller 1. Indikerer om et netværk er tilgængeligt.
+    \item Sounder  - ikke relevant.
+    \item Unread message indication - 0 eller 1. Sættes til 1 hvis der findes en ulæst SMS i den 
+    definerede hukommelse\footnote{SMS data kan gemmes i MC35 egen hukommelse eller på SIM kortet}.
+    \item Ongoing call indication - 0 eller 1.
+    \item Roaming indication - 0 hvis på eget netværk, 1 hvis på andet.
+    \item SMS full indication - ikke relevant da implementeringen af driveren sikrer at en SMS slettes efter den er læst og behandlet.
+    \item Signal strength indicaion - 0 til 5 Se databladet s. 60 for opdeling pr. dBm.
+\end{itemize}
+
+Når der sendes en forespørgsel på indikator control modtages et svar på følgende format:
+
+CIND?
++CIND: 5,99,1,0,0,0,0,0
+
+Der er implementeret en Status struct der kan holde på værdierne af indikator kontrollen, samt en setter funktion der sørger for at læse svaret fra MC35 og derefter sætte værdierne.
+I det nuværende system bruges udelukkende indikation for Ulæst besked, dog kan dette nemt udvides.
+
+Når programmet på ATmega32 detekterer et '1' på Unread Message, sendes der en anmodning om den specifikke besked. Programmet skiller da den modtagne data ad ved at lææge hhv. meta-data, sender information og kommando 
+ud i separate char arrays. Herefter reageres der på indholdet af beskeden, hvorefter der sendes et svar tilbage til afsenderen.
+
+Systemet modtager følgende kommandoer:
+
+\begin{itemize}
+    \item 'T' - Anmodning om temperatur data. Bruger får efter få sekunder tilsendt en temperaturmåling i grader Celcius.
+    \item 'A' - Anmodning om højde over havoverflading. Brugeren får efter få sekunder tilsendt en beregning af højden.
+    \item 'P' - Anmodning om trykdata. Brugeren får efter få sekunder tilsendt en trykmåling i Pascal.
+    \item 'C' - Anmodning om liste over kendte kommandoer. Brugeren får efter få sekunder tilsendt en liste over kommandoer.
+    \item Ukendte kommandoer - Brugeren får en fejlmeddelselse, samt information om hvordan kendte kommandoer kan tilsendes.
+\end{itemize}
+
+En bruger af systemet har mulighed for at få tilsendt alle anerkendte kommandoer til sin mobiltelefon.
 
 % The technical considerations and choices made during the project work.
 
