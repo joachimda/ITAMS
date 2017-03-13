@@ -75,12 +75,12 @@ Af hovedfunktionaliteter der benyttes kan der blandt andet nævnes:
 	
 	\item Afsendelse af start condition:
 	\begin{itemize}
-		\item TWCR = (1<<TWINT) | (1<<TWSTA) | (1<<TWEN). TWI interrupt flagget cleares, start flagget sættes, TWI Enable sættes til 1.
+		\item TWCR = (1 $<<$ TWINT) | (1 $<<$ TWSTA) | (1 $<<$ TWEN). TWI interrupt flagget cleares, start flagget sættes, TWI Enable sættes til 1.
 	\end{itemize}
 	
 	\item Afsendelse af stop condition:
 	\begin{itemize}
-		\item TWCR = (1<<TWINT) | (1<<TWEN) | (1<<TWSTO);
+		\item TWCR = (1 $<<$ TWINT) | (1 $<<$ TWEN) | (1 $<<$ TWSTO);
 		\item Herefter frigives I2C bussen.
 	\end{itemize}
 	
