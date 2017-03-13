@@ -21,7 +21,7 @@ På figur~\ref{fig:voltagediv} vise modstandsberegningerne til spændingsdeleren
 \subsubsection{Brug af I2C bussen med BMP085}
 
 I2C protokollen implementerer master/slave teknikken, og er et TWI (two wire interface). 
-Atmega32 agerer I2C master som sætter clock hastigheden ved at skrive til PIN (SCK). I2C masteren sender data bytes til I2C slaven på addressen 0x77.
+ATmega32 agerer I2C master som sætter clock hastigheden ved at skrive til PIN (SCK). I2C masteren sender data bytes til I2C slaven på addressen 0x77.
 Ifølge BMP085’s datablad er følgene kommandoer mulige:
 
 \begin{figure}[h]
@@ -73,14 +73,15 @@ Af hovedfunktionaliteter der benyttes kan der blandt andet nævnes:
 	
 	\item Afsendelse af start condition:
 	\begin{itemize}
-		\item TWCR = (1 $<<$ TWINT) | (1 $<<$ TWSTA) | (1 $<<$ TWEN). TWI interrupt flagget cleares, start flagget sættes, TWI Enable sættes til 1.
+		\item $TWCR = (1 \ll TWINT) \mid (1 \ll TWSTA) \mid (1 \ll TWEN)$.		
 	\end{itemize}
+	TWI interrupt flagget cleares, start flagget sættes, TWI Enable sættes til 1.
 	
 	\item Afsendelse af stop condition:
 	\begin{itemize}
-		\item TWCR = (1 $<<$ TWINT) | (1 $<<$ TWEN) | (1 $<<$ TWSTO);
-		\item Herefter frigives I2C bussen.
+		\item $TWCR = (1 \ll TWINT) \mid (1 \ll TWEN) \mid (1 \ll TWSTO)$
 	\end{itemize}
+	Herefter frigives I2C bussen.
 	
 	\item Indlæsning af data
 	\begin{itemize}

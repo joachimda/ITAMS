@@ -10,13 +10,13 @@ Når en besked er aflæst bliver denne plads i array'et nulstillet, således vil
 Information omkring brug af modem'et er indhentet ved hjælp af tilsvarende datasheet og online kilder, se side~\pageref{sec:refs} for referencer.
 
 Selve kommunikationen mellem ATmega32 og MC35 var relativt simpel. Hvorimod behandling of modulering af data fra modemet var en større udfordring.
-Kommunikationen og behandling af data er der skrevet en driver, som groft sagt kan deles op i to sektioner. En utility sektion, der har til formål at 
+Til kommunikationen og behandling af data er der skrevet en driver, som groft sagt kan deles op i to sektioner. En utility sektion, der har til formål at 
 behandle data, samt en command sektion der står for at sende kommandoer fra ATmega32 til MC35 modemet. 
 
 \subsubsection{Polling for Ny SMS}
 
-ATmega32 poller MC35 1 gang hvert sekund, hvor der anmodes om data fra MC35's indikator control. 
-Dette gøres for at undgå overheadet der følger med at skulle modtage al dataen fra et SMS index og derefter checke om det er fyldt ud.
+ATmega32 poller MC35 en gang hvert halve sekund, hvor der anmodes om data fra MC35's indikator control. 
+Dette gøres for at undgå det overhead, som følger med at skulle modtage dataen fra et SMS index og derefter checke om det er fyldt ud.
 
 Inholdet af indikator control\footnote{MC35 data sheet side 59} giver informtion vedrørende en række status parametre på MC35, herunder:
 
@@ -44,7 +44,9 @@ I det nuværende system bruges udelukkende indikation for ulæst besked, dog kan
 Når programmet på ATmega32 detekterer et '1' på Unread Message, sendes der en anmodning om den specifikke besked. Programmet skiller da den modtagne data ad ved at lææge hhv. meta-data, sender information og kommando 
 ud i separate char arrays. Herefter reageres der på indholdet af beskeden, hvorefter der sendes et svar tilbage til afsenderen.
 
-Systemet modtager følgende kommandoer:
+\subsubsection{Kommandoer}
+
+Kommandoerne, som kan sendes med SMS er som følger:
 
 \begin{itemize}
     \item 'T' - Anmodning om temperatur data. Bruger får efter få sekunder tilsendt en temperaturmåling i grader Celcius.
@@ -79,7 +81,7 @@ Når modulet sender OK eller ERROR tilbage som svar, sætter den mange linjeskif
 Sætter et flag, som angiver om der sidst er kommet OK eller noget andet fra modulet. Hovedsageligt brugt under debugging til at teste systemet.
 
 \paragraph{void gsmCommandDeleteArrayOfSms(unsigned int numberOfMessages);}
-Sletter et antal af modtagne beskeder fra modulets hukommelse. Da driveren for at se om der er kommet nye beskeder vil tjekke om der er nogle ulæste skal denne funktion kaldes under opstart for at sikre at der ikke ligger nogle beskeder som kan forstyrre det øvrige flow.
+Sletter et antal af modtagne beskeder fra modulets hukommelse. For at se om der er kommet nye beskeder vil driveren tjekke om der er nogle ulæste beskeder under opstart for at sikre at der ikke ligger nogle beskeder som kan forstyrre det øvrige flow.
 
 \paragraph{void gsmCommandGetStatus(struct gsmStatus *stat);}
 Tager imod en status struct som indeholder flag til beskrivelse af det kørende system.
@@ -108,7 +110,7 @@ Alt efter hvilken måling der ønskes vil forskellige funktioner kaldes på den 
 Tager simpelt nok imod et nummer og en besked. Så sørger den for at de nødvendige delays bliver overholdt sådan at modulet får tid nok til at svare.
 
 \paragraph{void gsmUtilWaitForSmsDelivery();}
-Venter i nogle sekunder for at sikre at modulet har haft tid til at håndtere anmodningen og er klar til at modtage en ny.
+Venter i nogle sekunder for at sikre at modulet har haft tid til at håndtere anmodningen og er klar til at modtage en ny. Jf. delay efter afsendt OK i MC35 datasheet.
 
 \paragraph{void gsmCommandDeleteSms();}
 Sletter beskeden på index 1. 
