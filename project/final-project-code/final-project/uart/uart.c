@@ -5,7 +5,7 @@
 #include <avr/io.h>
 #include <stdlib.h>
 #include "uart.h"
-
+s
 volatile unsigned char value = 0;
 volatile unsigned int index = 0;
 char dataArray[200];
