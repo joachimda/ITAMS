@@ -1,4 +1,21 @@
 \subsection{ATmega32}
+
+Dette afsnit beskriver brug og programmering af ATmega32 samt begrundelser for valget at netop denne microcontroller.
+
+\subsubsection{Valg af microcontroller}
+
+ATmega32 er en velkendt 8-bits microcontroller fra Atmel, og gruppen har før arbejdet med den i samspil med udviklingsboardet STK500.
+ATmega32 understøtter både kommunkation med I2C, SPI og UART/USART og har samtidigt tilstrækkeligt med I/O pins, hvilket gjorde den til det oplagte valg for dette projekt.
+
+I forbindelse med uvikling af software til microcontrolleren, bruges udviklingsværktøjet Atmel Studio 7.0.
+
+\subsubsection{Programmering at ATmega32}
+
+I begyndelsen af udviklingsfasen blev der installeret en bootloader microcontrolleren der 
+gjorde self-programming muligt vha. SPM instruktionen. Dette var med henblik på at lave system portabelt 
+og uafhængigt af STK500 udviklingsboardet, og/eller evt med henblik på at gøre brug af RWW\footnote{Read While Write} og 
+NRWW\footnote{Not Read While Write} memory sektionerne til at udføre kritiske kodesektioner.
+
 % The technical considerations and choices made during the project work.
 
 % Advantages and disadvantages for the possible alternative solutions.
