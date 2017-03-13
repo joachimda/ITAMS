@@ -1,20 +1,24 @@
 \section{Test og konklusion}
 
-Sideløbende med udviklingen af systemet er al funktionalitet testet. Der er ikke sat nogle automatiske test op, men da AVR Dragon er brugt som debugværktøj har det alligevel været hurtigere end ellers at teste system, da det på grund af denne er gået hutigere med at uploade kodeopdateringer til ATmega32.
+Sideløbende med udviklingen af systemet er al funktionalitet testet. Der er ikke sat nogle automatiske test op, men da AVR Dragon er brugt som debugværktøj har det alligevel været hurtigere end ellers at teste system. Dette skyldes at det ikke har været nødvendigt at gå den ''lange vej'' gennem Atmel Studio's \textit{Device Programmer}.
 
 \subsection{Test}
 
 % Billeder af test etc.
 
 \subsection{Demo}
-Sideløbende med udviklingen af systemet er al funktionalitet testet. Der er ikke sat nogle automatiske test op, men da AVR Dragon er brugt som debugværktøj har det alligevel været hurtigere end ellers at teste system, da det på grund af denne er gået hutigere med at uploade kodeopdateringer til ATmega32.
+Da demo-guderne næppe tillader at en ''live''-demo går godt, er herunder et link til en YouTube video, som demonstrerer systemet.
 
 \vskip 0.5cm
-	\centering
-	\url{www.google.dk}
+	\begin{center}
+		\url{https://www.youtube.com/watch?v=yPHwETbS0jg&t=1289s}
+	\end{center}
 \vskip 0.5cm
-
-Sideløbende med udviklingen af systemet er al funktionalitet testet. Der er ikke sat nogle automatiske test op, men da AVR Dragon er brugt som debugværktøj har det alligevel været hurtigere end ellers at teste system, da det på grund af denne er gået hutigere med at uploade kodeopdateringer til ATmega32.
 
 \subsection{Konklusion}
 
+I løbet af dette projekt er det lykkedes at udvikle et system som ved modtagelse af en SMS kan indhente en sensormåling fra ekstern enhed og svare på den oprindelige besked med den ønskede måling. 
+
+Den største udfordring har været at få MC35 GSM modem'ets timings til at stemme med kravene fra fabrikken. Men da disse udfordringer var løst kunne de resterende opgaver med at hente data fra BMP085 relativt hurtigt løst.
+
+Alt i alt er projektet gået godt og den valgte problemstilling er blevet løst efter hensigt. 

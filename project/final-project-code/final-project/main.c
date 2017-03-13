@@ -28,6 +28,7 @@ int main(void)
 	gsmCommandGetStatus(&stats);
 	clearSmsData(meta, data);
 	volatile unsigned char stopHere = 0;
+	
 	while(1)
 	{
 		ledReadyForRequest();
