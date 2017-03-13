@@ -125,7 +125,7 @@ void gsmUtilGetSenderInfo(char* meta, char* phoneNumber)
 {
 	int k = 0;
 	int startIndex = 21;
-	int endIndex = startIndex + 11; 
+	int endIndex = startIndex + 11;
 	for (int i = startIndex; i < endIndex; i++)
 	{
 		phoneNumber[k++] = meta[i];
