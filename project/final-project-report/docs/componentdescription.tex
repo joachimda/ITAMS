@@ -13,19 +13,39 @@ Med autobauding er der dog nogle særlige restriktioner og forudsætninger der s
 \begin{itemize}
 	\item 3 til 5 sek. delay før den første char i en kommando sendes.
 	\item 8 data bits operation, ingen paritet og 1-bit stop.
-\end{itemize}}
+\end{itemize}
 
 Ved initiering af ATmega32s USART, konfigureres registret UCSRB\footnote{USART Control and Status Register B} 
 som kan ses på figur~\ref{fig:regucsrb}. Da der i dette projekt benyttes et interrupt på RXC flaget initieres RXCIE også.
-På figur~\ref{fig:ucszbitsettings} ses data bit konfigurationerne. Da UCSZ0=1, UCSZ1=1 og UCSZ2=0 er default værdier på 
+I tabel~\ref{fig:ucszbitsettings} ses data bit konfigurationerne. Da $UCSZ0=1$, $UCSZ1=1$ og $UCSZ2=0$ er default værdier på 
 ATmega32 skal de ikke ændres på.
 
-\begin{figure}[h]
+% Added custom table below
+%\begin{figure}[h]
+%	\centering
+%	\includegraphics[width=0.7\linewidth]{figs/ucsz_bitsettings.jpg}
+%	\caption{UCSZ bit settings på ATmega32.}
+%	\label{fig:ucszbitsettings}
+%\end{figure}
+
+\begin{table}[h]
 	\centering
-	\includegraphics[width=0.7\linewidth]{figs/ucsz_bitsettings.jpg}
+	\begin{tabular}{|c|c|c|l|}
+		\hline
+		\rowcolor[HTML]{EFEFEF} 
+		\textbf{UCSZ2} & \textbf{UCSZ1} & \textbf{UCSZ0} & \textbf{Character Size} \\ \hline
+		0 & 0 & 0 & 5-bit \\ \hline
+		0 & 0 & 1 & 6-bit \\ \hline
+		0 & 1 & 0 & 7-bit \\ \hline
+		0 & 1 & 1 & 8-bit \\ \hline
+		1 & 0 & 0 & Reserved \\ \hline
+		1 & 0 & 1 & Reserved \\ \hline
+		1 & 1 & 0 & Reserved \\ \hline
+		1 & 1 & 1 & 9-bit \\ \hline
+	\end{tabular}
 	\caption{UCSZ bit settings på ATmega32.}
 	\label{fig:ucszbitsettings}
-\end{figure}
+\end{table}
 
 Se kodeudsnit~\ref{code:initucsrb} for initiering af USARTen. 
 
@@ -35,7 +55,7 @@ og reagerer på eventuelle kommandoer. Hver gang en dataen er behandlet, slettes
 kommando. 
 
 \begin{lstlisting}[caption=Initiering af UCSRB,label=code:initucsrb] 
-UCSRB = ((1<<TXEN)|(1<<RXEN) | (1<<RXCIE));
+	UCSRB = ( (1<<TXEN) | (1<<RXEN) | (1<<RXCIE) );
 \end{lstlisting}
 
 \begin{figure}[h]
