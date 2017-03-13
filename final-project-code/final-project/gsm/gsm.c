@@ -267,7 +267,6 @@ void gsmExecuteSmsRequest(char* data, char* phoneNumber)
 		strcat(msg, tempArray);
 		gsmCommandSendSms(phoneNumber, msg);
 	}
-	
 	if(data[0] == REQ_ALT_DATA)
 	{
 		volatile char msg[40] = {0};
@@ -279,7 +278,6 @@ void gsmExecuteSmsRequest(char* data, char* phoneNumber)
 		strcat(msg, altArray);
 		gsmCommandSendSms(phoneNumber, msg);
 	}
-
 	if (data[0] == REQ_PRES_DATA)
 	{
 		volatile char msg[40] = {0};
@@ -291,13 +289,11 @@ void gsmExecuteSmsRequest(char* data, char* phoneNumber)
 		strcat(msg, presArray);
 		gsmCommandSendSms(phoneNumber, msg);
 	}
-
 	if(data[0] == REQ_CURRENT_GPS_COORD)
 	{
 		volatile char* msg = "This feature is not awaiting implementation.";
 		gsmCommandSendSms(phoneNumber, msg);
 	}
-
 	if(data[0] == REQ_COMPLETE_COMMMANDS)
 	{
 		volatile char* msg = "Available commands are:\n\nRequest temperature: C\nRequest barometric pressure: P\nRequest altitude: A\n\nYou can reply to this message.";
